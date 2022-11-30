@@ -4,7 +4,7 @@ abbrev: "A YANG Model for ACs"
 category: std
 
 docname: draft-boro-opsawg-teas-attachment-circuit-latest
-submissiontype: IETF  
+submissiontype: IETF
 number:
 date:
 consensus: true
@@ -22,11 +22,11 @@ author:
     organization: Orange
     email: mohamed.boucadair@orange.com
 
- - 
+ -
     fullname: Richard Roberts
     organization: Juniper
     email: rroberts@juniper.net
- 
+
 normative:
 
 informative:
@@ -78,7 +78,7 @@ module ietf-ac {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-ac";
   prefix ac;
-  
+
   organization
     "IETF OPSAWG (Operations and Management Area Working Group)";
   contact
@@ -112,8 +112,8 @@ module ietf-ac {
        reference
          "RFC xxxx: A YANG Data Model for Attachment Circuits"";
      }
- 
-  TBC 
+
+  TBC
 }
 ~~~~
 
@@ -128,12 +128,12 @@ module ietf-ac {
    transport is Secure Shell (SSH) {{!RFC6242}}.  The lowest RESTCONF layer
    is HTTPS, and the mandatory-to-implement secure transport is TLS
    {{!RFC8446}}.
-   
+
    The Network Configuration Access Control Model (NACM) {{!RFC8341}}
    provides the means to restrict access for particular NETCONF or
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
-   
+
    There are a number of data nodes defined in this YANG module that are
    writable/creatable/deletable (i.e., config true, which is the
    default).  These data nodes may be considered sensitive or vulnerable
@@ -142,16 +142,16 @@ module ietf-ac {
    or authentication can have a negative effect on network operations.
    These are the subtrees and data nodes and their sensitivity/
    vulnerability in the "ietf-ac" module:
-   
+
    * TBC
    * TBC
-   
+
    Some of the readable data nodes in this YANG module may be considered
    sensitive or vulnerable in some network environments.  It is thus
    important to control read access (e.g., via get, get-config, or
    notification) to these data nodes.  These are the subtrees and data
    nodes and their sensitivity/vulnerability:
-   
+
    * TBC
    * TBC
 
