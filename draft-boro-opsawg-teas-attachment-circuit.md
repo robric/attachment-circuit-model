@@ -9,8 +9,8 @@ number:
 date:
 consensus: true
 v: 3
-area: OPS
-workgroup: OPSAWG Working Group
+area: "Operations and Management"
+workgroup: "Operations and Management Area Working Group"
 keyword:
  - Slice Service
  - L3VPN
