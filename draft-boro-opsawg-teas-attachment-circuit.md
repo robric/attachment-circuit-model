@@ -116,6 +116,30 @@ The procedure to provision a service in a service provider network may depend on
 
 ## Service Module
 
+### Overall Structure of the Module
+
+~~~~
+module: ietf-ac-svc
+  +--rw ac* [id]
+     +--rw id                          string
+     +--rw l2-connection
+     |  ...
+     +--rw ip-connection
+     |  ...
+     +--rw routing-protocols
+     |  ...
+     +--rw oam
+     |  ...
+     +--rw security
+        ...
+~~~~
+{: #o-svc-tree title="Overall AC Service Tree Structure"}
+
+### Layer 2 Connection Structure
+
+### Layer 3 Connection Structure
+
+
 ## Network Module
 
 ### Overall Structure of the Module
@@ -123,7 +147,7 @@ The procedure to provision a service in a service provider network may depend on
 TBC TBC
 
 ~~~~
-module: ietf-ac
+module: ietf-ac-ntw
   +--rw ac* [id]
      +--rw node-id?                    string
      +--rw local-ac-id?                string
@@ -140,7 +164,7 @@ module: ietf-ac
      +--rw security
         ...
 ~~~~
-{: #otree title="Overall Tree Structure"}
+{: #o-ntw-tree title="Overall Tree Structure"}
 
 
 ### AC Grouping
@@ -161,7 +185,7 @@ module: ietf-ac
 ~~~~
 {: #ac-gp title="AC Grouping"}
 
-### AC per Node Grouping
+### Grouping to Binding ACs to Nodes
 
 ~~~~
   grouping ac-node
