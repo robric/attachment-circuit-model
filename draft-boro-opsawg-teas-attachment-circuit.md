@@ -894,7 +894,7 @@ module ietf-ac-ntw {
 
    * TBC
    * TBC
-   * 
+
 # IANA Considerations
 
    IANA is requested to register the following URIs in the "ns" subregistry within
