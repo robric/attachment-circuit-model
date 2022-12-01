@@ -34,17 +34,17 @@ informative:
 
 --- abstract
 
-This document specifies a YANG data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., L3VPN, L2VPN, Network Slice Service).
+This document specifies YANG data models for attachment circuits. The models can be used for the provisioning attachment circuits prior or during service provisioning (e.g., L3VPN, L2VPN, Network Slice Service).
 
 --- middle
 
 # Introduction
 
-This document specifies a YANG data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., L3VPN, L2VPN, Network Slice Service).
+This document specifies two YANG data models for attachment circuits. The models can be used for the provisioning attachment circuits prior or during service provisioning (e.g., L3VPN, L2VPN, Network Slice Service).
 
 TBC
 
- The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
+ The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
 # Conventions and Definitions
 
@@ -69,7 +69,7 @@ Service provider:
 : A service provider that offers network services (e.g., Network Slice Services).
 
 
-# Sample Uses of the Attachment Circuit Data Model
+# Sample Uses of the Attachment Circuit Data Models
 
 ## Separate AC Provisioning vs. Actual Service Provisioning
 
@@ -112,9 +112,13 @@ The procedure to provision a service in a service provider network may depend on
 {: #u-ex title="An Example of AC Usage"}
 
 
-# Description of the Attachment Circuit YANG Module
+# Description of the Attachment Circuit YANG Modules
 
-## Overall Structure of the Module
+## Service Module
+
+## Network Module
+
+### Overall Structure of the Module
 
 TBC TBC
 
@@ -139,7 +143,7 @@ module: ietf-ac
 {: #otree title="Overall Tree Structure"}
 
 
-## AC Grouping
+### AC Grouping
 
 ~~~~
   grouping ac-nw
@@ -157,7 +161,7 @@ module: ietf-ac
 ~~~~
 {: #ac-gp title="AC Grouping"}
 
-## AC per Node Grouping
+### AC per Node Grouping
 
 ~~~~
   grouping ac-node
@@ -178,7 +182,7 @@ module: ietf-ac
 ~~~~
 {: #acn-gp title="AC per Node Grouping"}
 
-## Layer 2 Connection Structure
+### Layer 2 Connection Structure
 
 ~~~~
   grouping l2-connection
@@ -240,7 +244,7 @@ module: ietf-ac
 ~~~~
 {: #l2-tree title="Layer 2 Connection Tree Structure"}
 
-## Layer 3 Connection Tree Structure
+### Layer 3 Connection Tree Structure
 
 ~~~~
   grouping ip-connection
@@ -312,7 +316,7 @@ module: ietf-ac
 ~~~~
 {: #l3-tree title="Layer 3 Connection Tree Structure"}
 
-## Routing Tree Structure
+### Routing Tree Structure
 
 ~~~~
   grouping routing
@@ -488,14 +492,27 @@ module: ietf-ac
 ~~~~
 {: #rtg-tree title="Routing Connection Tree Structure"}
 
+# YANG Modules
 
-#  Attachment Circuit YANG Module
+##  Attachment Circuit Service Model
+
+This module uses types defined in XXX.
+
+~~~~
+<CODE BEGINS> file "ietf-ac-svc@2022-11-30.yang"
+module ietf-ac-svc {
+
+INSERT HER
+}
+~~~~
+
+##  Attachment Circuit Network Model
 
 This module uses types defined in XXX.
 
 ~~~~
 <CODE BEGINS> file "ietf-ac@2022-11-30.yang"
-module ietf-ac {
+module ietf-ac-ntw {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-ac";
   prefix ac;
@@ -832,8 +849,8 @@ module ietf-ac {
 
 # Security Considerations
 
-   The YANG module specified in this document defines a schema for data
-   that is designed to be accessed via network management protocols such
+   The YANG modules specified in this document define schemas for data
+   that are designed to be accessed via network management protocols such
    as NETCONF {{!RFC6241}} or RESTCONF {{!RFC8040}}.  The lowest NETCONF layer
    is the secure transport layer, and the mandatory-to-implement secure
    transport is Secure Shell (SSH) {{!RFC6242}}.  The lowest RESTCONF layer
@@ -845,45 +862,70 @@ module ietf-ac {
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
 
-   There are a number of data nodes defined in this YANG module that are
+   There are a number of data nodes defined in these YANG modules that are
    writable/creatable/deletable (i.e., config true, which is the
    default).  These data nodes may be considered sensitive or vulnerable
    in some network environments.  Write operations (e.g., edit-config)
    and delete operations to these data nodes without proper protection
    or authentication can have a negative effect on network operations.
    These are the subtrees and data nodes and their sensitivity/
-   vulnerability in the "ietf-ac" module:
+   vulnerability in the "ietf-ac-svc" module:
 
    * TBC
    * TBC
 
-   Some of the readable data nodes in this YANG module may be considered
+   These are the subtrees and data nodes and their sensitivity/
+   vulnerability in the "ietf-ac-ntw" module:
+
+   * TBC
+   * TBC
+
+   Some of the readable data nodes in these YANG modules may be considered
    sensitive or vulnerable in some network environments.  It is thus
    important to control read access (e.g., via get, get-config, or
    notification) to these data nodes.  These are the subtrees and data
-   nodes and their sensitivity/vulnerability:
+   nodes and their sensitivity/vulnerability in the "ietf-ac-svc" module:
 
    * TBC
    * TBC
 
+   These are the subtrees and data
+   nodes and their sensitivity/vulnerability in the "ietf-ac-ntw" module:
+
+   * TBC
+   * TBC
+   * 
 # IANA Considerations
 
-   IANA has registered the following URI in the "ns" subregistry within
+   IANA is requested to register the following URIs in the "ns" subregistry within
    the "IETF XML Registry" {{!RFC3688}}:
 
-   URI:  urn:ietf:params:xml:ns:yang:ietf-ac
+~~~~
+   URI:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
    Registrant Contact:  The IESG.
    XML:  N/A; the requested URI is an XML namespace.
 
-   IANA has registered the following YANG module in the "YANG Module
+   URI:  urn:ietf:params:xml:ns:yang:ietf-ac-ntw
+   Registrant Contact:  The IESG.
+   XML:  N/A; the requested URI is an XML namespace.
+~~~~
+
+   IANA is requested to register the following YANG modules in the "YANG Module
    Names" subregistry {{!RFC6020}} within the "YANG Parameters" registry.
 
-   Name:  ietf-ac
+~~~~
+   Name:  ietf-ac-svc
    Maintained by IANA?  N
-   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac
+   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
    Prefix:  ac
    Reference:  RFC xxxx
 
+   Name:  ietf-ac-ntw
+   Maintained by IANA?  N
+   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-ntw
+   Prefix:  ac
+   Reference:  RFC xxxx
+~~~~
 
 --- back
 
