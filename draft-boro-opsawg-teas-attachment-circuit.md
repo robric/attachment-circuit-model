@@ -50,7 +50,7 @@ TBC
 
 {::boilerplate bcp14-tagged}
 
-# Terminology 
+# Terminology
 
 The meanings of the symbols in the YANG tree diagrams are defined in {{?RFC8340}}.
 
