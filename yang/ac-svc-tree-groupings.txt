@@ -32,7 +32,6 @@ module: ietf-ac-svc
      |  +--rw bearer-reference?          string
      |          {vpn-common:bearer-reference}?
      +--rw ip-connection
-     |  +--rw l3-termination-point?   string
      |  +--rw ipv4 {vpn-common:ipv4}?
      |  |  +--rw local-address?
      |  |  |       inet:ipv4-address
@@ -112,12 +111,9 @@ module: ietf-ac-svc
      |     |  +--rw cascaded-lan-prefixes
      |     |     +--rw ipv4-lan-prefixes* [lan next-hop]
      |     |     |       {vpn-common:ipv4}?
-     |     |     |  +--rw lan           inet:ipv4-prefix
-     |     |     |  +--rw lan-tag?      string
-     |     |     |  +--rw next-hop      union
-     |     |     |  +--rw bfd-enable?   boolean {vpn-common:bfd}?
-     |     |     |  +--rw metric?       uint32
-     |     |     |  +--rw preference?   uint32
+     |     |     |  +--rw lan         inet:ipv4-prefix
+     |     |     |  +--rw lan-tag?    string
+     |     |     |  +--rw next-hop    union
      |     |     |  +--rw status
      |     |     |     +--rw admin-status
      |     |     |     |  +--rw status?        identityref
@@ -127,12 +123,9 @@ module: ietf-ac-svc
      |     |     |        +--ro last-change?   yang:date-and-time
      |     |     +--rw ipv6-lan-prefixes* [lan next-hop]
      |     |             {vpn-common:ipv6}?
-     |     |        +--rw lan           inet:ipv6-prefix
-     |     |        +--rw lan-tag?      string
-     |     |        +--rw next-hop      union
-     |     |        +--rw bfd-enable?   boolean {vpn-common:bfd}?
-     |     |        +--rw metric?       uint32
-     |     |        +--rw preference?   uint32
+     |     |        +--rw lan         inet:ipv6-prefix
+     |     |        +--rw lan-tag?    string
+     |     |        +--rw next-hop    union
      |     |        +--rw status
      |     |           +--rw admin-status
      |     |           |  +--rw status?        identityref
@@ -141,42 +134,8 @@ module: ietf-ac-svc
      |     |              +--ro status?        identityref
      |     |              +--ro last-change?   yang:date-and-time
      |     +--rw bgp
-     |     |  +--rw description?              string
-     |     |  +--rw local-as?                 inet:as-number
-     |     |  +--rw peer-as                   inet:as-number
-     |     |  +--rw address-family?           identityref
-     |     |  +--rw local-address?            union
-     |     |  +--rw neighbor*                 inet:ip-address
-     |     |  +--rw multihop?                 uint8
-     |     |  +--rw send-default-route?       boolean
-     |     |  +--rw redistribute-connected* [address-family]
-     |     |  |  +--rw address-family    identityref
-     |     |  |  +--rw enable?           boolean
-     |     |  +--rw bgp-max-prefix
-     |     |  |  +--rw max-prefix?          uint32
-     |     |  |  +--rw warning-threshold?   decimal64
-     |     |  |  +--rw violate-action?      enumeration
-     |     |  |  +--rw restart-timer?       uint32
-     |     |  +--rw bgp-timers
-     |     |  |  +--rw keepalive?   uint16
-     |     |  |  +--rw hold-time?   uint16
-     |     |  +--rw authentication
-     |     |  |  +--rw enable?            boolean
-     |     |  |  +--rw keying-material
-     |     |  |     +--rw (option)?
-     |     |  |        +--:(ao)
-     |     |  |        |  +--rw enable-ao?          boolean
-     |     |  |        |  +--rw ao-keychain?
-     |     |  |        |          key-chain:key-chain-ref
-     |     |  |        +--:(md5)
-     |     |  |        |  +--rw md5-keychain?
-     |     |  |        |          key-chain:key-chain-ref
-     |     |  |        +--:(explicit)
-     |     |  |        |  +--rw key-id?             uint32
-     |     |  |        |  +--rw key?                string
-     |     |  |        |  +--rw crypto-algorithm?   identityref
-     |     |  |        +--:(ipsec)
-     |     |  |           +--rw sa?                 string
+     |     |  +--rw peer-as           inet:as-number
+     |     |  +--rw address-family?   identityref
      |     |  +--rw status
      |     |     +--rw admin-status
      |     |     |  +--rw status?        identityref
@@ -192,20 +151,6 @@ module: ietf-ac-svc
      |     |  |  +--rw sham-link* [target-site]
      |     |  |     +--rw target-site    string
      |     |  |     +--rw metric?        uint16
-     |     |  +--rw max-lsa?          uint32
-     |     |  +--rw authentication
-     |     |  |  +--rw enable?            boolean
-     |     |  |  +--rw keying-material
-     |     |  |     +--rw (option)?
-     |     |  |        +--:(auth-key-chain)
-     |     |  |        |  +--rw key-chain?
-     |     |  |        |          key-chain:key-chain-ref
-     |     |  |        +--:(auth-key-explicit)
-     |     |  |        |  +--rw key-id?             uint32
-     |     |  |        |  +--rw key?                string
-     |     |  |        |  +--rw crypto-algorithm?   identityref
-     |     |  |        +--:(ipsec)
-     |     |  |           +--rw sa?                 string
      |     |  +--rw status
      |     |     +--rw admin-status
      |     |     |  +--rw status?        identityref
@@ -216,20 +161,6 @@ module: ietf-ac-svc
      |     +--rw isis
      |     |  +--rw address-family?   identityref
      |     |  +--rw area-address      l3nm:area-address
-     |     |  +--rw level?            identityref
-     |     |  +--rw metric?           uint16
-     |     |  +--rw mode?             enumeration
-     |     |  +--rw authentication
-     |     |  |  +--rw enable?            boolean
-     |     |  |  +--rw keying-material
-     |     |  |     +--rw (option)?
-     |     |  |        +--:(auth-key-chain)
-     |     |  |        |  +--rw key-chain?
-     |     |  |        |          key-chain:key-chain-ref
-     |     |  |        +--:(auth-key-explicit)
-     |     |  |           +--rw key-id?             uint32
-     |     |  |           +--rw key?                string
-     |     |  |           +--rw crypto-algorithm?   identityref
      |     |  +--rw status
      |     |     +--rw admin-status
      |     |     |  +--rw status?        identityref
@@ -239,22 +170,6 @@ module: ietf-ac-svc
      |     |        +--ro last-change?   yang:date-and-time
      |     +--rw rip
      |     |  +--rw address-family?   identityref
-     |     |  +--rw timers
-     |     |  |  +--rw update-interval?     uint16
-     |     |  |  +--rw invalid-interval?    uint16
-     |     |  |  +--rw holddown-interval?   uint16
-     |     |  |  +--rw flush-interval?      uint16
-     |     |  +--rw default-metric?   uint8
-     |     |  +--rw authentication
-     |     |  |  +--rw enable?            boolean
-     |     |  |  +--rw keying-material
-     |     |  |     +--rw (option)?
-     |     |  |        +--:(auth-key-chain)
-     |     |  |        |  +--rw key-chain?
-     |     |  |        |          key-chain:key-chain-ref
-     |     |  |        +--:(auth-key-explicit)
-     |     |  |           +--rw key?                string
-     |     |  |           +--rw crypto-algorithm?   identityref
      |     |  +--rw status
      |     |     +--rw admin-status
      |     |     |  +--rw status?        identityref
@@ -263,12 +178,7 @@ module: ietf-ac-svc
      |     |        +--ro status?        identityref
      |     |        +--ro last-change?   yang:date-and-time
      |     +--rw vrrp
-     |        +--rw address-family?       identityref
-     |        +--rw vrrp-group?           uint8
-     |        +--rw backup-peer?          inet:ip-address
-     |        +--rw virtual-ip-address*   inet:ip-address
-     |        +--rw priority?             uint8
-     |        +--rw ping-reply?           boolean
+     |        +--rw address-family?   identityref
      |        +--rw status
      |           +--rw admin-status
      |           |  +--rw status?        identityref
@@ -278,14 +188,7 @@ module: ietf-ac-svc
      |              +--ro last-change?   yang:date-and-time
      +--rw oam
      |  +--rw bfd {vpn-common:bfd}?
-     |     +--rw session-type?               identityref
-     |     +--rw desired-min-tx-interval?    uint32
-     |     +--rw required-min-rx-interval?   uint32
-     |     +--rw local-multiplier?           uint8
-     |     +--rw holdtime?                   uint32
-     |     +--rw authentication!
-     |     |  +--rw key-chain?    key-chain:key-chain-ref
-     |     |  +--rw meticulous?   boolean
+     |     +--rw holdtime?   uint32
      |     +--rw status
      |        +--rw admin-status
      |        |  +--rw status?        identityref
@@ -333,7 +236,6 @@ module: ietf-ac-svc
     +-- bearer-reference?          string
             {vpn-common:bearer-reference}?
   grouping ip-connection
-    +-- l3-termination-point?   string
     +-- ipv4 {vpn-common:ipv4}?
     |  +-- local-address?
     |  |       inet:ipv4-address
@@ -405,12 +307,9 @@ module: ietf-ac-svc
        +-- static
        |  +-- cascaded-lan-prefixes
        |     +-- ipv4-lan-prefixes* [lan next-hop] {vpn-common:ipv4}?
-       |     |  +-- lan?          inet:ipv4-prefix
-       |     |  +-- lan-tag?      string
-       |     |  +-- next-hop?     union
-       |     |  +-- bfd-enable?   boolean {vpn-common:bfd}?
-       |     |  +-- metric?       uint32
-       |     |  +-- preference?   uint32
+       |     |  +-- lan?        inet:ipv4-prefix
+       |     |  +-- lan-tag?    string
+       |     |  +-- next-hop?   union
        |     |  +-- status
        |     |     +-- admin-status
        |     |     |  +-- status?        identityref
@@ -419,12 +318,9 @@ module: ietf-ac-svc
        |     |        +--ro status?        identityref
        |     |        +--ro last-change?   yang:date-and-time
        |     +-- ipv6-lan-prefixes* [lan next-hop] {vpn-common:ipv6}?
-       |        +-- lan?          inet:ipv6-prefix
-       |        +-- lan-tag?      string
-       |        +-- next-hop?     union
-       |        +-- bfd-enable?   boolean {vpn-common:bfd}?
-       |        +-- metric?       uint32
-       |        +-- preference?   uint32
+       |        +-- lan?        inet:ipv6-prefix
+       |        +-- lan-tag?    string
+       |        +-- next-hop?   union
        |        +-- status
        |           +-- admin-status
        |           |  +-- status?        identityref
@@ -433,40 +329,8 @@ module: ietf-ac-svc
        |              +--ro status?        identityref
        |              +--ro last-change?   yang:date-and-time
        +-- bgp
-       |  +-- description?              string
-       |  +-- local-as?                 inet:as-number
-       |  +-- peer-as                   inet:as-number
-       |  +-- address-family?           identityref
-       |  +-- local-address?            union
-       |  +-- neighbor*                 inet:ip-address
-       |  +-- multihop?                 uint8
-       |  +-- send-default-route?       boolean
-       |  +-- redistribute-connected* [address-family]
-       |  |  +-- address-family?   identityref
-       |  |  +-- enable?           boolean
-       |  +-- bgp-max-prefix
-       |  |  +-- max-prefix?          uint32
-       |  |  +-- warning-threshold?   decimal64
-       |  |  +-- violate-action?      enumeration
-       |  |  +-- restart-timer?       uint32
-       |  +-- bgp-timers
-       |  |  +-- keepalive?   uint16
-       |  |  +-- hold-time?   uint16
-       |  +-- authentication
-       |  |  +-- enable?            boolean
-       |  |  +-- keying-material
-       |  |     +-- (option)?
-       |  |        +--:(ao)
-       |  |        |  +-- enable-ao?          boolean
-       |  |        |  +-- ao-keychain?        key-chain:key-chain-ref
-       |  |        +--:(md5)
-       |  |        |  +-- md5-keychain?       key-chain:key-chain-ref
-       |  |        +--:(explicit)
-       |  |        |  +-- key-id?             uint32
-       |  |        |  +-- key?                string
-       |  |        |  +-- crypto-algorithm?   identityref
-       |  |        +--:(ipsec)
-       |  |           +-- sa?                 string
+       |  +-- peer-as           inet:as-number
+       |  +-- address-family?   identityref
        |  +-- status
        |     +-- admin-status
        |     |  +-- status?        identityref
@@ -482,19 +346,6 @@ module: ietf-ac-svc
        |  |  +-- sham-link* [target-site]
        |  |     +-- target-site?   string
        |  |     +-- metric?        uint16
-       |  +-- max-lsa?          uint32
-       |  +-- authentication
-       |  |  +-- enable?            boolean
-       |  |  +-- keying-material
-       |  |     +-- (option)?
-       |  |        +--:(auth-key-chain)
-       |  |        |  +-- key-chain?          key-chain:key-chain-ref
-       |  |        +--:(auth-key-explicit)
-       |  |        |  +-- key-id?             uint32
-       |  |        |  +-- key?                string
-       |  |        |  +-- crypto-algorithm?   identityref
-       |  |        +--:(ipsec)
-       |  |           +-- sa?                 string
        |  +-- status
        |     +-- admin-status
        |     |  +-- status?        identityref
@@ -505,19 +356,6 @@ module: ietf-ac-svc
        +-- isis
        |  +-- address-family?   identityref
        |  +-- area-address      l3nm:area-address
-       |  +-- level?            identityref
-       |  +-- metric?           uint16
-       |  +-- mode?             enumeration
-       |  +-- authentication
-       |  |  +-- enable?            boolean
-       |  |  +-- keying-material
-       |  |     +-- (option)?
-       |  |        +--:(auth-key-chain)
-       |  |        |  +-- key-chain?          key-chain:key-chain-ref
-       |  |        +--:(auth-key-explicit)
-       |  |           +-- key-id?             uint32
-       |  |           +-- key?                string
-       |  |           +-- crypto-algorithm?   identityref
        |  +-- status
        |     +-- admin-status
        |     |  +-- status?        identityref
@@ -527,21 +365,6 @@ module: ietf-ac-svc
        |        +--ro last-change?   yang:date-and-time
        +-- rip
        |  +-- address-family?   identityref
-       |  +-- timers
-       |  |  +-- update-interval?     uint16
-       |  |  +-- invalid-interval?    uint16
-       |  |  +-- holddown-interval?   uint16
-       |  |  +-- flush-interval?      uint16
-       |  +-- default-metric?   uint8
-       |  +-- authentication
-       |  |  +-- enable?            boolean
-       |  |  +-- keying-material
-       |  |     +-- (option)?
-       |  |        +--:(auth-key-chain)
-       |  |        |  +-- key-chain?          key-chain:key-chain-ref
-       |  |        +--:(auth-key-explicit)
-       |  |           +-- key?                string
-       |  |           +-- crypto-algorithm?   identityref
        |  +-- status
        |     +-- admin-status
        |     |  +-- status?        identityref
@@ -550,12 +373,7 @@ module: ietf-ac-svc
        |        +--ro status?        identityref
        |        +--ro last-change?   yang:date-and-time
        +-- vrrp
-          +-- address-family?       identityref
-          +-- vrrp-group?           uint8
-          +-- backup-peer?          inet:ip-address
-          +-- virtual-ip-address*   inet:ip-address
-          +-- priority?             uint8
-          +-- ping-reply?           boolean
+          +-- address-family?   identityref
           +-- status
              +-- admin-status
              |  +-- status?        identityref
@@ -596,7 +414,6 @@ module: ietf-ac-svc
     |  +-- bearer-reference?          string
     |          {vpn-common:bearer-reference}?
     +-- ip-connection
-    |  +-- l3-termination-point?   string
     |  +-- ipv4 {vpn-common:ipv4}?
     |  |  +-- local-address?
     |  |  |       inet:ipv4-address
@@ -674,12 +491,9 @@ module: ietf-ac-svc
     |     |  +-- cascaded-lan-prefixes
     |     |     +-- ipv4-lan-prefixes* [lan next-hop]
     |     |     |       {vpn-common:ipv4}?
-    |     |     |  +-- lan?          inet:ipv4-prefix
-    |     |     |  +-- lan-tag?      string
-    |     |     |  +-- next-hop?     union
-    |     |     |  +-- bfd-enable?   boolean {vpn-common:bfd}?
-    |     |     |  +-- metric?       uint32
-    |     |     |  +-- preference?   uint32
+    |     |     |  +-- lan?        inet:ipv4-prefix
+    |     |     |  +-- lan-tag?    string
+    |     |     |  +-- next-hop?   union
     |     |     |  +-- status
     |     |     |     +-- admin-status
     |     |     |     |  +-- status?        identityref
@@ -689,12 +503,9 @@ module: ietf-ac-svc
     |     |     |        +--ro last-change?   yang:date-and-time
     |     |     +-- ipv6-lan-prefixes* [lan next-hop]
     |     |             {vpn-common:ipv6}?
-    |     |        +-- lan?          inet:ipv6-prefix
-    |     |        +-- lan-tag?      string
-    |     |        +-- next-hop?     union
-    |     |        +-- bfd-enable?   boolean {vpn-common:bfd}?
-    |     |        +-- metric?       uint32
-    |     |        +-- preference?   uint32
+    |     |        +-- lan?        inet:ipv6-prefix
+    |     |        +-- lan-tag?    string
+    |     |        +-- next-hop?   union
     |     |        +-- status
     |     |           +-- admin-status
     |     |           |  +-- status?        identityref
@@ -703,42 +514,8 @@ module: ietf-ac-svc
     |     |              +--ro status?        identityref
     |     |              +--ro last-change?   yang:date-and-time
     |     +-- bgp
-    |     |  +-- description?              string
-    |     |  +-- local-as?                 inet:as-number
-    |     |  +-- peer-as                   inet:as-number
-    |     |  +-- address-family?           identityref
-    |     |  +-- local-address?            union
-    |     |  +-- neighbor*                 inet:ip-address
-    |     |  +-- multihop?                 uint8
-    |     |  +-- send-default-route?       boolean
-    |     |  +-- redistribute-connected* [address-family]
-    |     |  |  +-- address-family?   identityref
-    |     |  |  +-- enable?           boolean
-    |     |  +-- bgp-max-prefix
-    |     |  |  +-- max-prefix?          uint32
-    |     |  |  +-- warning-threshold?   decimal64
-    |     |  |  +-- violate-action?      enumeration
-    |     |  |  +-- restart-timer?       uint32
-    |     |  +-- bgp-timers
-    |     |  |  +-- keepalive?   uint16
-    |     |  |  +-- hold-time?   uint16
-    |     |  +-- authentication
-    |     |  |  +-- enable?            boolean
-    |     |  |  +-- keying-material
-    |     |  |     +-- (option)?
-    |     |  |        +--:(ao)
-    |     |  |        |  +-- enable-ao?          boolean
-    |     |  |        |  +-- ao-keychain?
-    |     |  |        |          key-chain:key-chain-ref
-    |     |  |        +--:(md5)
-    |     |  |        |  +-- md5-keychain?
-    |     |  |        |          key-chain:key-chain-ref
-    |     |  |        +--:(explicit)
-    |     |  |        |  +-- key-id?             uint32
-    |     |  |        |  +-- key?                string
-    |     |  |        |  +-- crypto-algorithm?   identityref
-    |     |  |        +--:(ipsec)
-    |     |  |           +-- sa?                 string
+    |     |  +-- peer-as           inet:as-number
+    |     |  +-- address-family?   identityref
     |     |  +-- status
     |     |     +-- admin-status
     |     |     |  +-- status?        identityref
@@ -754,20 +531,6 @@ module: ietf-ac-svc
     |     |  |  +-- sham-link* [target-site]
     |     |  |     +-- target-site?   string
     |     |  |     +-- metric?        uint16
-    |     |  +-- max-lsa?          uint32
-    |     |  +-- authentication
-    |     |  |  +-- enable?            boolean
-    |     |  |  +-- keying-material
-    |     |  |     +-- (option)?
-    |     |  |        +--:(auth-key-chain)
-    |     |  |        |  +-- key-chain?
-    |     |  |        |          key-chain:key-chain-ref
-    |     |  |        +--:(auth-key-explicit)
-    |     |  |        |  +-- key-id?             uint32
-    |     |  |        |  +-- key?                string
-    |     |  |        |  +-- crypto-algorithm?   identityref
-    |     |  |        +--:(ipsec)
-    |     |  |           +-- sa?                 string
     |     |  +-- status
     |     |     +-- admin-status
     |     |     |  +-- status?        identityref
@@ -778,20 +541,6 @@ module: ietf-ac-svc
     |     +-- isis
     |     |  +-- address-family?   identityref
     |     |  +-- area-address      l3nm:area-address
-    |     |  +-- level?            identityref
-    |     |  +-- metric?           uint16
-    |     |  +-- mode?             enumeration
-    |     |  +-- authentication
-    |     |  |  +-- enable?            boolean
-    |     |  |  +-- keying-material
-    |     |  |     +-- (option)?
-    |     |  |        +--:(auth-key-chain)
-    |     |  |        |  +-- key-chain?
-    |     |  |        |          key-chain:key-chain-ref
-    |     |  |        +--:(auth-key-explicit)
-    |     |  |           +-- key-id?             uint32
-    |     |  |           +-- key?                string
-    |     |  |           +-- crypto-algorithm?   identityref
     |     |  +-- status
     |     |     +-- admin-status
     |     |     |  +-- status?        identityref
@@ -801,22 +550,6 @@ module: ietf-ac-svc
     |     |        +--ro last-change?   yang:date-and-time
     |     +-- rip
     |     |  +-- address-family?   identityref
-    |     |  +-- timers
-    |     |  |  +-- update-interval?     uint16
-    |     |  |  +-- invalid-interval?    uint16
-    |     |  |  +-- holddown-interval?   uint16
-    |     |  |  +-- flush-interval?      uint16
-    |     |  +-- default-metric?   uint8
-    |     |  +-- authentication
-    |     |  |  +-- enable?            boolean
-    |     |  |  +-- keying-material
-    |     |  |     +-- (option)?
-    |     |  |        +--:(auth-key-chain)
-    |     |  |        |  +-- key-chain?
-    |     |  |        |          key-chain:key-chain-ref
-    |     |  |        +--:(auth-key-explicit)
-    |     |  |           +-- key?                string
-    |     |  |           +-- crypto-algorithm?   identityref
     |     |  +-- status
     |     |     +-- admin-status
     |     |     |  +-- status?        identityref
@@ -825,12 +558,7 @@ module: ietf-ac-svc
     |     |        +--ro status?        identityref
     |     |        +--ro last-change?   yang:date-and-time
     |     +-- vrrp
-    |        +-- address-family?       identityref
-    |        +-- vrrp-group?           uint8
-    |        +-- backup-peer?          inet:ip-address
-    |        +-- virtual-ip-address*   inet:ip-address
-    |        +-- priority?             uint8
-    |        +-- ping-reply?           boolean
+    |        +-- address-family?   identityref
     |        +-- status
     |           +-- admin-status
     |           |  +-- status?        identityref
@@ -840,14 +568,7 @@ module: ietf-ac-svc
     |              +--ro last-change?   yang:date-and-time
     +-- oam
     |  +-- bfd {vpn-common:bfd}?
-    |     +-- session-type?               identityref
-    |     +-- desired-min-tx-interval?    uint32
-    |     +-- required-min-rx-interval?   uint32
-    |     +-- local-multiplier?           uint8
-    |     +-- holdtime?                   uint32
-    |     +-- authentication!
-    |     |  +-- key-chain?    key-chain:key-chain-ref
-    |     |  +-- meticulous?   boolean
+    |     +-- holdtime?   uint32
     |     +-- status
     |        +-- admin-status
     |        |  +-- status?        identityref
