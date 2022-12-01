@@ -50,6 +50,24 @@ TBC
 
 {::boilerplate bcp14-tagged}
 
+# Terminology 
+
+The meanings of the symbols in the YANG tree diagrams are defined in {{?RFC8340}}.
+
+This document uses the following terms:
+
+Network controller
+: Denotes a functional entity responsible for the management of the service provider network.
+
+Service orchestrator
+: Refers to a functional entity that interacts with the customer of a network service. The service orchestrator is typically responsible for the attachment circuits, the Provider Edge (PE) selection, and requesting the activation of the requested service to a network controller.
+
+Service provider network
+: A network that is able to provide network services (e.g., Network Slice Services).
+
+Service provider
+: A service provider that offers network services (e.g., Network Slice Services).
+
 
 # Sample Uses of the Attachment Circuit Data Model
 
