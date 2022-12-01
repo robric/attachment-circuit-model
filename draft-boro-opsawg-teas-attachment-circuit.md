@@ -75,8 +75,41 @@ Service provider:
 
 The procedure to provision a service in a service provider network may depend on the practices adopted by a service provider, including the flow put in place for the provisioning of advanced network services and how they are bound to an attachment circuit. For example, the same attachment circuit may be used to host multiple services. In order to avoid service interference and redundant information in various locations, a service provider may expose an interface to manage ACs network-wide. Customers can the request a base attachment circuit to be put in place, and then refer to that base AC when requesting services that are bound to that AC.
 
-TBC.
-
+~~~~
+                          +---------------+
+                          |   Customer    |
+                          +-------+-------+
+          Customer Service Model  |
+        e.g., slice-svc, ac-svc   |
+                          +-------+-------+
+                          |    Service    |
+                          | Orchestration |
+                          +-------+-------+
+           Network Model          |
+     e.g., l3vpn-ntw, ac-ntw      |
+                          +-------+-------+
+                          |   Network     |
+                          | Orchestration |
+                          +-------+-------+
+    Network Configuration Model   |
+                      +-----------+-----------+
+                      |                       |
+             +--------+------+       +--------+------+
+             |    Domain     |       |     Domain    |
+             | Orchestration |       | Orchestration |
+             +---+-----------+       +--------+------+
+  Device         |        |                   |
+  Configuration  |        |                   |
+  Model          |        |                   |
+            +----+----+   |                   |
+            | Config  |   |                   |
+            | Manager |   |                   |
+            +----+----+   |                   |
+                 |        |                   |
+                 | NETCONF/CLI..................
+                 |        |                   |
+~~~~
+{: #u-ex title="An Example of AC Usage"}
 
 
 # Description of the Attachment Circuit YANG Module
