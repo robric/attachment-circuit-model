@@ -2210,7 +2210,7 @@ module ietf-ac-ntw {
         choice profile {
           description
             "Choice for the encryption profile.";
-          case provider-profile {
+         /* case provider-profile {
             leaf profile-name {
               type leafref {
                 path "/l3vpn-ntw/vpn-profiles"
@@ -2221,7 +2221,7 @@ module ietf-ac-ntw {
                 "Name of the service provider's
                  profile to be applied.";
             }
-          }
+          }*/
           case customer-profile {
             leaf customer-key-chain {
               type key-chain:key-chain-ref;
