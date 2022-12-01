@@ -1,7 +1,7 @@
-module ietf-ac {
+module ietf-ac-ntw {
   yang-version 1.1;
-  namespace "urn:ietf:params:xml:ns:yang:ietf-ac";
-  prefix ac;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-ac-ntw";
+  prefix ac-ntw;
 
   import ietf-vpn-common {
     prefix vpn-common;
@@ -2210,7 +2210,7 @@ module ietf-ac {
         choice profile {
           description
             "Choice for the encryption profile.";
-          /*case provider-profile {
+          case provider-profile {
             leaf profile-name {
               type leafref {
                 path "/l3vpn-ntw/vpn-profiles"
@@ -2221,7 +2221,7 @@ module ietf-ac {
                 "Name of the service provider's
                  profile to be applied.";
             }
-          }*/
+          }
           case customer-profile {
             leaf customer-key-chain {
               type key-chain:key-chain-ref;
