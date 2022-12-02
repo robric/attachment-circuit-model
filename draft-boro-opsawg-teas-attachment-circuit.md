@@ -44,6 +44,8 @@ This document specifies two YANG data models for attachment circuits. The models
 
 TBC
 
+An AC can be bound to a single or multiple SAPs {{!I-D.ietf-opsawg-sap}}.
+
  The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
 # Conventions and Definitions
@@ -86,7 +88,7 @@ The procedure to provision a service in a service provider network may depend on
                           | Orchestration |
                           +-------+-------+
            Network Model          |
-     e.g., l3vpn-ntw, ac-ntw      |
+     e.g., l3vpn-ntw, sap-ac      |
                           +-------+-------+
                           |   Network     |
                           | Orchestration |
@@ -109,7 +111,7 @@ The procedure to provision a service in a service provider network may depend on
                  | NETCONF/CLI..................
                  |        |                   |
 ~~~~
-{: #u-ex title="An Example of AC Usage"}
+{: #u-ex title="An Example of AC Model Usage"}
 
 
 # Description of the Attachment Circuit YANG Modules
