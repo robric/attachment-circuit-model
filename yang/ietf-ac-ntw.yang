@@ -45,11 +45,17 @@ module ietf-ac-ntw {
       "IEEE Std 802.1Qcp: Bridges and Bridged Networks--
                           Amendment 30: YANG Data Model";
   }
-  import ietf-network-topology {
-    prefix nt;
+  import ietf-network {
+    prefix nw;
     reference
       "RFC 8345: A YANG Data Model for Network
-                 Topologies, Section 6.2";
+                 Topologies, Section 6.1";
+  }
+  import ietf-sap-ntw {
+    prefix sap;
+    reference
+      "RFC SSSS: A YANG Network Model for Service Attachment
+                 Points (SAPs)";
   }
 
   organization
@@ -92,98 +98,6 @@ module ietf-ac-ntw {
     description
       "Defines Layer 2 protocols and parameters that
        are required to enable AC connectivity.";
-    // From L3NM
-    /*container encapsulation {
-      description
-        "Container for Layer 2 encapsulation.";
-      leaf type {
-        type identityref {
-          base vpn-common:encapsulation-type;
-        }
-        default "vpn-common:priority-tagged";
-        description
-          "Encapsulation type.  By default, the type
-           of the tagged interface is
-           'priority-tagged'.";
-      }
-      container dot1q {
-        when "derived-from-or-self(../type, "
-           + "'vpn-common:dot1q')" {
-          description
-            "Only applies when the type of the
-             tagged interface is 'dot1q'.";
-        }
-        description
-          "Tagged interface.";
-        leaf tag-type {
-          type identityref {
-            base vpn-common:tag-type;
-          }
-          default "vpn-common:c-vlan";
-          description
-            "Tag type.  By default, the tag type is
-             'c-vlan'.";
-        }
-        leaf cvlan-id {
-          type uint16 {
-            range "1..4094";
-          }
-          description
-            "VLAN identifier.";
-        }
-      }
-      container priority-tagged {
-        when "derived-from-or-self(../type, "
-           + "'vpn-common:priority-tagged')" {
-          description
-            "Only applies when the type of
-             the tagged interface is
-             'priority-tagged'.";
-        }
-        description
-          "Priority tagged.";
-        leaf tag-type {
-          type identityref {
-            base vpn-common:tag-type;
-          }
-          default "vpn-common:c-vlan";
-          description
-            "Tag type.  By default, the tag type is
-             'c-vlan'.";
-        }
-      }
-      container qinq {
-        when "derived-from-or-self(../type, "
-           + "'vpn-common:qinq')" {
-          description
-            "Only applies when the type of the
-             tagged interface is 'qinq'.";
-        }
-        description
-          "Includes QinQ parameters.";
-        leaf tag-type {
-          type identityref {
-            base vpn-common:tag-type;
-          }
-          default "vpn-common:s-c-vlan";
-          description
-            "Tag type.";
-        }
-        leaf svlan-id {
-          type uint16;
-          mandatory true;
-          description
-            "Service VLAN (S-VLAN) identifier.";
-        }
-        leaf cvlan-id {
-          type uint16;
-          mandatory true;
-          description
-            "Customer VLAN (C-VLAN) identifier.";
-        }
-      }
-    }*/
-    //From L2NM
     container encapsulation {
       description
         "Container for Layer 2 encapsulation.";
@@ -545,6 +459,13 @@ module ietf-ac-ntw {
         }
       }
     }
+  }
+
+  grouping l2-connection-if-ref {
+    description
+      "Defines Layer 2 protocols and parameters that
+       are required to enable AC connectivity.";
+    uses l2-connection;
     leaf l2-termination-point {
       type string;
       description
@@ -568,7 +489,7 @@ module ietf-ac-ntw {
          service provider to identify the bearer
          associated with this VPN.";
     }
-    /* container lag-interface {
+    container lag-interface {
       if-feature "vpn-common:lag-interface";
       description
         "Container for configuration of Link
@@ -593,7 +514,7 @@ module ietf-ac-ntw {
           }
         }
       }
-    }*/
+    }
   }
 
   grouping ip-connection {
@@ -997,6 +918,479 @@ module ietf-ac-ntw {
 
   /* Routing */
 
+  grouping routing-profile {
+    description
+      "Defines routing protocols.";
+    list routing-protocol {
+      key "id";
+      description
+        "List of routing protocols used on the
+         CE-PE link.  This list can be augmented.";
+      leaf id {
+        type string;
+        description
+          "Unique identifier for the routing
+           protocol.";
+      }
+      leaf type {
+        type identityref {
+          base vpn-common:routing-protocol-type;
+        }
+        description
+          "Type of routing protocol.";
+      }
+      container bgp {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:bgp-routing')" {
+          description
+            "Only applies when the protocol is
+             BGP.";
+        }
+        description
+          "Configuration specific to BGP.";
+        leaf description {
+          type string;
+          description
+            "Includes a description of the BGP
+             session.
+
+             This description is meant to be used
+             for diagnostic purposes.  The semantic
+             of the description is local to an
+             implementation.";
+        }
+        leaf local-as {
+          type inet:as-number;
+          description
+            "Indicates a local AS Number (ASN), if
+             an ASN distinct from the ASN configured
+             at the VPN node level is needed.";
+        }
+        leaf peer-as {
+          type inet:as-number;
+          mandatory true;
+          description
+            "Indicates the customer's ASN when
+             the customer requests BGP routing.";
+        }
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "This node contains the address families
+             to be activated.  'dual-stack' means
+             that both IPv4 and IPv6 will be
+             activated.";
+        }
+        leaf multihop {
+          type uint8;
+          description
+            "Describes the number of IP hops allowed
+             between a given BGP neighbor and
+             the PE.";
+        }
+        leaf as-override {
+          type boolean;
+          default "false";
+          description
+            "Defines whether ASN override is
+             enabled, i.e., replacing the ASN of
+             the customer specified in the AS_PATH
+             attribute with the local ASN.";
+        }
+        leaf allow-own-as {
+          type uint8;
+          default "0";
+          description
+            "If set, specifies the maximum number of
+             occurrences of the provider's ASN that
+             are permitted within the AS_PATH
+             before it is rejected.";
+        }
+        leaf prepend-global-as {
+          type boolean;
+          default "false";
+          description
+            "In some situations, the ASN that is
+             provided at the VPN node level may be
+             distinct from the ASN configured at the
+             VPN network access level.  When such
+             ASNs are provided, they are both
+             prepended to the BGP route updates
+             for this access.  To disable that
+             behavior, 'prepend-global-as'
+             must be set to 'false'.  In such a
+             case, the ASN that is provided at
+             the VPN node level is not prepended
+             to the BGP route updates for
+             this access.";
+        }
+        leaf send-default-route {
+          type boolean;
+          default "false";
+          description
+            "Defines whether default routes can be
+             advertised to a peer.  If set, the
+             default routes are advertised to a
+             peer.";
+        }
+        list redistribute-connected {
+          key "address-family";
+          description
+            "Indicates, per address family, the
+             policy to follow for connected
+             routes.";
+          leaf address-family {
+            type identityref {
+              base vpn-common:address-family;
+            }
+            description
+              "Indicates the address family.";
+          }
+          leaf enable {
+            type boolean;
+            description
+              "Enables the redistribution of
+               connected routes.";
+          }
+        }
+        container bgp-max-prefix {
+          description
+            "Controls the behavior when a prefix
+             maximum is reached.";
+          leaf max-prefix {
+            type uint32;
+            default "5000";
+            description
+              "Indicates the maximum number of BGP
+               prefixes allowed in the BGP session.
+
+               It allows control of how many
+               prefixes can be received from a
+               neighbor.
+
+               If the limit is exceeded, the action
+               indicated in 'violate-action' will be
+               followed.";
+            reference
+              "RFC 4271: A Border Gateway Protocol 4
+                         (BGP-4), Section 8.2.2";
+          }
+          leaf warning-threshold {
+            type decimal64 {
+              fraction-digits 5;
+              range "0..100";
+            }
+            units "percent";
+            default "75";
+            description
+              "When this value is reached, a warning
+               notification will be triggered.";
+          }
+          leaf violate-action {
+            type enumeration {
+              enum warning {
+                description
+                  "Only a warning message is sent to
+                   the peer when the limit is
+                   exceeded.";
+              }
+              enum discard-extra-paths {
+                description
+                  "Discards extra paths when the
+                   limit is exceeded.";
+              }
+              enum restart {
+                description
+                  "The BGP session restarts after
+                   the indicated time interval.";
+              }
+            }
+            description
+              "If the BGP neighbor 'max-prefix'
+               limit is reached, the action
+               indicated in 'violate-action'
+               will be followed.";
+          }
+          leaf restart-timer {
+            type uint32;
+            units "seconds";
+            description
+              "Time interval after which the BGP
+               session will be reestablished.";
+          }
+        }
+        container bgp-timers {
+          description
+            "Includes two BGP timers that can be
+             customized when building a VPN service
+             with BGP used as the CE-PE routing
+             protocol.";
+          leaf keepalive {
+            type uint16 {
+              range "0..21845";
+            }
+            units "seconds";
+            default "30";
+            description
+              "This timer indicates the KEEPALIVE
+               messages' frequency between a PE
+               and a BGP peer.
+
+               If set to '0', it indicates that
+               KEEPALIVE messages are disabled.
+
+               It is suggested that the maximum
+               time between KEEPALIVE messages be
+               one-third of the Hold Time
+               interval.";
+            reference
+              "RFC 4271: A Border Gateway Protocol 4
+                         (BGP-4), Section 4.4";
+          }
+          leaf hold-time {
+            type uint16 {
+              range "0 | 3..65535";
+            }
+            units "seconds";
+            default "90";
+            description
+              "Indicates the maximum number of
+               seconds that may elapse between the
+               receipt of successive KEEPALIVE
+               and/or UPDATE messages from the peer.
+
+               The Hold Time must be either zero or
+               at least three seconds.";
+            reference
+              "RFC 4271: A Border Gateway Protocol 4
+                         (BGP-4), Section 4.2";
+          }
+        }
+      }
+      container ospf {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:ospf-routing')" {
+          description
+            "Only applies when the protocol is
+             OSPF.";
+        }
+        description
+          "Configuration specific to OSPF.";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or
+             both are to be activated.";
+        }
+        leaf area-id {
+          type yang:dotted-quad;
+          mandatory true;
+          description
+            "Area ID.";
+          reference
+            "RFC 4577: OSPF as the Provider/Customer
+                       Edge Protocol for BGP/MPLS IP
+                       Virtual Private Networks
+                       (VPNs), Section 4.2.3
+             RFC 6565: OSPFv3 as a Provider Edge to
+                       Customer Edge (PE-CE) Routing
+                       Protocol, Section 4.2";
+        }
+        leaf metric {
+          type uint16;
+          default "1";
+          description
+            "Metric of the PE-CE link.  It is used
+             in the routing state calculation and
+             path selection.";
+        }
+        leaf max-lsa {
+          type uint32 {
+            range "1..4294967294";
+          }
+          description
+            "Maximum number of allowed Link State
+             Advertisements (LSAs) that the OSPF
+             instance will accept.";
+        }
+      }
+      container isis {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:isis-routing')" {
+          description
+            "Only applies when the protocol is
+             IS-IS.";
+        }
+        description
+          "Configuration specific to IS-IS.";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or both
+             are to be activated.";
+        }
+        leaf area-address {
+          type l3nm:area-address;
+          mandatory true;
+          description
+            "Area address.";
+        }
+        leaf level {
+          type identityref {
+            base vpn-common:isis-level;
+          }
+          description
+            "Can be 'level-1', 'level-2', or
+             'level-1-2'.";
+          reference
+            "RFC 9181: A Common YANG Data Model for
+                       Layer 2 and Layer 3 VPNs";
+        }
+        leaf metric {
+          type uint16;
+          default "1";
+          description
+            "Metric of the PE-CE link.  It is used
+             in the routing state calculation and
+             path selection.";
+        }
+        leaf mode {
+          type enumeration {
+            enum active {
+              description
+                "The interface sends or receives
+                 IS-IS protocol control packets.";
+            }
+            enum passive {
+              description
+                "Suppresses the sending of IS-IS
+                 updates through the specified
+                 interface.";
+            }
+          }
+          default "active";
+          description
+            "IS-IS interface mode type.";
+        }
+      }
+      container rip {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:rip-routing')" {
+          description
+            "Only applies when the protocol is RIP.
+             For IPv4, the model assumes that RIP
+             version 2 is used.";
+        }
+        description
+          "Configuration specific to RIP routing.";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or both
+             address families are to be activated.";
+        }
+        container timers {
+          description
+            "Indicates the RIP timers.";
+          reference
+            "RFC 2453: RIP Version 2";
+          leaf update-interval {
+            type uint16 {
+              range "1..32767";
+            }
+            units "seconds";
+            default "30";
+            description
+              "Indicates the RIP update time, i.e.,
+               the amount of time for which RIP
+               updates are sent.";
+          }
+          leaf invalid-interval {
+            type uint16 {
+              range "1..32767";
+            }
+            units "seconds";
+            default "180";
+            description
+              "The interval before a route is
+               declared invalid after no updates are
+               received.  This value is at least
+               three times the value for the
+               'update-interval' argument.";
+          }
+          leaf holddown-interval {
+            type uint16 {
+              range "1..32767";
+            }
+            units "seconds";
+            default "180";
+            description
+              "Specifies the interval before better
+               routes are released.";
+          }
+          leaf flush-interval {
+            type uint16 {
+              range "1..32767";
+            }
+            units "seconds";
+            default "240";
+            description
+              "Indicates the RIP flush timer, i.e.,
+               the amount of time that must elapse
+               before a route is removed from the
+               routing table.";
+          }
+        }
+        leaf default-metric {
+          type uint8 {
+            range "0..16";
+          }
+          default "1";
+          description
+            "Sets the default metric.";
+        }
+      }
+      container vrrp {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:vrrp-routing')" {
+          description
+            "Only applies when the protocol is the
+             Virtual Router Redundancy Protocol
+             (VRRP).";
+        }
+        description
+          "Configuration specific to VRRP.";
+        reference
+          "RFC 5798: Virtual Router Redundancy
+                     Protocol (VRRP) Version 3 for
+                     IPv4 and IPv6";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or both
+             address families are to be enabled.";
+        }
+        leaf ping-reply {
+          type boolean;
+          default "false";
+          description
+            "Controls whether the VRRP speaker
+             should reply to ping requests.";
+        }
+      }
+    }
+  }
+
   grouping routing {
     description
       "Defines routing protocols.";
@@ -1018,27 +1412,6 @@ module ietf-ac-ntw {
         description
           "Type of routing protocol.";
       }
-      /*list routing-profiles {
-        key "id";
-        description
-          "Routing profiles.";
-        leaf id {
-          type leafref {
-            path "/l3vpn-ntw/vpn-profiles"
-               + "/valid-provider-identifiers"
-               + "/routing-profile-identifier/id";
-          }
-          description
-            "Routing profile to be used.";
-        }
-        leaf type {
-          type identityref {
-            base vpn-common:ie-type;
-          }
-          description
-            "Import, export, or both.";
-        }
-      }*/
       container static {
         when "derived-from-or-self(../type, "
            + "'vpn-common:static-routing')" {
@@ -2009,22 +2382,133 @@ module ietf-ac-ntw {
     }
   }
 
-  //AC network provisioning 
+  // OAM
 
-  grouping ac-nw {
+  grouping bfd {
+    description
+      "Grouping for BFD.";
+    leaf session-type {
+      type identityref {
+        base vpn-common:bfd-session-type;
+      }
+      default "vpn-common:classic-bfd";
+      description
+        "Specifies the BFD session type.";
+    }
+    leaf desired-min-tx-interval {
+      type uint32;
+      units "microseconds";
+      default "1000000";
+      description
+        "The minimum interval between
+         transmissions of BFD Control packets, as
+         desired by the operator.";
+      reference
+        "RFC 5880: Bidirectional Forwarding
+                   Detection (BFD),
+                   Section 6.8.7";
+    }
+    leaf required-min-rx-interval {
+      type uint32;
+      units "microseconds";
+      default "1000000";
+      description
+        "The minimum interval between received BFD
+         Control packets that the PE should
+         support.";
+      reference
+        "RFC 5880: Bidirectional Forwarding
+                   Detection (BFD),
+                   Section 6.8.7";
+    }
+    leaf local-multiplier {
+      type uint8 {
+        range "1..255";
+      }
+      default "3";
+      description
+        "Specifies the detection multiplier that
+         is transmitted to a BFD peer.
+
+         The detection interval for the receiving
+         BFD peer is calculated by multiplying the
+         value of the negotiated transmission
+         interval by the received detection
+         multiplier value.";
+      reference
+        "RFC 5880: Bidirectional Forwarding
+                   Detection (BFD),
+                   Section 6.8.7";
+    }
+    leaf holdtime {
+      type uint32;
+      units "milliseconds";
+      description
+        "Expected BFD holdtime.
+
+         The customer may impose some fixed
+         values for the holdtime period if the
+         provider allows the customer to use
+         this function.
+
+         If the provider doesn't allow the
+         customer to use this function,
+         fixed values will not be set.";
+      reference
+        "RFC 5880: Bidirectional Forwarding
+                   Detection (BFD),
+                   Section 6.8.18";
+    }
+  }
+
+  // AC profile
+
+  grouping ac-profile {
     description
       "Grouping for an attachment circuits.";
-    leaf id {
-      type string;
-      description
-        "An identifier of the AC.";
-    }
     // Layer 2
     container l2-connection {
       description
         "Defines Layer 2 protocols and parameters that
          are required to enable AC connectivity.";
       uses l2-connection;
+    }
+    // Layer 3
+    container ip-connection {
+      description
+        "Defines IP connection parameters.";
+    }
+    // Routing
+    container routing-protocols {
+      description
+        "Defines routing protocols.";
+      uses routing-profile;
+    }
+    // OAM
+    container oam {
+      description
+        "Defines the Operations, Administration,
+         and Maintenance (OAM) mechanisms used.";
+      container bfd {
+        if-feature "vpn-common:bfd";
+        description
+          "Container for BFD.";
+        uses bfd;
+      }
+    }
+  }
+
+  //AC network provisioning 
+
+  grouping ac {
+    description
+      "Grouping for an attachment circuits.";
+    // Layer 2
+    container l2-connection {
+      description
+        "Defines Layer 2 protocols and parameters that
+         are required to enable AC connectivity.";
+      uses l2-connection-if-ref;
     }
     // Layer 3
     container ip-connection {
@@ -2042,101 +2526,11 @@ module ietf-ac-ntw {
     container oam {
       description
         "Defines the Operations, Administration,
-         and Maintenance (OAM) mechanisms used.
-
-         BFD is set as a fault detection mechanism,
-         but other mechanisms can be defined in the
-         future.";
+         and Maintenance (OAM) mechanisms used.";
       container bfd {
-        if-feature "vpn-common:bfd";
         description
           "Container for BFD.";
-        leaf session-type {
-          type identityref {
-            base vpn-common:bfd-session-type;
-          }
-          default "vpn-common:classic-bfd";
-          description
-            "Specifies the BFD session type.";
-        }
-        leaf desired-min-tx-interval {
-          type uint32;
-          units "microseconds";
-          default "1000000";
-          description
-            "The minimum interval between
-             transmissions of BFD Control packets, as
-             desired by the operator.";
-          reference
-            "RFC 5880: Bidirectional Forwarding
-                       Detection (BFD),
-                       Section 6.8.7";
-        }
-        leaf required-min-rx-interval {
-          type uint32;
-          units "microseconds";
-          default "1000000";
-          description
-            "The minimum interval between received BFD
-             Control packets that the PE should
-             support.";
-          reference
-            "RFC 5880: Bidirectional Forwarding
-                       Detection (BFD),
-                       Section 6.8.7";
-        }
-        leaf local-multiplier {
-          type uint8 {
-            range "1..255";
-          }
-          default "3";
-          description
-            "Specifies the detection multiplier that
-             is transmitted to a BFD peer.
-
-             The detection interval for the receiving
-             BFD peer is calculated by multiplying the
-             value of the negotiated transmission
-             interval by the received detection
-             multiplier value.";
-          reference
-            "RFC 5880: Bidirectional Forwarding
-                       Detection (BFD),
-                       Section 6.8.7";
-        }
-        leaf holdtime {
-          type uint32;
-          units "milliseconds";
-          description
-            "Expected BFD holdtime.
-
-             The customer may impose some fixed
-             values for the holdtime period if the
-             provider allows the customer to use
-             this function.
-
-             If the provider doesn't allow the
-             customer to use this function,
-             fixed values will not be set.";
-          reference
-            "RFC 5880: Bidirectional Forwarding
-                       Detection (BFD),
-                       Section 6.8.18";
-        }
-        /*leaf profile {
-          type leafref {
-            path "/l3vpn-ntw/vpn-profiles"
-               + "/valid-provider-identifiers"
-               + "/bfd-profile-identifier/id";
-          }
-          description
-            "Well-known service provider profile name.
-        
-             The provider can propose some profiles
-             to the customer, depending on the
-             service level the customer wants to
-             achieve.";
-        }*/
+        uses bfd;
         container authentication {
           presence "Enables BFD authentication";
           description
@@ -2210,18 +2604,6 @@ module ietf-ac-ntw {
         choice profile {
           description
             "Choice for the encryption profile.";
-         /* case provider-profile {
-            leaf profile-name {
-              type leafref {
-                path "/l3vpn-ntw/vpn-profiles"
-                   + "/valid-provider-identifiers"
-                   + "/encryption-profile-identifier/id";
-              }
-              description
-                "Name of the service provider's
-                 profile to be applied.";
-            }
-          }*/
           case customer-profile {
             leaf customer-key-chain {
               type key-chain:key-chain-ref;
@@ -2234,34 +2616,53 @@ module ietf-ac-ntw {
     }
   }
 
-  grouping ac-node {
+  augment "/nw:networks/nw:network" {
     description
-      "Grouping for an attachment circuits.";
-    leaf node-id {
-      type string;
+      "Add a list of AC profiles";
+    list ac-profile {
+      key "id";
       description
-        "An identifier of the node id on which this AC is
-         instantiated. The node can be physical or logical.";
+        "maintains a list of AC profiles";
+      leaf id {
+        type string;
+        description
+          "An identifier of the AC.";
+      }
+      uses ac-ntw:ac-profile;
     }
-    leaf local-ac-id {
-      type string;
-      description
-        "The identifier of the AC within the node.";
-    }
-    leaf parent-termination-point {
-      type nt:tp-id;
-      description
-        "Indicates the parent termination point to
-         which the AC is attached to. A termination
-         point can be a physical port, an interface, etc.";
-    }
-    uses ac-nw;
   }
 
-  list ac {
-    key "id";
+  augment "/nw:networks/nw:network/nw:node"
+        + "/sap:service/sap:sap" {
+    when '../../../nw:network-types/sap:sap-network' {
+      description
+        "Augmentation parameters apply only for SAP
+         networks.";
+    }
     description
-      "Global provisining of attachment circuits.";
-    uses ac-node;
+      "Augments SAPs with AC provisioning details.";
+    list ac {
+      key "id";
+      description
+        "List of AC profiles.";
+      leaf id {
+        type string;
+        description
+          "A local AC identifier.";
+      }
+      list ac-profile {
+        key "profile-id";
+        description
+          "List of AC profiles.";
+        leaf profile-id {
+          type leafref {
+            path "/nw:networks/nw:network/ac-profile/id";
+          }
+          description
+            "A reference to an AC profile.";
+        }
+      }
+      uses ac-ntw:ac;
+    }
   }
 }
