@@ -38,7 +38,7 @@ module: ietf-ac-svc
      |  |  +--rw local-address?
      |  |  |       inet:ipv4-address
      |  |  +--rw prefix-length?                                 uint8
-     |  |  +--rw gateway-address?
+     |  |  +--rw virtual-address?    // change name ? and specify the role ==> explain the use case in the description 
      |  |  |       inet:ipv4-address
      |  |  +--rw address-allocation-type?
      |  |  |       identityref
@@ -72,11 +72,11 @@ module: ietf-ac-svc
      |  |        +--rw address* [address-id]
      |  |        |  +--rw address-id          string
      |  |        |  +--rw customer-address?   inet:ipv4-address
-     |  |        +--rw address-pool* [pool-id]
-     |  |        +--rw pool-id          string
-     |  |        +--rw start-address
-     |  |        |       inet:ipv4-address
-     |  |        +--rw end-address?      
+     |  |        +--rw address-pool* [pool-id]                    // choice structure du pool - utilisation de choix ou possibilité d'utiliser static-address et address-pool en meme temps (non overlapping ?)
+     |  |           +--rw pool-id          string
+     |  |           +--rw start-address
+     |  |           |       inet:ipv4-address
+     |  |           +--rw end-address?      
      |  |                                       inet:ipv4-address
 
 //
@@ -105,8 +105,7 @@ module: ietf-ac-svc
      |     |     |  +--rw lan-tag?    string
      |     |     |  +--rw next-hop    union
      |     |     |  +--rw bfd-enable?   boolean
-     |     |     |  +--rw metric?       uint32
-     |     |     |  +--rw preference?   uint32
+     |     |     |  +--rw preference       uint32
 ///
      |     |     |  +--rw status
      |     |     |     +--rw admin-status
@@ -139,7 +138,7 @@ module: ietf-ac-svc
 // Do we want authentication here ?
 //
      |     +--rw bgp
-     |     |  +--rw peer-group*                  string
+     |     |  +--rw peer-group*                  string   //// Use profile instead ????
      |     |     +--rw local-as?                  inet:as-number
      |     |     +--rw peer-as           inet:as-number
      |     |     +--rw address-family?   identityref
