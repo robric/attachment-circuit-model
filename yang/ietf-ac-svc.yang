@@ -843,51 +843,6 @@ module ietf-ac-svc {
              in the routing state calculation and
              path selection.";
         }
-        container sham-links {
-          if-feature "vpn-common:rtg-ospf-sham-link";
-          description
-            "List of sham links.";
-          reference
-            "RFC 4577: OSPF as the Provider/Customer
-                       Edge Protocol for BGP/MPLS IP
-                       Virtual Private Networks
-                       (VPNs), Section 4.2.7
-             RFC 6565: OSPFv3 as a Provider Edge to
-                       Customer Edge (PE-CE) Routing
-                       Protocol, Section 5";
-          list sham-link {
-            key "target-site";
-            description
-              "Creates a sham link with another
-               site.";
-            leaf target-site {
-              type string;
-              description
-                "Target site for the sham link
-                 connection.  The site is referred
-                 to by its identifier.";
-            }
-            leaf metric {
-              type uint16;
-              default "1";
-              description
-                "Metric of the sham link.  It is
-                 used in the routing state
-                 calculation and path selection.
-                 The default value is set to '1'.";
-              reference
-                "RFC 4577: OSPF as the
-                           Provider/Customer Edge
-                           Protocol for BGP/MPLS IP
-                           Virtual Private Networks
-                           (VPNs), Section 4.2.7.3
-                 RFC 6565: OSPFv3 as a Provider Edge
-                           to Customer Edge (PE-CE)
-                           Routing Protocol,
-                           Section 5.2";
-            }
-          }
-        }
         uses vpn-common:service-status;
       }
       container isis {
@@ -1087,10 +1042,33 @@ module ietf-ac-svc {
     }
   }
 
-  list ac {
-    key "id";
+  container provisioning-profiles {
     description
-      "Global provisining of attachment circuits.";
-    uses ac;
+     "Contains a set of valid profiles to reference
+      fro an AC.";
+    uses vpn-common:vpn-profile-cfg;
+  }
+
+  container attachment-circuits {
+    description
+     "XXXX.";
+    list ac-profile {
+      key "id";
+      description
+        "Maintains a list of AC profiles.";
+      leaf id {
+        type string;
+        description
+          "An identifier of the ac-profile.";
+      }
+      //uses ac-ntw:ac-profile;
+    }
+
+    list ac {
+      key "id";
+      description
+        "Global provisioning of attachment circuits.";
+      uses ac;
+    }
   }
 }
