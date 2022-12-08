@@ -7,10 +7,48 @@
 // - Control-plane driven identifiers (e.G. BGP communities)
 //
 
+
+  +--rw provisionning-profile [id]
 module: ietf-ac-svc
+     |  +--rw valid-provider-identifiers
+     |     +--rw external-connectivity-identifier* [id] {external-connectivity}?
+     |     |  +--rw id    string
+     |     +--rw encryption-profile-identifier* [id]
+     |     |  +--rw id    string
+     |     +--rw qos-profile-identifier* [id]
+     |     |  +--rw id    string
+     |     +--rw bfd-profile-identifier* [id]
+     |     |  +--rw id    string
+     |     +--rw forwarding-profile-identifier* [id]
+     |     |  +--rw id    string
+     |     +--rw routing-profile-identifier* [id]
+     |        +--rw id    string
+//
+// global service profile can be a composition of L3NM profiles or generic.
+//
+     |     +--rw service-profile-identifier* [id]  
+     |        +--rw id    string
+//
+// placeholder for a group a set of local ac sharing a same L2/L3 domains (brdige domain + ip connection). This is for the case when ac are on a same node (e.g. TOR/IRB).
+//
+  +--rw ac-group [id]
+  
   +--rw ac-profile [id]
-     +--rw id                   string
      +--rw l2-connection
+     |  +--rw encapsulation
+[...]
+
+
+  +--rw ac [id]
+     +--rw id                   string
+     +--rw ac-profile*           leafref
+//
+// The type of the sap is indicated in the sap model 
+//
+     +--rw peer-sap-id*
+     +--rw l2-connection
+     |  +--rw bearer-reference?          string
+     |          {vpn-common:bearer-reference}?
      |  +--rw encapsulation
      |  |  +--rw type?              identityref
      |  |  +--rw dot1q
@@ -140,12 +178,10 @@ module: ietf-ac-svc
 //
      |     +--rw bgp
      |     |  +--rw peer-group*                  string
-     |     |     +--rw local-as?                  inet:as-number
-     |     |     +--rw peer-as           inet:as-number
-     |     |     +--rw address-family?   identityref
-     |     |     +--rw neighbor*                  inet:ip-address
-     |     |     +--rw peer-group-template?      string
-     |     |        + opaque-policy-parameters ?* string
+     |     |  +--rw peer-as           inet:as-number
+     |     |  +--rw address-family?   identityref
+     |     |  +--rw neighbor*                  inet:ip-address
+           |      +--rw peer-group-ref                  leafref
      |     |  +--rw status
      |     |     +--rw admin-status
      |     |     |  +--rw status?        identityref
