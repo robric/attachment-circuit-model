@@ -73,7 +73,7 @@ Service provider:
 
 # Sample Uses of the Attachment Circuit Data Models
 
-~~~~ aasvg
+~~~~
 ┌───────┐                      ┌──────────────────────┐
 │       ├────────┐             │                      │
 │  CE1  │        │             │                      │
