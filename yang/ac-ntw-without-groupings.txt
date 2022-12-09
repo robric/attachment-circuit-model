@@ -1,6 +1,20 @@
 
 module: ietf-ac-ntw
   augment /nw:networks/nw:network:
+    +--rw specific-provisioning-profiles
+    |  +--rw valid-provider-identifiers
+    |     +--rw external-connectivity-identifier* [id] {external-connectivity}?
+    |     |  +--rw id    string
+    |     +--rw encryption-profile-identifier* [id]
+    |     |  +--rw id    string
+    |     +--rw qos-profile-identifier* [id]
+    |     |  +--rw id    string
+    |     +--rw bfd-profile-identifier* [id]
+    |     |  +--rw id    string
+    |     +--rw forwarding-profile-identifier* [id]
+    |     |  +--rw id    string
+    |     +--rw routing-profile-identifier* [id]
+    |        +--rw id    string
     +--rw ac-profile* [id]
        +--rw id                   string
        +--rw l2-connection
@@ -70,6 +84,8 @@ module: ietf-ac-ntw
        |     |  +--rw allow-own-as?             uint8
        |     |  +--rw prepend-global-as?        boolean
        |     |  +--rw send-default-route?       boolean
+       |     |  +--rw site-of-origin?           rt-types:route-origin
+       |     |  +--rw ipv6-site-of-origin?      rt-types:ipv6-route-origin
        |     |  +--rw redistribute-connected* [address-family]
        |     |  |  +--rw address-family    identityref
        |     |  |  +--rw enable?           boolean
@@ -236,8 +252,11 @@ module: ietf-ac-ntw
        |              +--rw customer-address?   inet:ipv6-address
        +--rw routing-protocols
        |  +--rw routing-protocol* [id]
-       |     +--rw id        string
-       |     +--rw type?     identityref
+       |     +--rw id                  string
+       |     +--rw type?               identityref
+       |     +--rw routing-profiles* [id]
+       |     |  +--rw id      -> /nw:networks/network/ac-ntw:specific-provisioning-profiles/valid-provider-identifiers/routing-profile-identifier/id
+       |     |  +--rw type?   identityref
        |     +--rw static
        |     |  +--rw cascaded-lan-prefixes
        |     |     +--rw ipv4-lan-prefixes* [lan next-hop] {vpn-common:ipv4}?
@@ -269,52 +288,95 @@ module: ietf-ac-ntw
        |     |              +--ro status?        identityref
        |     |              +--ro last-change?   yang:date-and-time
        |     +--rw bgp
-       |     |  +--rw description?              string
-       |     |  +--rw local-as?                 inet:as-number
-       |     |  +--rw peer-as                   inet:as-number
-       |     |  +--rw address-family?           identityref
-       |     |  +--rw local-address?            union
-       |     |  +--rw neighbor*                 inet:ip-address
-       |     |  +--rw multihop?                 uint8
-       |     |  +--rw as-override?              boolean
-       |     |  +--rw allow-own-as?             uint8
-       |     |  +--rw prepend-global-as?        boolean
-       |     |  +--rw send-default-route?       boolean
-       |     |  +--rw site-of-origin?           rt-types:route-origin
-       |     |  +--rw ipv6-site-of-origin?      rt-types:ipv6-route-origin
-       |     |  +--rw redistribute-connected* [address-family]
-       |     |  |  +--rw address-family    identityref
-       |     |  |  +--rw enable?           boolean
-       |     |  +--rw bgp-max-prefix
-       |     |  |  +--rw max-prefix?          uint32
-       |     |  |  +--rw warning-threshold?   decimal64
-       |     |  |  +--rw violate-action?      enumeration
-       |     |  |  +--rw restart-timer?       uint32
-       |     |  +--rw bgp-timers
-       |     |  |  +--rw keepalive?   uint16
-       |     |  |  +--rw hold-time?   uint16
-       |     |  +--rw authentication
-       |     |  |  +--rw enable?            boolean
-       |     |  |  +--rw keying-material
-       |     |  |     +--rw (option)?
-       |     |  |        +--:(ao)
-       |     |  |        |  +--rw enable-ao?          boolean
-       |     |  |        |  +--rw ao-keychain?        key-chain:key-chain-ref
-       |     |  |        +--:(md5)
-       |     |  |        |  +--rw md5-keychain?       key-chain:key-chain-ref
-       |     |  |        +--:(explicit)
-       |     |  |        |  +--rw key-id?             uint32
-       |     |  |        |  +--rw key?                string
-       |     |  |        |  +--rw crypto-algorithm?   identityref
-       |     |  |        +--:(ipsec)
-       |     |  |           +--rw sa?                 string
-       |     |  +--rw status
-       |     |     +--rw admin-status
-       |     |     |  +--rw status?        identityref
-       |     |     |  +--rw last-change?   yang:date-and-time
-       |     |     +--ro oper-status
-       |     |        +--ro status?        identityref
-       |     |        +--ro last-change?   yang:date-and-time
+       |     |  +--rw peer-groups
+       |     |  |  +--rw peer-group* [name]
+       |     |  |     +--rw name                      string
+       |     |  |     +--rw local-address?            union
+       |     |  |     +--rw description?              string
+       |     |  |     +--rw local-as?                 inet:as-number
+       |     |  |     +--rw peer-as                   inet:as-number
+       |     |  |     +--rw address-family?           identityref
+       |     |  |     +--rw multihop?                 uint8
+       |     |  |     +--rw as-override?              boolean
+       |     |  |     +--rw allow-own-as?             uint8
+       |     |  |     +--rw prepend-global-as?        boolean
+       |     |  |     +--rw send-default-route?       boolean
+       |     |  |     +--rw site-of-origin?           rt-types:route-origin
+       |     |  |     +--rw ipv6-site-of-origin?      rt-types:ipv6-route-origin
+       |     |  |     +--rw redistribute-connected* [address-family]
+       |     |  |     |  +--rw address-family    identityref
+       |     |  |     |  +--rw enable?           boolean
+       |     |  |     +--rw bgp-max-prefix
+       |     |  |     |  +--rw max-prefix?          uint32
+       |     |  |     |  +--rw warning-threshold?   decimal64
+       |     |  |     |  +--rw violate-action?      enumeration
+       |     |  |     |  +--rw restart-timer?       uint32
+       |     |  |     +--rw bgp-timers
+       |     |  |     |  +--rw keepalive?   uint16
+       |     |  |     |  +--rw hold-time?   uint16
+       |     |  |     +--rw authentication
+       |     |  |        +--rw enable?            boolean
+       |     |  |        +--rw keying-material
+       |     |  |           +--rw (option)?
+       |     |  |              +--:(ao)
+       |     |  |              |  +--rw enable-ao?          boolean
+       |     |  |              |  +--rw ao-keychain?        key-chain:key-chain-ref
+       |     |  |              +--:(md5)
+       |     |  |              |  +--rw md5-keychain?       key-chain:key-chain-ref
+       |     |  |              +--:(explicit)
+       |     |  |              |  +--rw key-id?             uint32
+       |     |  |              |  +--rw key?                string
+       |     |  |              |  +--rw crypto-algorithm?   identityref
+       |     |  |              +--:(ipsec)
+       |     |  |                 +--rw sa?                 string
+       |     |  +--rw neighbor* [remote-address]
+       |     |     +--rw remote-address            inet:ip-address
+       |     |     +--rw local-address?            union
+       |     |     +--rw peer-group?               -> ../../peer-groups/peer-group/name
+       |     |     +--rw description?              string
+       |     |     +--rw local-as?                 inet:as-number
+       |     |     +--rw peer-as                   inet:as-number
+       |     |     +--rw address-family?           identityref
+       |     |     +--rw multihop?                 uint8
+       |     |     +--rw as-override?              boolean
+       |     |     +--rw allow-own-as?             uint8
+       |     |     +--rw prepend-global-as?        boolean
+       |     |     +--rw send-default-route?       boolean
+       |     |     +--rw site-of-origin?           rt-types:route-origin
+       |     |     +--rw ipv6-site-of-origin?      rt-types:ipv6-route-origin
+       |     |     +--rw redistribute-connected* [address-family]
+       |     |     |  +--rw address-family    identityref
+       |     |     |  +--rw enable?           boolean
+       |     |     +--rw bgp-max-prefix
+       |     |     |  +--rw max-prefix?          uint32
+       |     |     |  +--rw warning-threshold?   decimal64
+       |     |     |  +--rw violate-action?      enumeration
+       |     |     |  +--rw restart-timer?       uint32
+       |     |     +--rw bgp-timers
+       |     |     |  +--rw keepalive?   uint16
+       |     |     |  +--rw hold-time?   uint16
+       |     |     +--rw authentication
+       |     |     |  +--rw enable?            boolean
+       |     |     |  +--rw keying-material
+       |     |     |     +--rw (option)?
+       |     |     |        +--:(ao)
+       |     |     |        |  +--rw enable-ao?          boolean
+       |     |     |        |  +--rw ao-keychain?        key-chain:key-chain-ref
+       |     |     |        +--:(md5)
+       |     |     |        |  +--rw md5-keychain?       key-chain:key-chain-ref
+       |     |     |        +--:(explicit)
+       |     |     |        |  +--rw key-id?             uint32
+       |     |     |        |  +--rw key?                string
+       |     |     |        |  +--rw crypto-algorithm?   identityref
+       |     |     |        +--:(ipsec)
+       |     |     |           +--rw sa?                 string
+       |     |     +--rw status
+       |     |        +--rw admin-status
+       |     |        |  +--rw status?        identityref
+       |     |        |  +--rw last-change?   yang:date-and-time
+       |     |        +--ro oper-status
+       |     |           +--ro status?        identityref
+       |     |           +--ro last-change?   yang:date-and-time
        |     +--rw ospf
        |     |  +--rw address-family?   identityref
        |     |  +--rw area-id           yang:dotted-quad
@@ -406,6 +468,7 @@ module: ietf-ac-ntw
        |              +--ro last-change?   yang:date-and-time
        +--rw oam
        |  +--rw bfd
+       |     +--rw profile?                    -> /nw:networks/network/ac-ntw:specific-provisioning-profiles/valid-provider-identifiers/bfd-profile-identifier/id
        |     +--rw session-type?               identityref
        |     +--rw desired-min-tx-interval?    uint32
        |     +--rw required-min-rx-interval?   uint32
@@ -427,5 +490,7 @@ module: ietf-ac-ntw
           |  +--rw layer?     enumeration
           +--rw encryption-profile
              +--rw (profile)?
+                +--:(provider-profile)
+                |  +--rw profile-name?         -> /nw:networks/network/ac-ntw:specific-provisioning-profiles/valid-provider-identifiers/encryption-profile-identifier/id
                 +--:(customer-profile)
                    +--rw customer-key-chain?   key-chain:key-chain-ref
