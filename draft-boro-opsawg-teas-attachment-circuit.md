@@ -21,18 +21,22 @@ author:
     fullname: Mohamed Boucadair
     organization: Orange
     email: mohamed.boucadair@orange.com
+
  -
     fullname: Richard Roberts
     organization: Juniper
     email: rroberts@juniper.net
--
-    fullname: Oscar González de Dios
+
+ -
+    fullname: Oscar Gonzalez de Dios
     organization: Telefonica
     email: oscar.gonzalezdedios@telefonica.com
--
+
+ -
     fullname: Samier Barguil Giraldo
     organization: Nokia
     email: samier.barguil_giraldo@nokia.com
+
 normative:
 
 informative:
