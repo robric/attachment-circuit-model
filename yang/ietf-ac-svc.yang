@@ -78,7 +78,8 @@ module ietf-ac-svc {
   grouping l2-connection-profile {
     description
       "Defines Layer 2 protocols and parameters that
-       are required to enable AC connectivity.";
+       can be factorized when provisioning Layer 2
+       connectivity.";
     container encapsulation {
       description
         "Container for Layer 2 encapsulation.";
@@ -174,7 +175,7 @@ module ietf-ac-svc {
   grouping l2-connection {
     description
       "Defines Layer 2 protocols and parameters that
-       are required to enable AC connectivity.";
+       are used to enable AC connectivity.";
     container encapsulation {
       description
         "Container for Layer 2 encapsulation.";
@@ -310,9 +311,8 @@ module ietf-ac-svc {
             description
               "Neighbor reference.";
             reference
-              "RFC 8077: Pseudowire Setup and
-                         Maintenance Using the Label
-                         Distribution Protocol
+              "RFC 8077: Pseudowire Setup and Maintenance
+                         Using the Label Distribution Protocol
                          (LDP), Section 6.1";
           }
         }
@@ -361,8 +361,7 @@ module ietf-ac-svc {
             default "vpn-common:static-mode";
             description
               "Specifies the VXLAN access mode.  By
-               default, the peer mode is set to
-               'static-mode'.";
+               default, the peer mode is set to 'static-mode'.";
           }
           leaf-list peer-ip-address {
             type inet:ip-address;
@@ -385,9 +384,9 @@ module ietf-ac-svc {
       if-feature "vpn-common:bearer-reference";
       type string;
       description
-        "This is an internal reference for the
+        "This is an internal reference for the 
          service provider to identify the bearer
-         associated with this VPN.";
+         associated with this AC.";
     }
   }
 
@@ -401,8 +400,7 @@ module ietf-ac-svc {
       leaf local-address {
         type inet:ipv4-address;
         description
-          "The IP address used at the provider's
-           interface.";
+          "The IP address used at the provider's interface.";
       }
       leaf prefix-length {
         type uint8 {
@@ -449,53 +447,42 @@ module ietf-ac-svc {
                 type uint16;
                 default "1";
                 description
-                  "Specifies the number of IP
-                   addresses to be assigned to
-                   the customer on this
-                   access.";
+                  "Specifies the number of IP addresses to be
+                   assigned to the customer on this access.";
               }
             }
             case explicit {
               container customer-addresses {
                 description
-                  "Container for customer
-                   addresses to be allocated
+                  "Container for customer addresses to be allocated
                    using DHCP.";
                 list address-pool {
                   key "pool-id";
                   description
-                    "Describes IP addresses to
-                     be dyncamically allocated.
+                    "Describes IP addresses to be dyncamically allocated.
 
-                     When only 'start-address'
-                     is present, it represents a
+                     When only 'start-address' is present, it represents a
                      single address.
 
-                     When both 'start-address'
-                     and 'end-address' are
-                     specified, it implies a
-                     range inclusive of both
+                     When both 'start-address' and 'end-address' are
+                     specified, it implies a range inclusive of both
                      addresses.";
                   leaf pool-id {
                     type string;
                     description
-                      "A pool identifier for the
-                       address range from
-                       'start-address' to
-                       'end-address'.";
+                      "A pool identifier for the address range from
+                       'start-address' to 'end-address'.";
                   }
                   leaf start-address {
                     type inet:ipv4-address;
                     mandatory true;
                     description
-                      "Indicates the first
-                       address in the pool.";
+                      "Indicates the first address in the pool.";
                   }
                   leaf end-address {
                     type inet:ipv4-address;
                     description
-                      "Indicates the last
-                       address in the pool.";
+                      "Indicates the last address in the pool.";
                   }
                 }
               }
@@ -516,8 +503,7 @@ module ietf-ac-svc {
                 enum relay {
                   description
                     "Local DHCP relay.  DHCP requests
-                     are relayed to a provider's
-                     server.";
+                     are relayed to a provider's server.";
                 }
               }
               description
@@ -527,17 +513,14 @@ module ietf-ac-svc {
           }
           choice dhcp-relay {
             description
-              "The DHCP relay is provided by the
-               operator.";
+              "The DHCP relay is provided by the operator.";
             container customer-dhcp-servers {
               description
-                "Container for a list of the
-                 customer's DHCP servers.";
+                "Container for a list of the customer's DHCP servers.";
               leaf-list server-ip-address {
                 type inet:ipv4-address;
                 description
-                  "IPv4 addresses of the customer's
-                   DHCP server.";
+                  "IPv4 addresses of the customer's DHCP server.";
               }
             }
           }
@@ -556,19 +539,16 @@ module ietf-ac-svc {
           list address {
             key "address-id";
             description
-              "Lists the IPv4 addresses that are
-               used.";
+              "Lists the IPv4 addresses that are used.";
             leaf address-id {
               type string;
               description
-                "An identifier of the static IPv4
-                 address.";
+                "An identifier of the static IPv4 address.";
             }
             leaf customer-address {
               type inet:ipv4-address;
               description
-                "An IPv4 address of the customer
-                 side.";
+                "An IPv4 address of the customer side.";
             }
           }
         }
@@ -612,60 +592,48 @@ module ietf-ac-svc {
           choice address-assign {
             default "number";
             description
-              "A choice for how IPv6 addresses
-               are assigned.";
+              "A choice for how IPv6 addresses are assigned.";
             case number {
               leaf number-of-dynamic-address {
                 type uint16;
                 default "1";
                 description
-                  "Specifies the number of IP
-                   addresses to be assigned to
-                   the customer on this
-                   access.";
+                  "Specifies the number of IP addresses to be assigned to
+                   the customer on this access.";
               }
             }
             case explicit {
               container customer-addresses {
                 description
-                  "Container for customer
-                   addresses to be allocated
+                  "Container for customer addresses to be allocated
                    using DHCP.";
                 list address-pool {
                   key "pool-id";
                   description
-                    "Describes IP addresses to
-                     be dyncamically allocated.
+                    "Describes IP addresses to be dyncamically allocated.
 
-                     When only 'start-address'
-                     is present, it represents a
+                     When only 'start-address' is present, it represents a
                      single address.
 
-                     When both 'start-address'
-                     and 'end-address' are
-                     specified, it implies a
-                     range inclusive of both
+                     When both 'start-address' and 'end-address' are
+                     specified, it implies a range inclusive of both 
                      addresses.";
                   leaf pool-id {
                     type string;
                     description
-                      "A pool identifier for the
-                       address range from
-                       'start-address' to
-                       'end-address'.";
+                      "A pool identifier for the address range from
+                       'start-address' to 'end-address'.";
                   }
                   leaf start-address {
                     type inet:ipv6-address;
                     mandatory true;
                     description
-                      "Indicates the first
-                       address in the pool.";
+                      "Indicates the first address in the pool.";
                   }
                   leaf end-address {
                     type inet:ipv6-address;
                     description
-                      "Indicates the last
-                       address in the pool.";
+                      "Indicates the last address in the pool.";
                   }
                 }
               }
@@ -673,10 +641,9 @@ module ietf-ac-svc {
           }
           choice provider-dhcp {
             description
-              "Parameters related to DHCP-allocated
-               addresses. IP addresses are allocated
-               by DHCP, which is provided by the
-               operator.";
+              "Parameters related to DHCP-allocated addresses. 
+               IP addresses are allocated by DHCP, which is provided
+               by the operator.";
             leaf dhcp-service-type {
               type enumeration {
                 enum server {
@@ -686,8 +653,7 @@ module ietf-ac-svc {
                 enum relay {
                   description
                     "Local DHCP relay.  DHCP requests
-                     are relayed to a provider's
-                     server.";
+                     are relayed to a provider's server.";
                 }
               }
               description
@@ -697,25 +663,21 @@ module ietf-ac-svc {
           }
           choice dhcp-relay {
             description
-              "The DHCP relay is provided by the
-               operator.";
+              "The DHCP relay is provided by the operator.";
             container customer-dhcp-servers {
               description
-                "Container for a list of the
-                 customer's DHCP servers.";
+                "Container for a list of the customer's DHCP servers.";
               leaf-list server-ip-address {
                 type inet:ipv6-address;
                 description
-                  "IPv6 addresses of the customer's
-                   DHCP server.";
+                  "IPv6 addresses of the customer's DHCP server.";
               }
             }
           }
         }
         case static-addresses {
           description
-            "Lists the IPv6 addresses that are
-             used.";
+            "Lists the IPv6 addresses that are used.";
           leaf primary-address {
             type leafref {
               path "../address/address-id";
@@ -726,19 +688,16 @@ module ietf-ac-svc {
           list address {
             key "address-id";
             description
-              "Lists the IPv6 addresses that are
-               used.";
+              "Lists the IPv6 addresses that are used.";
             leaf address-id {
               type string;
               description
-                "An identifier of the static IPv6
-                 address.";
+                "An identifier of the static IPv6 address.";
             }
             leaf customer-address {
               type inet:ipv6-address;
               description
-                "An IPv6 address of the customer
-                 side.";
+                "An IPv6 address of the customer side.";
             }
           }
         }
@@ -759,8 +718,7 @@ module ietf-ac-svc {
       leaf id {
         type string;
         description
-          "Unique identifier for the routing
-           protocol.";
+          "Unique identifier for the routing protocol.";
       }
       leaf type {
         type identityref {
@@ -794,8 +752,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:bgp-routing')" {
           description
-            "Only applies when the protocol is
-             BGP.";
+            "Only applies when the protocol is BGP.";
         }
         description
           "Configuration specific to BGP.";
@@ -826,8 +783,7 @@ module ietf-ac-svc {
               description
                 "This node contains the address families
                  to be activated.  'dual-stack' means
-                 that both IPv4 and IPv6 will be
-                 activated.";
+                 that both IPv4 and IPv6 will be activated.";
             }
           }
         }
@@ -836,8 +792,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:ospf-routing')" {
           description
-            "Only applies when the protocol is
-             OSPF.";
+            "Only applies when the protocol is OSPF.";
         }
         description
           "Configuration specific to OSPF.";
@@ -876,8 +831,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:isis-routing')" {
           description
-            "Only applies when the protocol is
-             IS-IS.";
+            "Only applies when the protocol is IS-IS.";
         }
         description
           "Configuration specific to IS-IS.";
@@ -920,14 +874,13 @@ module ietf-ac-svc {
            + "'vpn-common:vrrp-routing')" {
           description
             "Only applies when the protocol is the
-             Virtual Router Redundancy Protocol
-             (VRRP).";
+             Virtual Router Redundancy Protocol (VRRP).";
         }
         description
           "Configuration specific to VRRP.";
         reference
           "RFC 5798: Virtual Router Redundancy
-                     Protocol (VRRP) Version 3 for
+                     Protocol (VRRP) Version 3 for 
                      IPv4 and IPv6";
         leaf address-family {
           type identityref {
@@ -952,8 +905,7 @@ module ietf-ac-svc {
       leaf id {
         type string;
         description
-          "Unique identifier for the routing
-           protocol.";
+          "Unique identifier for the routing protocol.";
       }
       leaf type {
         type identityref {
@@ -1062,8 +1014,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:bgp-routing')" {
           description
-            "Only applies when the protocol is
-             BGP.";
+            "Only applies when the protocol is BGP.";
         }
         description
           "Configuration specific to BGP.";
@@ -1078,7 +1029,7 @@ module ietf-ac-svc {
             leaf name {
               type string;
               description
-                "Name of the BGP peer-group";
+                "Name of the BGP peer-group.";
             }
             leaf peer-as {
               type inet:as-number;
@@ -1094,8 +1045,7 @@ module ietf-ac-svc {
               description
                 "This node contains the address families
                  to be activated.  'dual-stack' means
-                 that both IPv4 and IPv6 will be
-                 activated.";
+                 that both IPv4 and IPv6 will be activated.";
             }
           }
         }
@@ -1130,8 +1080,7 @@ module ietf-ac-svc {
             description
               "This node contains the address families
                to be activated.  'dual-stack' means
-               that both IPv4 and IPv6 will be
-               activated.";
+               that both IPv4 and IPv6 will be activated.";
           }
           uses vpn-common:service-status;
         }
@@ -1140,8 +1089,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:ospf-routing')" {
           description
-            "Only applies when the protocol is
-             OSPF.";
+            "Only applies when the protocol is OSPF.";
         }
         description
           "Configuration specific to OSPF.";
@@ -1181,8 +1129,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:isis-routing')" {
           description
-            "Only applies when the protocol is
-             IS-IS.";
+            "Only applies when the protocol is IS-IS.";
         }
         description
           "Configuration specific to IS-IS.";
@@ -1227,15 +1174,13 @@ module ietf-ac-svc {
            + "'vpn-common:vrrp-routing')" {
           description
             "Only applies when the protocol is the
-             Virtual Router Redundancy Protocol
-             (VRRP).";
+             Virtual Router Redundancy Protocol (VRRP).";
         }
         description
           "Configuration specific to VRRP.";
         reference
-          "RFC 5798: Virtual Router Redundancy
-                     Protocol (VRRP) Version 3 for
-                     IPv4 and IPv6";
+          "RFC 5798: Virtual Router Redundancy Protocol (VRRP)
+                      Version 3 for IPv4 and IPv6";
         leaf address-family {
           type identityref {
             base vpn-common:address-family;
@@ -1295,18 +1240,15 @@ module ietf-ac-svc {
           description
             "Expected BFD holdtime.
 
-             The customer may impose some fixed
-             values for the holdtime period if the
-             provider allows the customer to use
-             this function.
+             The customer may impose some fixed values
+             for the holdtime period if the provider allows
+             the customer to use this function.
 
-             If the provider doesn't allow the
-             customer to use this function,
-             fixed values will not be set.";
+             If the provider doesn't allow the customer to
+             use this function, fixed values will not be set.";
           reference
             "RFC 5880: Bidirectional Forwarding
-                       Detection (BFD),
-                       Section 6.8.18";
+                       Detection (BFD), Section 6.8.18";
         }
         uses vpn-common:service-status;
       }
@@ -1330,8 +1272,7 @@ module ietf-ac-svc {
         leaf layer {
           when "../enabled = 'true'" {
             description
-              "Included only when encryption
-               is enabled.";
+              "Included only when encryption is enabled.";
           }
           type enumeration {
             enum layer2 {
@@ -1342,8 +1283,7 @@ module ietf-ac-svc {
               description
                 "Encryption occurs at Layer 3.
                  For example, IPsec may be used when
-                 a customer requests Layer 3
-                 encryption.";
+                 a customer requests Layer 3 encryption.";
             }
           }
           description
@@ -1419,18 +1359,15 @@ module ietf-ac-svc {
           description
             "Expected BFD holdtime.
 
-             The customer may impose some fixed
-             values for the holdtime period if the
-             provider allows the customer to use
-             this function.
+             The customer may impose some fixed values 
+             for the holdtime period if the provider allows 
+             the customer to use this function.
 
-             If the provider doesn't allow the
-             customer to use this function,
-             fixed values will not be set.";
+             If the provider doesn't allow the customer to use
+             this function, fixed values will not be set.";
           reference
             "RFC 5880: Bidirectional Forwarding
-                       Detection (BFD),
-                       Section 6.8.18";
+                       Detection (BFD), Section 6.8.18";
         }
       }
     }
@@ -1453,8 +1390,7 @@ module ietf-ac-svc {
         leaf layer {
           when "../enabled = 'true'" {
             description
-              "Included only when encryption
-               is enabled.";
+              "Included only when encryption is enabled.";
           }
           type enumeration {
             enum layer2 {
@@ -1522,7 +1458,7 @@ module ietf-ac-svc {
   }
   container attachment-circuits {
     description
-      "XXXX.";
+      "Main container for the attachment circuits.";
     list ac-global-profile {
       key "id";
       description
@@ -1532,7 +1468,7 @@ module ietf-ac-svc {
     list ac-node-group {
       key "id";
       description
-        "Maintains a list of AC profiles.";
+        "Maintains a list of per-node AC profiles.";
       leaf id {
         type string;
         description
@@ -1585,12 +1521,19 @@ module ietf-ac-svc {
         description
           "One or more peer SAPs can be indicated.";
       }
-      leaf-list profile-id {
+      leaf-list ac-global-profile {
         type leafref {
           path "/attachment-circuits/ac-global-profile/id";
         }
         description
           "A reference to an AC profile.";
+      }
+      leaf-list ac-node-profile {
+        type leafref {
+          path "/attachment-circuits/ac-node-group/id";
+        }
+        description
+          "A reference to a per-node AC profile.";
       }
       uses ac;
     }
