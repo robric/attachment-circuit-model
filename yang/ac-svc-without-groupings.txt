@@ -69,16 +69,16 @@ module: ietf-ac-svc
      |              +--rw customer-key-chain?   key-chain:key-chain-ref
      +--rw ac-node-group* [id]
      |  +--rw id    string
-     +--rw ac* [id]
-        +--rw customer-name?        string
-        +--rw description?          string
-        +--rw requested-ac-start?   yang:date-and-time
-        +--rw requested-ac-stop?    yang:date-and-time
-        +--ro actual-ac-start?      yang:date-and-time
-        +--ro actual-ac-stop?       yang:date-and-time
-        +--rw peer-sap-id*          string
-        +--rw profile-id*           -> /attachment-circuits/ac-global-profile/id
-        +--rw id                    string
+     +--rw ac* [attachment-circuit-id]
+        +--rw customer-name?           string
+        +--rw description?             string
+        +--rw requested-ac-start?      yang:date-and-time
+        +--rw requested-ac-stop?       yang:date-and-time
+        +--ro actual-ac-start?         yang:date-and-time
+        +--ro actual-ac-stop?          yang:date-and-time
+        +--rw peer-sap-id*             string
+        +--rw profile-id*              -> /attachment-circuits/ac-global-profile/id
+        +--rw attachment-circuit-id    string
         +--rw l2-connection
         |  +--rw encapsulation
         |  |  +--rw type?              identityref
