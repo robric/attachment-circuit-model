@@ -463,7 +463,7 @@ INSERT HER
 ~~~~
 
 ~~~~~~~~~~
-{::include ../yang/ietf-ac-svc.yang}
+{::include ./yang/ietf-ac-svc.yang}
 ~~~~~~~~~~
 
 
