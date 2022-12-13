@@ -176,19 +176,43 @@ module: ietf-ac-svc
 // We also provide a placeholder to be populated with adequate parameters. The logic of the policy is 
 // Do we want authentication here ?
 //
+// + Adding local-address (i.e PE address), in case we have a loopback on the PE that must be learnt by the customer orchestrator ??
+/// Question: should have both a profile (policy) and peer-group (more a config) 
+///
+/// example: profile + peer-group version 
+///
      |     +--rw bgp
-     |     |  +--rw peer-group*                  string
-     |     |  +--rw peer-as           inet:as-number
-     |     |  +--rw address-family?   identityref
+     |     |  +--rw peer-group*          string
+     |     |     +--rw peer-as           inet:as-number
+     |     |     +--rw address-family?   identityref
+     |     |     +--rw local-address     string
+     |     |     +--rw bgp-neighbor-profile?        string
      |     |  +--rw neighbor*                  inet:ip-address
-           |      +--rw peer-group-ref                  leafref
-     |     |  +--rw status
-     |     |     +--rw admin-status
-     |     |     |  +--rw status?        identityref
-     |     |     |  +--rw last-change?   yang:date-and-time
-     |     |     +--ro oper-status
-     |     |        +--ro status?        identityref
-     |     |        +--ro last-change?   yang:date-and-time
+     |     |     +--rw peer-group?               leafref
+     |     |     +--rw status
+     |     |        +--rw admin-status
+     |     |        |  +--rw status?        identityref
+     |     |        |  +--rw last-change?   yang:date-and-time
+     |     |        +--ro oper-status
+     |     |           +--ro status?        identityref
+     |     |           +--ro last-change?   yang:date-and-time
+
+/// just profile  version ====> looks leaner (we can have then think of  profile-pg1 /  profile-pg2 to map a peer-group logic within the Controller).
+
+     |     +--rw bgp
+     |     |  +--rw neighbor*                  inet:ip-address
+     |     |     +--rw peer-as           inet:as-number
+     |     |     +--rw address-family?   identityref
+     |     |     +--rw local-address?     string
+     |     |     +--rw bgp-neighbor-profile?        string
+     |     |     +--rw status
+     |     |        +--rw admin-status
+     |     |        |  +--rw status?        identityref
+     |     |        |  +--rw last-change?   yang:date-and-time
+     |     |        +--ro oper-status
+     |     |           +--ro status?        identityref
+     |     |           +--ro last-change?   yang:date-and-time
+     
 // ospf:
 // authentication ?
      |     +--rw ospf
