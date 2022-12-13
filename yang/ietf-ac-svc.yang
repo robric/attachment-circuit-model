@@ -1252,7 +1252,7 @@ module ietf-ac-svc {
   grouping ac {
     description
       "Grouping for an attachment circuit.";
-    leaf id {
+    leaf attachment-circuit-id {
       type string;
       description
         "An identifier of the AC.";
@@ -1540,7 +1540,7 @@ module ietf-ac-svc {
       }
     }
     list ac {
-      key "id";
+      key "attachment-circuit-id";
       description
         "Global provisioning of attachment circuits.";
       leaf customer-name {
