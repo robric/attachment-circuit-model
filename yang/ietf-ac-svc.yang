@@ -64,7 +64,112 @@ module ietf-ac-svc {
       "RFC xxxx: A YANG Data Model for Attachment Circuits";
   }
 
+  // Identities 
+
+  identity dynamic-infra {
+    base l3nm:address-allocation-type;
+    description
+      "The IP address is dynamically allocated by the hosting
+       infrastrcture.";
+  }
+
   // L2 conenction
+
+  grouping l2-connection-profile {
+    description
+      "Defines Layer 2 protocols and parameters that
+       are required to enable AC connectivity.";
+    container encapsulation {
+      description
+        "Container for Layer 2 encapsulation.";
+      leaf type {
+        type identityref {
+          base vpn-common:encapsulation-type;
+        }
+        default "vpn-common:priority-tagged";
+        description
+          "Encapsulation type.  By default, the type
+           of the tagged interface is
+           'priority-tagged'.";
+      }
+      container dot1q {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:dot1q')" {
+          description
+            "Only applies when the type of the
+             tagged interface is 'dot1q'.";
+        }
+        description
+          "Tagged interface.";
+        leaf tag-type {
+          type identityref {
+            base vpn-common:tag-type;
+          }
+          default "vpn-common:c-vlan";
+          description
+            "Tag type.  By default, the tag type is
+             'c-vlan'.";
+        }
+        leaf cvlan-id {
+          type uint16 {
+            range "1..4094";
+          }
+          description
+            "VLAN identifier.";
+        }
+      }
+      container priority-tagged {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:priority-tagged')" {
+          description
+            "Only applies when the type of
+             the tagged interface is
+             'priority-tagged'.";
+        }
+        description
+          "Priority tagged.";
+        leaf tag-type {
+          type identityref {
+            base vpn-common:tag-type;
+          }
+          default "vpn-common:c-vlan";
+          description
+            "Tag type.  By default, the tag type is
+             'c-vlan'.";
+        }
+      }
+      container qinq {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:qinq')" {
+          description
+            "Only applies when the type of the
+             tagged interface is 'qinq'.";
+        }
+        description
+          "Includes QinQ parameters.";
+        leaf tag-type {
+          type identityref {
+            base vpn-common:tag-type;
+          }
+          default "vpn-common:s-c-vlan";
+          description
+            "Tag type.";
+        }
+        leaf svlan-id {
+          type uint16;
+          mandatory true;
+          description
+            "Service VLAN (S-VLAN) identifier.";
+        }
+        leaf cvlan-id {
+          type uint16;
+          mandatory true;
+          description
+            "Customer VLAN (C-VLAN) identifier.";
+        }
+      }
+    }
+  }
 
   grouping l2-connection {
     description
@@ -330,130 +435,110 @@ module ietf-ac-svc {
       choice allocation-type {
         description
           "Choice of the IPv4 address allocation.";
-        case provider-dhcp {
+        case dynamic {
           description
-            "Parameters related to DHCP-allocated
-             addresses.  IP addresses are allocated
-             by DHCP, which is provided by the
-             operator.";
-          leaf dhcp-service-type {
-            type enumeration {
-              enum server {
+            "When the addresses are allocated by DHCP or other
+             dynamic means local to the infrastructure.";
+          choice address-assign {
+            default "number";
+            description
+              "A choice for how IPv4 addresses
+               are assigned.";
+            case number {
+              leaf number-of-dynamic-address {
+                type uint16;
+                default "1";
                 description
-                  "Local DHCP server.";
-              }
-              enum relay {
-                description
-                  "Local DHCP relay.  DHCP requests
-                   are relayed to a provider's
-                   server.";
+                  "Specifies the number of IP
+                   addresses to be assigned to
+                   the customer on this
+                   access.";
               }
             }
-            description
-              "Indicates the type of DHCP service to
-               be enabled on this access.";
+            case explicit {
+              container customer-addresses {
+                description
+                  "Container for customer
+                   addresses to be allocated
+                   using DHCP.";
+                list address-pool {
+                  key "pool-id";
+                  description
+                    "Describes IP addresses to
+                     be dyncamically allocated.
+
+                     When only 'start-address'
+                     is present, it represents a
+                     single address.
+
+                     When both 'start-address'
+                     and 'end-address' are
+                     specified, it implies a
+                     range inclusive of both
+                     addresses.";
+                  leaf pool-id {
+                    type string;
+                    description
+                      "A pool identifier for the
+                       address range from
+                       'start-address' to
+                       'end-address'.";
+                  }
+                  leaf start-address {
+                    type inet:ipv4-address;
+                    mandatory true;
+                    description
+                      "Indicates the first
+                       address in the pool.";
+                  }
+                  leaf end-address {
+                    type inet:ipv4-address;
+                    description
+                      "Indicates the last
+                       address in the pool.";
+                  }
+                }
+              }
+            }
           }
-          choice service-type {
+          choice provider-dhcp {
             description
-              "Choice based on the DHCP service
-               type.";
-            case relay {
+              "Parameters related to DHCP-allocated
+               addresses. IP addresses are allocated
+               by DHCP, which is provided by the
+               operator.";
+            leaf dhcp-service-type {
+              type enumeration {
+                enum server {
+                  description
+                    "Local DHCP server.";
+                }
+                enum relay {
+                  description
+                    "Local DHCP relay.  DHCP requests
+                     are relayed to a provider's
+                     server.";
+                }
+              }
+              description
+                "Indicates the type of DHCP service to
+                 be enabled on this access.";
+            }
+          }
+          choice dhcp-relay {
+            description
+              "The DHCP relay is provided by the
+               operator.";
+            container customer-dhcp-servers {
               description
                 "Container for a list of the
-                 provider's DHCP servers (i.e.,
-                 'dhcp-service-type' is set to
-                 'relay').";
+                 customer's DHCP servers.";
               leaf-list server-ip-address {
                 type inet:ipv4-address;
                 description
-                  "IPv4 addresses of the provider's
-                   DHCP server, for use by the local
-                   DHCP relay.";
+                  "IPv4 addresses of the customer's
+                   DHCP server.";
               }
-            }
-            case server {
-              description
-                "A choice for how addresses are
-                 assigned when a local DHCP server
-                 is enabled.";
-              choice address-assign {
-                default "number";
-                description
-                  "A choice for how IPv4 addresses
-                   are assigned.";
-                case number {
-                  leaf number-of-dynamic-address {
-                    type uint16;
-                    default "1";
-                    description
-                      "Specifies the number of IP
-                       addresses to be assigned to
-                       the customer on this
-                       access.";
-                  }
-                }
-                case explicit {
-                  container customer-addresses {
-                    description
-                      "Container for customer
-                       addresses to be allocated
-                       using DHCP.";
-                    list address-pool {
-                      key "pool-id";
-                      description
-                        "Describes IP addresses to
-                         be allocated by DHCP.
-
-                         When only 'start-address'
-                         is present, it represents a
-                         single address.
-
-                         When both 'start-address'
-                         and 'end-address' are
-                         specified, it implies a
-                         range inclusive of both
-                         addresses.";
-                      leaf pool-id {
-                        type string;
-                        description
-                          "A pool identifier for the
-                           address range from
-                           'start-address' to
-                           'end-address'.";
-                      }
-                      leaf start-address {
-                        type inet:ipv4-address;
-                        mandatory true;
-                        description
-                          "Indicates the first
-                           address in the pool.";
-                      }
-                      leaf end-address {
-                        type inet:ipv4-address;
-                        description
-                          "Indicates the last
-                           address in the pool.";
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        case dhcp-relay {
-          description
-            "The DHCP relay is provided by the
-             operator.";
-          container customer-dhcp-servers {
-            description
-              "Container for a list of the
-               customer's DHCP servers.";
-            leaf-list server-ip-address {
-              type inet:ipv4-address;
-              description
-                "IPv4 addresses of the customer's
-                 DHCP server.";
             }
           }
         }
@@ -466,7 +551,7 @@ module ietf-ac-svc {
               path "../address/address-id";
             }
             description
-              "Primary address of the connection.";
+              "Primary IP address of the connection.";
           }
           list address {
             key "address-id";
@@ -482,7 +567,7 @@ module ietf-ac-svc {
             leaf customer-address {
               type inet:ipv4-address;
               description
-                "IPv4 address of the customer
+                "An IPv4 address of the customer
                  side.";
             }
           }
@@ -519,152 +604,135 @@ module ietf-ac-svc {
       }
       choice allocation-type {
         description
-          "A choice based on the IPv6 allocation
-           type.";
-        container provider-dhcp {
-          when "derived-from-or-self(../address-allo"
-             + "cation-type, 'provider-dhcp') or "
-             + "derived-from-or-self(../address-allo"
-             + "cation-type, 'provider-dhcp-slaac')" {
-            description
-              "Only applies when addresses are
-               allocated by DHCPv6 as provided by
-               the operator.";
-          }
+          "Choice of the IPv6 address allocation.";
+        case dynamic {
           description
-            "Parameters related to DHCP-allocated
-             addresses.";
-          leaf dhcp-service-type {
-            type enumeration {
-              enum server {
+            "When the addresses are allocated by DHCP or other
+             dynamic means local to the infrastructure.";
+          choice address-assign {
+            default "number";
+            description
+              "A choice for how IPv6 addresses
+               are assigned.";
+            case number {
+              leaf number-of-dynamic-address {
+                type uint16;
+                default "1";
                 description
-                  "Local DHCPv6 server.";
-              }
-              enum relay {
-                description
-                  "DHCPv6 relay.";
+                  "Specifies the number of IP
+                   addresses to be assigned to
+                   the customer on this
+                   access.";
               }
             }
-            description
-              "Indicates the type of the DHCPv6
-               service to be enabled on this
-               access.";
+            case explicit {
+              container customer-addresses {
+                description
+                  "Container for customer
+                   addresses to be allocated
+                   using DHCP.";
+                list address-pool {
+                  key "pool-id";
+                  description
+                    "Describes IP addresses to
+                     be dyncamically allocated.
+
+                     When only 'start-address'
+                     is present, it represents a
+                     single address.
+
+                     When both 'start-address'
+                     and 'end-address' are
+                     specified, it implies a
+                     range inclusive of both
+                     addresses.";
+                  leaf pool-id {
+                    type string;
+                    description
+                      "A pool identifier for the
+                       address range from
+                       'start-address' to
+                       'end-address'.";
+                  }
+                  leaf start-address {
+                    type inet:ipv6-address;
+                    mandatory true;
+                    description
+                      "Indicates the first
+                       address in the pool.";
+                  }
+                  leaf end-address {
+                    type inet:ipv6-address;
+                    description
+                      "Indicates the last
+                       address in the pool.";
+                  }
+                }
+              }
+            }
           }
-          choice service-type {
+          choice provider-dhcp {
             description
-              "Choice based on the DHCPv6 service
-               type.";
-            case relay {
+              "Parameters related to DHCP-allocated
+               addresses. IP addresses are allocated
+               by DHCP, which is provided by the
+               operator.";
+            leaf dhcp-service-type {
+              type enumeration {
+                enum server {
+                  description
+                    "Local DHCP server.";
+                }
+                enum relay {
+                  description
+                    "Local DHCP relay.  DHCP requests
+                     are relayed to a provider's
+                     server.";
+                }
+              }
+              description
+                "Indicates the type of DHCP service to
+                 be enabled on this access.";
+            }
+          }
+          choice dhcp-relay {
+            description
+              "The DHCP relay is provided by the
+               operator.";
+            container customer-dhcp-servers {
+              description
+                "Container for a list of the
+                 customer's DHCP servers.";
               leaf-list server-ip-address {
                 type inet:ipv6-address;
                 description
-                  "IPv6 addresses of the provider's
-                   DHCPv6 server.";
+                  "IPv6 addresses of the customer's
+                   DHCP server.";
               }
-            }
-            case server {
-              choice address-assign {
-                default "number";
-                description
-                  "Choice for how IPv6 prefixes are
-                   assigned by the DHCPv6 server.";
-                case number {
-                  leaf number-of-dynamic-address {
-                    type uint16;
-                    default "1";
-                    description
-                      "Describes the number of IPv6
-                       prefixes that are allocated
-                       to the customer on this
-                       access.";
-                  }
-                }
-                case explicit {
-                  container customer-addresses {
-                    description
-                      "Container for customer IPv6
-                       addresses allocated by
-                       DHCPv6.";
-                    list address-pool {
-                      key "pool-id";
-                      description
-                        "Describes IPv6 addresses
-                         allocated by DHCPv6.
-
-                         When only 'start-address'
-                         is present, it represents a
-                         single address.
-
-                         When both 'start-address'
-                         and 'end-address' are
-                         specified, it implies a
-                         range inclusive of both
-                         addresses.";
-                      leaf pool-id {
-                        type string;
-                        description
-                          "A pool identifier for the
-                           address range from
-                           'start-address' to
-                           'end-address'.";
-                      }
-                      leaf start-address {
-                        type inet:ipv6-address;
-                        mandatory true;
-                        description
-                          "Indicates the first
-                           address.";
-                      }
-                      leaf end-address {
-                        type inet:ipv6-address;
-                        description
-                          "Indicates the last
-                           address.";
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        case dhcp-relay {
-          description
-            "DHCPv6 relay provided by the
-             operator.";
-          container customer-dhcp-servers {
-            description
-              "Container for a list of the
-               customer's DHCP servers.";
-            leaf-list server-ip-address {
-              type inet:ipv6-address;
-              description
-                "Contains the IP addresses of the
-                 customer's DHCPv6 server.";
             }
           }
         }
         case static-addresses {
           description
-            "IPv6-specific parameters for static
-             allocation.";
+            "Lists the IPv6 addresses that are
+             used.";
           leaf primary-address {
             type leafref {
               path "../address/address-id";
             }
             description
-              "Principal address of the
-               connection.";
+              "Primary IP address of the connection.";
           }
           list address {
             key "address-id";
             description
-              "Describes IPv6 addresses that are
+              "Lists the IPv6 addresses that are
                used.";
             leaf address-id {
               type string;
               description
-                "An identifier of an IPv6 address.";
+                "An identifier of the static IPv6
+                 address.";
             }
             leaf customer-address {
               type inet:ipv6-address;
@@ -679,6 +747,199 @@ module ietf-ac-svc {
   }
 
   /* Routing */
+
+  grouping routing-profile {
+    description
+      "Defines routing protocols.";
+    list routing-protocol {
+      key "id";
+      description
+        "List of routing protocols used on the
+         CE-PE link.  This list can be augmented.";
+      leaf id {
+        type string;
+        description
+          "Unique identifier for the routing
+           protocol.";
+      }
+      leaf type {
+        type identityref {
+          base vpn-common:routing-protocol-type;
+        }
+        description
+          "Type of routing protocol.";
+      }
+      list routing-profiles {
+        key "id";
+        description
+          "Routing profiles.";
+        leaf id {
+          type leafref {
+            path "/specific-provisioning-profiles"
+               + "/valid-provider-identifiers"
+               + "/routing-profile-identifier/id";
+          }
+          description
+            "Routing profile to be used.";
+        }
+        leaf type {
+          type identityref {
+            base vpn-common:ie-type;
+          }
+          description
+            "Import, export, or both.";
+        }
+      }
+      container bgp {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:bgp-routing')" {
+          description
+            "Only applies when the protocol is
+             BGP.";
+        }
+        description
+          "Configuration specific to BGP.";
+        container peer-groups {
+          description
+            "Configuration for BGP peer-groups";
+          list peer-group {
+            key "name";
+            description
+              "List of BGP peer-groups configured on the local system -
+               uniquely identified by peer-group name";
+            leaf name {
+              type string;
+              description
+                "Name of the BGP peer-group";
+            }
+            leaf peer-as {
+              type inet:as-number;
+              mandatory true;
+              description
+                "Indicates the customer's ASN when
+                 the customer requests BGP routing.";
+            }
+            leaf address-family {
+              type identityref {
+                base vpn-common:address-family;
+              }
+              description
+                "This node contains the address families
+                 to be activated.  'dual-stack' means
+                 that both IPv4 and IPv6 will be
+                 activated.";
+            }
+          }
+        }
+      }
+      container ospf {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:ospf-routing')" {
+          description
+            "Only applies when the protocol is
+             OSPF.";
+        }
+        description
+          "Configuration specific to OSPF.";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or
+             both are to be activated.";
+        }
+        leaf area-id {
+          type yang:dotted-quad;
+          mandatory true;
+          description
+            "Area ID.";
+          reference
+            "RFC 4577: OSPF as the Provider/Customer
+                       Edge Protocol for BGP/MPLS IP
+                       Virtual Private Networks
+                       (VPNs), Section 4.2.3
+             RFC 6565: OSPFv3 as a Provider Edge to
+                       Customer Edge (PE-CE) Routing
+                       Protocol, Section 4.2";
+        }
+        leaf metric {
+          type uint16;
+          default "1";
+          description
+            "Metric of the PE-CE link.  It is used
+             in the routing state calculation and
+             path selection.";
+        }
+      }
+      container isis {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:isis-routing')" {
+          description
+            "Only applies when the protocol is
+             IS-IS.";
+        }
+        description
+          "Configuration specific to IS-IS.";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or both
+             are to be activated.";
+        }
+        leaf area-address {
+          type l3nm:area-address;
+          mandatory true;
+          description
+            "Area address.";
+        }
+      }
+      container rip {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:rip-routing')" {
+          description
+            "Only applies when the protocol is RIP.
+             For IPv4, the model assumes that RIP
+             version 2 is used.";
+        }
+        description
+          "Configuration specific to RIP routing.";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or both
+             address families are to be activated.";
+        }
+      }
+      container vrrp {
+        when "derived-from-or-self(../type, "
+           + "'vpn-common:vrrp-routing')" {
+          description
+            "Only applies when the protocol is the
+             Virtual Router Redundancy Protocol
+             (VRRP).";
+        }
+        description
+          "Configuration specific to VRRP.";
+        reference
+          "RFC 5798: Virtual Router Redundancy
+                     Protocol (VRRP) Version 3 for
+                     IPv4 and IPv6";
+        leaf address-family {
+          type identityref {
+            base vpn-common:address-family;
+          }
+          description
+            "Indicates whether IPv4, IPv6, or both
+             address families are to be enabled.";
+        }
+      }
+    }
+  }
 
   grouping routing {
     description
@@ -700,6 +961,27 @@ module ietf-ac-svc {
         }
         description
           "Type of routing protocol.";
+      }
+      list routing-profiles {
+        key "id";
+        description
+          "Routing profiles.";
+        leaf id {
+          type leafref {
+            path "/specific-provisioning-profiles"
+               + "/valid-provider-identifiers"
+               + "/routing-profile-identifier/id";
+          }
+          description
+            "Routing profile to be used.";
+        }
+        leaf type {
+          type identityref {
+            base vpn-common:ie-type;
+          }
+          description
+            "Import, export, or both.";
+        }
       }
       container static {
         when "derived-from-or-self(../type, "
@@ -785,24 +1067,74 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to BGP.";
-        leaf peer-as {
-          type inet:as-number;
-          mandatory true;
+        container peer-groups {
           description
-            "Indicates the customer's ASN when
-             the customer requests BGP routing.";
-        }
-        leaf address-family {
-          type identityref {
-            base vpn-common:address-family;
+            "Configuration for BGP peer-groups";
+          list peer-group {
+            key "name";
+            description
+              "List of BGP peer-groups configured on the local system -
+               uniquely identified by peer-group name";
+            leaf name {
+              type string;
+              description
+                "Name of the BGP peer-group";
+            }
+            leaf peer-as {
+              type inet:as-number;
+              mandatory true;
+              description
+                "Indicates the customer's ASN when
+                 the customer requests BGP routing.";
+            }
+            leaf address-family {
+              type identityref {
+                base vpn-common:address-family;
+              }
+              description
+                "This node contains the address families
+                 to be activated.  'dual-stack' means
+                 that both IPv4 and IPv6 will be
+                 activated.";
+            }
           }
-          description
-            "This node contains the address families
-             to be activated.  'dual-stack' means
-             that both IPv4 and IPv6 will be
-             activated.";
         }
-        uses vpn-common:service-status;
+        list neighbor {
+          key "remote-address";
+          description
+            "List of BGP neighbors.";
+          leaf remote-address {
+            type inet:ip-address;
+            description
+              "The remote IP address of this entry's BGP peer.";
+          }
+          leaf peer-group {
+            type leafref {
+              path "../../peer-groups/peer-group/name";
+            }
+            description
+              "The peer-group with which this neighbor is
+               associated.";
+          }
+          leaf peer-as {
+            type inet:as-number;
+            mandatory true;
+            description
+              "Indicates the customer's ASN when
+               the customer requests BGP routing.";
+          }
+          leaf address-family {
+            type identityref {
+              base vpn-common:address-family;
+            }
+            description
+              "This node contains the address families
+               to be activated.  'dual-stack' means
+               that both IPv4 and IPv6 will be
+               activated.";
+          }
+          uses vpn-common:service-status;
+        }
       }
       container ospf {
         when "derived-from-or-self(../type, "
@@ -1042,32 +1374,187 @@ module ietf-ac-svc {
     }
   }
 
-  container provisioning-profiles {
+  grouping ac-profile {
     description
-     "Contains a set of valid profiles to reference
-      fro an AC.";
-    uses vpn-common:vpn-profile-cfg;
+      "Grouping for an attachment circuit.";
+    leaf id {
+      type string;
+      description
+        "An identifier of the AC.";
+    }
+    // Layer 2
+    container l2-connection {
+      description
+        "Defines Layer 2 protocols and parameters that
+         are required to enable AC connectivity.";
+      uses l2-connection-profile;
+    }
+    // Layer 3
+    container ip-connection {
+      description
+        "Defines IP connection parameters.";
+    }
+    // Routing
+    container routing-protocols {
+      description
+        "Defines routing protocols.";
+      uses routing-profile;
+    }
+    // OAM
+    container oam {
+      description
+        "Defines the Operations, Administration,
+         and Maintenance (OAM) mechanisms used.
+
+         BFD is set as a fault detection mechanism,
+         but other mechanisms can be defined in the
+         future.";
+      container bfd {
+        if-feature "vpn-common:bfd";
+        description
+          "Container for BFD.";
+        leaf holdtime {
+          type uint32;
+          units "milliseconds";
+          description
+            "Expected BFD holdtime.
+
+             The customer may impose some fixed
+             values for the holdtime period if the
+             provider allows the customer to use
+             this function.
+
+             If the provider doesn't allow the
+             customer to use this function,
+             fixed values will not be set.";
+          reference
+            "RFC 5880: Bidirectional Forwarding
+                       Detection (BFD),
+                       Section 6.8.18";
+        }
+      }
+    }
+    // Security 
+    container security {
+      description
+        "Site-specific security parameters.";
+      container encryption {
+        if-feature "vpn-common:encryption";
+        description
+          "Container for AC security encryption.";
+        leaf enabled {
+          type boolean;
+          default "false";
+          description
+            "If set to 'true', traffic encryption on
+             the connection is required.  Otherwise,
+             it is disabled.";
+        }
+        leaf layer {
+          when "../enabled = 'true'" {
+            description
+              "Included only when encryption
+               is enabled.";
+          }
+          type enumeration {
+            enum layer2 {
+              description
+                "Encryption occurs at Layer 2.";
+            }
+            enum layer3 {
+              description
+                "Encryption occurs at Layer 3.
+                 For example, IPsec may be used when
+                 a customer requests Layer 3
+                 encryption.";
+            }
+          }
+          description
+            "Indicates the layer on which encryption
+             is applied.";
+        }
+      }
+      container encryption-profile {
+        when "../encryption/enabled = 'true'" {
+          description
+            "Indicates the layer on which encryption
+             is enabled.";
+        }
+        description
+          "Container for the encryption profile.";
+        choice profile {
+          description
+            "Choice for the encryption profile.";
+          case customer-profile {
+            leaf customer-key-chain {
+              type key-chain:key-chain-ref;
+              description
+                "Customer-supplied key chain.";
+            }
+          }
+        }
+      }
+    }
   }
 
+  container specific-provisioning-profiles {
+    description
+      "Contains a set of valid profiles to reference
+       fro an AC.";
+    uses vpn-common:vpn-profile-cfg;
+  }
+  container service-provisioning-profiles {
+    description
+      "Contains a set of valid profiles to reference
+       fro an AC.";
+    list service-profile-identifier {
+      key "id";
+      description
+        "List of generci service profile identifiers.";
+      leaf id {
+        type string;
+        description
+          "Identification of the service profile to be used.
+           the profile only has significance within the service
+           provider's administrative domain.";
+      }
+    }
+  }
   container attachment-circuits {
     description
-     "XXXX.";
-    list ac-profile {
+      "XXXX.";
+    list ac-global-profile {
+      key "id";
+      description
+        "Maintains a list of AC profiles.";
+      uses ac-profile;
+    }
+    list ac-node-group {
       key "id";
       description
         "Maintains a list of AC profiles.";
       leaf id {
         type string;
         description
-          "An identifier of the ac-profile.";
+          "An identifier of the AC group.";
       }
-      //uses ac-ntw:ac-profile;
     }
-
     list ac {
       key "id";
       description
         "Global provisioning of attachment circuits.";
+      leaf-list peer-sap-id {
+        type string;
+        description
+          "One or more peer SAPs can be indicated.";
+      }
+      leaf-list profile-id {
+        type leafref {
+          path "/attachment-circuits/ac-global-profile/id";
+        }
+        description
+          "A reference to an AC profile.";
+      }
       uses ac;
     }
   }
