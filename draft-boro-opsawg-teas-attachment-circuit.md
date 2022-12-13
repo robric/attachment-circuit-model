@@ -182,6 +182,8 @@ module: ietf-ac-svc
 ~~~~
 {: #o-svc-tree title="Overall AC Service Tree Structure"}
 
+Each AC is identified with a unique identifier within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
+
 ## Service Profiles
 
 ~~~~
