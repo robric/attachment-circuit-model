@@ -70,9 +70,13 @@ module: ietf-ac-svc
      +--rw ac-node-group* [id]
      |  +--rw id    string
      +--rw ac* [id]
-        +--rw peer-sap-id*         string
-        +--rw profile-id*          -> /attachment-circuits/ac-global-profile/id
-        +--rw id                   string
+        +--rw requested-ac-start?   yang:date-and-time
+        +--rw requested-ac-stop?    yang:date-and-time
+        +--ro actual-ac-start?      yang:date-and-time
+        +--ro actual-ac-stop?       yang:date-and-time
+        +--rw peer-sap-id*          string
+        +--rw profile-id*           -> /attachment-circuits/ac-global-profile/id
+        +--rw id                    string
         +--rw l2-connection
         |  +--rw encapsulation
         |  |  +--rw type?              identityref
