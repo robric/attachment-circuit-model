@@ -454,16 +454,10 @@ module: ietf-ac-svc
 
 This module uses types defined in XXX.
 
-~~~~
-<CODE BEGINS> file "ietf-ac-svc@2022-11-30.yang"
-module ietf-ac-svc {
-
-INSERT HER
-}
-~~~~
-
 ~~~~~~~~~~
+<CODE BEGINS> file "ietf-ac-svc@2022-11-30.yang"
 {::include ./yang/ietf-ac-svc.yang}
+<CODE ENDS>
 ~~~~~~~~~~
 
 
@@ -533,3 +527,8 @@ INSERT HER
 {:numbered="false"}
 
 TODO acknowledge.
+
+# Contributors
+{:numbered="false"}
+
+TODO contribute.
