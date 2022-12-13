@@ -156,6 +156,37 @@ The procedure to provision a service in a service provider network may depend on
 ~~~~
 module: ietf-ac-svc
   +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [id]
+        +--rw peer-sap-id*         string
+        +--rw profile-id*
+        |       -> /attachment-circuits/ac-global-profile/id
+        +--rw id                   string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
+~~~~
+{: #o-svc-tree title="Overall AC Service Tree Structure"}
+
+## Service Profiles
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
   |  +--rw valid-provider-identifiers
   |     +--rw external-connectivity-identifier* [id]
   |     |       {external-connectivity}?
@@ -173,6 +204,58 @@ module: ietf-ac-svc
   +--rw service-provisioning-profiles
   |  +--rw service-profile-identifier* [id]
   |     +--rw id    string
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [id]
+        ...
+~~~~
+{: #gp-svc-tree title="Service Proviles"}
+
+## Attachment Circuits Profiles
+
+## Node-Specific Profiles
+
+## Attachment Circuits
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...f
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [id]
+        +--rw peer-sap-id*         string
+        +--rw profile-id*
+        |       -> /attachment-circuits/ac-global-profile/id
+        +--rw id                   string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
+~~~~
+{: #ac-svc-tree title="cccc Tree Structure"}
+
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
      |  +--rw id                   string
@@ -442,12 +525,17 @@ module: ietf-ac-svc
                     +--rw customer-key-chain?
                             key-chain:key-chain-ref
 ~~~~
-{: #o-svc-tree title="Overall AC Service Tree Structure"}
+{: #d-svc-tree title="Overall AC Service Tree Structure"}
 
-## Layer 2 Connection Structure
+### Layer 2 Connection Structure
 
-## Layer 3 Connection Structure
+### Layer 3 Connection Structure
 
+### Routing
+
+### OAM
+
+### Security
 
 
 # YANG Module
