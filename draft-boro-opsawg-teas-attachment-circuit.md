@@ -216,6 +216,11 @@ module: ietf-ac-svc
 ~~~~
 {: #gp-svc-tree title="Service Proviles"}
 
+
+All these profiles are uniquely identified by the NETCONF/RESTCONF server by an identifier. To ease referencing these profiles by other data models, specific typedefs are defined for each of these profiles. Likewise, an attachment circuit referenc typedef is defiened when referencing a (global) attachment circuit by its name is required. These typedefs SHOULD be used when other modules need a reference to one of these profiles or attahment circuits.
+
+
+
 ## Attachment Circuits Profiles
 
 ## Node-Specific Profiles
