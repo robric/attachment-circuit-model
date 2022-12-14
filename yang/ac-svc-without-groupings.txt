@@ -21,12 +21,10 @@ module: ietf-ac-svc
      |  +--rw id                   string
      |  +--rw l2-connection
      |  |  +--rw encapsulation
-     |  |     +--rw type?              identityref
+     |  |     +--rw type?    identityref
      |  |     +--rw dot1q
      |  |     |  +--rw tag-type?   identityref
      |  |     |  +--rw cvlan-id?   uint16
-     |  |     +--rw priority-tagged
-     |  |     |  +--rw tag-type?   identityref
      |  |     +--rw qinq
      |  |        +--rw tag-type?   identityref
      |  |        +--rw svlan-id    uint16
@@ -199,10 +197,12 @@ module: ietf-ac-svc
         |     |  +--rw peer-groups
         |     |  |  +--rw peer-group* [name]
         |     |  |     +--rw name              string
+        |     |  |     +--ro local-address?    inet:ip-address
         |     |  |     +--rw peer-as           inet:as-number
         |     |  |     +--rw address-family?   identityref
         |     |  +--rw neighbor* [remote-address]
         |     |     +--rw remote-address    inet:ip-address
+        |     |     +--ro local-address?    inet:ip-address
         |     |     +--rw peer-group?       -> ../../peer-groups/peer-group/name
         |     |     +--rw peer-as           inet:as-number
         |     |     +--rw address-family?   identityref
