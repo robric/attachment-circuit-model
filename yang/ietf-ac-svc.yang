@@ -73,6 +73,71 @@ module ietf-ac-svc {
        infrastrcture.";
   }
 
+  typedef attachment-circuit-reference {
+    type leafref {
+      path "/ac-svc:attachment-circuits/ac-svc:ac"
+         + "/ac-svc:name";
+    }
+    description
+      "Defines a reference to an attachment circuit by other
+       modules.";
+  }
+
+  typedef encryption-profile-reference {
+    type leafref {
+      path "/specific-provisioning-profiles"
+         + "/valid-provider-identifiers"
+         + "/encryption-profile-identifier/id";
+    }
+    description
+      "Defines a reference to an encryption profile for
+       referencing purposes.";
+  }
+
+  typedef qos-profile-reference {
+    type leafref {
+      path "/specific-provisioning-profiles"
+         + "/valid-provider-identifiers"
+         + "/qos-profile-identifier/id";
+    }
+    description
+      "Defines a reference to a QoS profile for
+       referencing purposes.";
+  }
+
+  typedef bfd-profile-reference {
+    type leafref {
+      path "/specific-provisioning-profiles"
+         + "/valid-provider-identifiers"
+         + "/bfd-profile-identifier/id";
+    }
+    description
+      "Defines a reference to a BFD profile for
+       referencing purposes.";
+  }
+
+  typedef forwarding-profile-reference {
+    type leafref {
+      path "/specific-provisioning-profiles"
+         + "/valid-provider-identifiers"
+         + "/forwarding-profile-identifier/id";
+    }
+    description
+      "Defines a reference to a forwarding profile for
+       referencing purposes.";
+  }
+
+  typedef routing-profile-reference {
+    type leafref {
+      path "/specific-provisioning-profiles"
+         + "/valid-provider-identifiers"
+         + "/routing-profile-identifier/id";
+    }
+    description
+      "Defines a reference to a routing profile for
+       referencing purposes.";
+  }
+
   // L2 conenction
 
   grouping l2-connection-profile {
@@ -384,7 +449,7 @@ module ietf-ac-svc {
       if-feature "vpn-common:bearer-reference";
       type string;
       description
-        "This is an internal reference for the 
+        "This is an internal reference for the
          service provider to identify the bearer
          associated with this AC.";
     }
@@ -616,7 +681,7 @@ module ietf-ac-svc {
                      single address.
 
                      When both 'start-address' and 'end-address' are
-                     specified, it implies a range inclusive of both 
+                     specified, it implies a range inclusive of both
                      addresses.";
                   leaf pool-id {
                     type string;
@@ -641,7 +706,7 @@ module ietf-ac-svc {
           }
           choice provider-dhcp {
             description
-              "Parameters related to DHCP-allocated addresses. 
+              "Parameters related to DHCP-allocated addresses.
                IP addresses are allocated by DHCP, which is provided
                by the operator.";
             leaf dhcp-service-type {
@@ -713,8 +778,7 @@ module ietf-ac-svc {
     list routing-protocol {
       key "id";
       description
-        "List of routing protocols used on the
-         CE-PE link.  This list can be augmented.";
+        "List of routing protocols used on the AC.";
       leaf id {
         type string;
         description
@@ -732,13 +796,9 @@ module ietf-ac-svc {
         description
           "Routing profiles.";
         leaf id {
-          type leafref {
-            path "/specific-provisioning-profiles"
-               + "/valid-provider-identifiers"
-               + "/routing-profile-identifier/id";
-          }
+          type routing-profile-reference;
           description
-            "Routing profile to be used.";
+            "Reference to the routing profile to be used.";
         }
         leaf type {
           type identityref {
@@ -822,7 +882,7 @@ module ietf-ac-svc {
           type uint16;
           default "1";
           description
-            "Metric of the PE-CE link.  It is used
+            "Metric of the AC.  It is used
              in the routing state calculation and
              path selection.";
         }
@@ -880,7 +940,7 @@ module ietf-ac-svc {
           "Configuration specific to VRRP.";
         reference
           "RFC 5798: Virtual Router Redundancy
-                     Protocol (VRRP) Version 3 for 
+                     Protocol (VRRP) Version 3 for
                      IPv4 and IPv6";
         leaf address-family {
           type identityref {
@@ -900,8 +960,7 @@ module ietf-ac-svc {
     list routing-protocol {
       key "id";
       description
-        "List of routing protocols used on the
-         CE-PE link.  This list can be augmented.";
+        "List of routing protocols used on the AC.";
       leaf id {
         type string;
         description
@@ -919,13 +978,9 @@ module ietf-ac-svc {
         description
           "Routing profiles.";
         leaf id {
-          type leafref {
-            path "/specific-provisioning-profiles"
-               + "/valid-provider-identifiers"
-               + "/routing-profile-identifier/id";
-          }
+          type routing-profile-reference;
           description
-            "Routing profile to be used.";
+            "Reference to the routing profile to be used.";
         }
         leaf type {
           type identityref {
@@ -1197,10 +1252,12 @@ module ietf-ac-svc {
   grouping ac {
     description
       "Grouping for an attachment circuit.";
-    leaf attachment-circuit-id {
+    leaf name {
       type string;
       description
-        "An identifier of the AC.";
+        "A name of the AC. Data models that need to
+         reference an attachment circuits should use
+         attachment-circuit-reference.";
     }
     // Layer 2
     container l2-connection {
@@ -1359,8 +1416,8 @@ module ietf-ac-svc {
           description
             "Expected BFD holdtime.
 
-             The customer may impose some fixed values 
-             for the holdtime period if the provider allows 
+             The customer may impose some fixed values
+             for the holdtime period if the provider allows
              the customer to use this function.
 
              If the provider doesn't allow the customer to use
@@ -1401,8 +1458,7 @@ module ietf-ac-svc {
               description
                 "Encryption occurs at Layer 3.
                  For example, IPsec may be used when
-                 a customer requests Layer 3
-                 encryption.";
+                 a customer requests Layer 3 encryption.";
             }
           }
           description
@@ -1476,7 +1532,7 @@ module ietf-ac-svc {
       }
     }
     list ac {
-      key "attachment-circuit-id";
+      key "name";
       description
         "Global provisioning of attachment circuits.";
       leaf customer-name {

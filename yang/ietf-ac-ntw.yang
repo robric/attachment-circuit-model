@@ -57,6 +57,11 @@ module ietf-ac-ntw {
       "RFC SSSS: A YANG Network Model for Service Attachment
                  Points (SAPs)";
   }
+  import ietf-ac-svc {
+    prefix ac-svc;
+    reference
+      "RFC xxx: XXXX";
+  }
 
   organization
     "IETF OPSAWG (Operations and Management Area Working Group)";
@@ -1570,11 +1575,12 @@ module ietf-ac-ntw {
         description
           "Routing profiles.";
         leaf id {
-          type leafref {
+          /*type leafref {
             path "/nw:networks/nw:network"
                + "/ac-ntw:specific-provisioning-profiles/valid-provider-identifiers"
                + "/routing-profile-identifier/id";
-          }
+          }*/
+          type ac-svc:routing-profile-reference;
           description
             "Routing profile to be used.";
         }
@@ -2358,6 +2364,11 @@ module ietf-ac-ntw {
   grouping ac {
     description
       "Grouping for an attachment circuits.";
+    leaf description {
+      type string;
+      description
+        "Associates a description with an AC.";
+    }
     // Layer 2
     container l2-connection {
       description
@@ -2386,12 +2397,13 @@ module ietf-ac-ntw {
         description
           "Container for BFD.";
         leaf profile {
-          type leafref {
+          /*type leafref {
             path "/nw:networks/nw:network"
                + "/ac-ntw:specific-provisioning-profiles"
                + "/valid-provider-identifiers"
                + "/bfd-profile-identifier/id";
-          }
+          }*/
+          type ac-svc:bfd-profile-reference;
           description
             "Well-known service provider profile name.
 
@@ -2476,12 +2488,13 @@ module ietf-ac-ntw {
             "Choice for the encryption profile.";
           case provider-profile {
             leaf profile-name {
-              type leafref {
+              /*type leafref {
                 path "/nw:networks/nw:network"
                    + "/ac-ntw:specific-provisioning-profiles"
                    + "/valid-provider-identifiers"
                    + "/encryption-profile-identifier/id";
-              }
+              }*/
+              type ac-svc:encryption-profile-reference;
               description
                 "Name of the service provider's
                  profile to be applied.";
@@ -2502,12 +2515,13 @@ module ietf-ac-ntw {
   augment "/nw:networks/nw:network" {
     description
       "Add a list of profiles.";
-    container specific-provisioning-profiles {
+    // References to the profiles defines in the AC-SVC
+    /*container specific-provisioning-profiles {
       description
         "Contains a set of valid profiles to reference
          in the AC activation.";
       uses vpn-common:vpn-profile-cfg;
-    }
+    }*/
     list ac-profile {
       key "id";
       description
@@ -2533,11 +2547,17 @@ module ietf-ac-ntw {
     list ac {
       key "id";
       description
-        "List of AC profiles.";
+        "List of ACs.";
       leaf id {
         type string;
         description
           "A local AC identifier.";
+      }
+      leaf ac-ref {
+        type ac-svc:attachment-circuit-reference;
+        description
+          "A reference to the AC as exposed at the service
+           level.";
       }
       list ac-profile {
         key "profile-id";
