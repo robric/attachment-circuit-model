@@ -4,57 +4,6 @@ module: ietf-ac-ntw
     +--rw ac-profile* [id]
        +--rw id                   string
        +--rw l2-connection
-       |  +--rw encapsulation
-       |  |  +--rw encap-type?        identityref
-       |  |  +--rw dot1q
-       |  |  |  +--rw tag-type?         identityref
-       |  |  |  +--rw cvlan-id?         dot1q-types:vlanid
-       |  |  |  +--rw tag-operations
-       |  |  |     +--rw (op-choice)?
-       |  |  |     |  +--:(pop)
-       |  |  |     |  |  +--rw pop?         empty
-       |  |  |     |  +--:(push)
-       |  |  |     |  |  +--rw push?        empty
-       |  |  |     |  +--:(translate)
-       |  |  |     |     +--rw translate?   empty
-       |  |  |     +--rw tag-1?             dot1q-types:vlanid
-       |  |  |     +--rw tag-1-type?        dot1q-types:dot1q-tag-type
-       |  |  |     +--rw tag-2?             dot1q-types:vlanid
-       |  |  |     +--rw tag-2-type?        dot1q-types:dot1q-tag-type
-       |  |  +--rw priority-tagged
-       |  |  |  +--rw tag-type?   identityref
-       |  |  +--rw qinq
-       |  |     +--rw tag-type?         identityref
-       |  |     +--rw svlan-id          dot1q-types:vlanid
-       |  |     +--rw cvlan-id          dot1q-types:vlanid
-       |  |     +--rw tag-operations
-       |  |        +--rw (op-choice)?
-       |  |        |  +--:(pop)
-       |  |        |  |  +--rw pop?         uint8
-       |  |        |  +--:(push)
-       |  |        |  |  +--rw push?        empty
-       |  |        |  +--:(translate)
-       |  |        |     +--rw translate?   uint8
-       |  |        +--rw tag-1?             dot1q-types:vlanid
-       |  |        +--rw tag-1-type?        dot1q-types:dot1q-tag-type
-       |  |        +--rw tag-2?             dot1q-types:vlanid
-       |  |        +--rw tag-2-type?        dot1q-types:dot1q-tag-type
-       |  +--rw (l2-service)?
-       |     +--:(l2-tunnel-service)
-       |     |  +--rw l2-tunnel-service
-       |     |     +--rw type?         identityref
-       |     |     +--rw pseudowire
-       |     |     |  +--rw vcid?      uint32
-       |     |     |  +--rw far-end?   union
-       |     |     +--rw vpls
-       |     |     |  +--rw vcid?      uint32
-       |     |     |  +--rw far-end*   union
-       |     |     +--rw vxlan
-       |     |        +--rw vni-id             uint32
-       |     |        +--rw peer-mode?         identityref
-       |     |        +--rw peer-ip-address*   inet:ip-address
-       |     +--:(l2vpn)
-       |        +--rw l2vpn-id?            vpn-common:vpn-id
        +--rw ip-connection
        +--rw routing-protocols
        |  +--rw routing-protocol* [id]

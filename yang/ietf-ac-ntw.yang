@@ -2332,7 +2332,7 @@ module ietf-ac-ntw {
       description
         "Defines Layer 2 protocols and parameters that
          are required to enable AC connectivity.";
-      uses l2-connection;
+      //uses l2-connection;
     }
     // Layer 3
     container ip-connection {
