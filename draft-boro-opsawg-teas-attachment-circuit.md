@@ -1,6 +1,6 @@
 ---
-title: "A YANG Data Model for Attachment Circuits"
-abbrev: "A YANG Model for ACs"
+title: "A YANG Service Data Model for Attachment Circuits"
+abbrev: "ACSM"
 category: std
 
 docname: draft-boro-opsawg-teas-attachment-circuit-latest
@@ -20,6 +20,7 @@ author:
  -
     fullname: Mohamed Boucadair
     organization: Orange
+    role: editor
     email: mohamed.boucadair@orange.com
 
  -
@@ -49,13 +50,13 @@ informative:
 
 --- abstract
 
-This document specifies a service YANG data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
+This document specifies a YANG service data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
 
 --- middle
 
 # Introduction
 
-This document specifies a service YANG data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
+This document specifies a YANG service data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
 
 TBC
 
@@ -191,6 +192,10 @@ Each AC is identified with a unique identifier within a domain. The mapping betw
 
 ## Service Profiles
 
+### Description
+
+The 'specific-provisioning-profiles' container ({{gp-svc-tree}}) can be used by a service provider to maintain a set of specific profiles that are similar to those defined in {{RFC9181}}. The exact definition of the profiles is local to each service provider. The model only includes an identifier for these profiles in order to facilitate identifying and binding local policies when building an AC.
+
 ~~~~
 module: ietf-ac-svc
   +--rw specific-provisioning-profiles
@@ -221,9 +226,31 @@ module: ietf-ac-svc
 ~~~~
 {: #gp-svc-tree title="Service Proviles"}
 
+As shown in {{gp-svc-tree}}, two profile types can be defined: 'specific-provisioning-profiles' and 'service-provisioning-profiles'. Whether only specific profiles, service profiles, or a combination thereff are used is local to each service provider.
+
+The following specific rovisioning profiles can be defined:
+
+'external-connectivity-identifier':
+: Refers to a profile that defines the external connectivity provided to a site that is connected via an AC. External connectivity may be access to the Internet or restricted connectivity, such as access to a public/private cloud.
+
+'encryption-profile-identifier':
+: Refers to a set of policies related to the encryption setup that can be applied when provisioning an AC.
+
+'qos-profile-identifier':
+: Refers to a set of policies, such as classification, marking, and actions (e.g., {{?RFC3644}}).
+
+'bfd-profile-identifier':
+: Refers to a set of Bidirectional Forwarding Detection (BFD) policies {{!RFC5880}} that can be invoked when building an AC.
+
+'forwarding-profile-identifier':
+: Refers to the policies that apply to the forwarding of packets conveyed within an AC. Such policies may consist, for example, of applying Access Control Lists (ACLs).
+
+'routing-profile-identifier':
+: Refers to a set of routing policies that will be invoked (e.g., BGP policies) when building an AC.
+
+### Referencing Service/Specific Profiles
 
 All these profiles are uniquely identified by the NETCONF/RESTCONF server by an identifier. To ease referencing these profiles by other data models, specific typedefs are defined for each of these profiles. Likewise, an attachment circuit referenc typedef is defiened when referencing a (global) attachment circuit by its name is required. These typedefs SHOULD be used when other modules need a reference to one of these profiles or attahment circuits.
-
 
 
 ## Attachment Circuits Profiles
