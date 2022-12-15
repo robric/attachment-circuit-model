@@ -201,7 +201,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile"}
 
-A customer may request adding a new AC by simply referring to an existing per-node AC profile as shown in {{tadd-ac-same-ce-node-profile}}. This AC inherites all the data that was enclosed in the indicated per-node AC profile (IP addressing, routing, etc.).
+A customer may request adding a new AC by simply referring to an existing per-node AC profile as shown in {{add-ac-same-ce-node-profile}}. This AC inherites all the data that was enclosed in the indicated per-node AC profile (IP addressing, routing, etc.).
 
 ~~~~
 {::include ./json-examples/add-ac-same-ce-node-profile.json}
