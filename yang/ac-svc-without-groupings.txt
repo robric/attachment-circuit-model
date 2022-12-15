@@ -292,8 +292,8 @@ module: ietf-ac-svc
         +--ro actual-ac-start?      yang:date-and-time
         +--ro actual-ac-stop?       yang:date-and-time
         +--rw peer-sap-id*          string
-        +--rw ac-global-profile*    -> /attachment-circuits/ac-global-profile/id
-        +--rw ac-node-profile*      -> /attachment-circuits/ac-node-group/id
+        +--rw ac-global-profile*    ac-global-profile-reference
+        +--rw ac-node-profile*      ac-node-group-reference
         +--rw name                  string
         +--rw l2-connection
         |  +--rw encapsulation
