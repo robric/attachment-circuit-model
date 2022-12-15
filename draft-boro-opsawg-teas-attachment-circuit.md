@@ -167,12 +167,12 @@ An example of a request to create a simple AC over an existing bearer is shown i
 
 ## Request An AC for a Knwon Peer SAP
 
-An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-b}}.
+An example of a request to create a simple AC, when the peer SAP is known, is shown in {ac-known-ps}}.
 
 ~~~~
 {::include ./json-examples/simple-ac-known-peer-sap.json}
 ~~~~
-{: #ac-b title="Example of a Message Body to Request an AC for a Knwon Peer SAP"}
+{: #ac-known-ps title="Example of a Message Body to Request an AC for a Knwon Peer SAP"}
 
 # Description of the Attachment Circuit YANG Module
 
