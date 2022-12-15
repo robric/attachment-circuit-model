@@ -412,6 +412,149 @@ module ietf-ac-svc {
     }
   }
 
+  grouping ip-connection-global-profile {
+    description
+      "Defines IP connection parameters.";
+    container ipv4 {
+      if-feature "vpn-common:ipv4";
+      description
+        "IPv4-specific parameters.";
+      leaf prefix-length {
+        type uint8 {
+          range "0..32";
+        }
+        description
+          "Subnet prefix length expressed in bits.
+           It is applied to both local and customer addresses.";
+      }
+      leaf address-allocation-type {
+        type identityref {
+          base l3nm:address-allocation-type;
+        }
+        must "not(derived-from-or-self(current(), 'slaac') or "
+           + "derived-from-or-self(current(), "
+           + "'provider-dhcp-slaac'))" {
+          error-message "SLAAC is only applicable to IPv6.";
+        }
+        description
+          "Defines how addresses are allocated to the peer site.
+
+           If there is no value for the address allocation type, 
+           then IPv4 addressing is not enabled.";
+      }
+      choice allocation-type {
+        description
+          "Choice of the IPv4 address allocation.";
+        case dynamic {
+          description
+            "When the addresses are allocated by DHCP or other
+             dynamic means local to the infrastructure.";
+          choice provider-dhcp {
+            description
+              "Parameters related to DHCP-allocated addresses. IP 
+               addresses are allocated by DHCP, which is provided by 
+               the operator.";
+            leaf dhcp-service-type {
+              type enumeration {
+                enum server {
+                  description
+                    "Local DHCP server.";
+                }
+                enum relay {
+                  description
+                    "Local DHCP relay.  DHCP requests are relayed to
+                     a provider's server.";
+                }
+              }
+              description
+                "Indicates the type of DHCP service to be enabled on
+                 this AC.";
+            }
+          }
+          choice dhcp-relay {
+            description
+              "The DHCP relay is provided by the operator.";
+            container customer-dhcp-servers {
+              description
+                "Container for a list of the customer's DHCP servers.";
+              leaf-list server-ip-address {
+                type inet:ipv4-address;
+                description
+                  "IPv4 addresses of the customer's DHCP server.";
+              }
+            }
+          }
+        }
+      }
+    }
+    container ipv6 {
+      if-feature "vpn-common:ipv6";
+      description
+        "IPv6-specific parameters.";
+      leaf prefix-length {
+        type uint8 {
+          range "0..128";
+        }
+        description
+          "Subnet prefix length expressed in bits.
+           It is applied to both local and customer addresses.";
+      }
+      leaf address-allocation-type {
+        type identityref {
+          base l3nm:address-allocation-type;
+        }
+        description
+          "Defines how addresses are allocated.
+           If there is no value for the address allocation type, 
+           then IPv6 addressing is disabled.";
+      }
+      choice allocation-type {
+        description
+          "Choice of the IPv6 address allocation.";
+        case dynamic {
+          description
+            "When the addresses are allocated by DHCP or other
+             dynamic means local to the infrastructure.";
+          choice provider-dhcp {
+            description
+              "Parameters related to DHCP-allocated addresses.
+               IP addresses are allocated by DHCP, which is provided
+               by the operator.";
+            leaf dhcp-service-type {
+              type enumeration {
+                enum server {
+                  description
+                    "Local DHCP server.";
+                }
+                enum relay {
+                  description
+                    "Local DHCP relay.  DHCP requests are relayed
+                     to a provider's server.";
+                }
+              }
+              description
+                "Indicates the type of DHCP service to
+                 be enabled on this access.";
+            }
+          }
+          choice dhcp-relay {
+            description
+              "The DHCP relay is provided by the operator.";
+            container customer-dhcp-servers {
+              description
+                "Container for a list of the customer's DHCP servers.";
+              leaf-list server-ip-address {
+                type inet:ipv6-address;
+                description
+                  "IPv6 addresses of the customer's DHCP server.";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   grouping ip-connection {
     description
       "Defines IP connection parameters.";
@@ -1336,6 +1479,7 @@ module ietf-ac-svc {
     container ip-connection {
       description
         "Defines IP connection parameters.";
+     uses ip-connection-global-profile;
     }
     // Routing
     container routing-protocols {
@@ -1469,6 +1613,7 @@ module ietf-ac-svc {
         description
           "An identifier of the AC group.";
       }
+      uses ac;
     }
     list ac {
       key "name";
