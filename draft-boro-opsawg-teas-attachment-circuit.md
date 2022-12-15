@@ -190,7 +190,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce-profile.json}
 ~~~~
-{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile"}
+{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile)"}
 
 ## Illustrate the Use of Per-Node Profiles
 
@@ -199,15 +199,39 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce-node-profile.json}
 ~~~~
-{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile"}
+{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile)"}
 
 A customer may request adding a new AC by simply referring to an existing per-node AC profile as shown in {{add-ac-same-ce-node-profile}}. This AC inherites all the data that was enclosed in the indicated per-node AC profile (IP addressing, routing, etc.).
 
 ~~~~
 {::include ./json-examples/add-ac-same-ce-node-profile.json}
 ~~~~
-{: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile"}
+{: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile)"}
 
+## Multiple CEs
+
+{{network-example}} shows an example of CEs that are interconnected by a service provider network.
+
+~~~~
+
+                   +-----+   +--------------+   +-----+
+      +----+       | PE1 |===|              |===| PE3 |       +----+
+      | CE1+-------+     |   |              |   |     +-------+ CE3|
+      +----+       +-----+   |              |   +-----+       +----+
+                             |     Core     |
+      +----+       +-----+   |              |   +-----+       +----+
+      |CE2 +-------+     |   |              |   |     +-------+ CE4|
+      +----+       | PE2 |===|              |===| PE4 |       +----+
+                   +-----+   +--------------+   +-----+
+~~~~
+{: #network-example title="Network Topology Example"}
+
+{{multiple-sites}} depicts an example of the message body of a request to instantiate these the various ACs that are shown in  {{network-example}}.
+
+~~~~
+{::include ./json-examples/multiple-ce-with-profile.json}
+~~~~
+{: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs"}
 
 # Description of the Attachment Circuit YANG Module
 
