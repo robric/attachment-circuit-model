@@ -153,6 +153,26 @@ The procedure to provision a service in a service provider network may depend on
 ~~~~
 {: #u-ex title="An Example of AC Model Usage"}
 
+## Examples
+
+## Request An AC over An Existing Bearer
+
+An example of a request to create a simple AC over an existing bearer is shown in {{ac-b}}.
+
+~~~~
+{::include ./json-examples/simple-ac-existing-bearer.json}
+~~~~
+{: #ac-b title="Example of a Message Body to Request an AC over an Existing Bearer"}
+
+
+## Request An AC for a Knwon Peer SAP
+
+An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-b}}.
+
+~~~~
+{::include ./json-examples/simple-ac-known-peer-sap.json}
+~~~~
+{: #ac-b title="Example of a Message Body to Request an AC for a Knwon Peer SAP"}
 
 # Description of the Attachment Circuit YANG Module
 
