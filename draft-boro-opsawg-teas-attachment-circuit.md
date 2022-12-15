@@ -167,12 +167,39 @@ An example of a request to create a simple AC over an existing bearer is shown i
 
 ## Request An AC for a Knwon Peer SAP
 
-An example of a request to create a simple AC, when the peer SAP is known, is shown in {ac-known-ps}}.
+An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}.
 
 ~~~~
 {::include ./json-examples/simple-ac-known-peer-sap.json}
 ~~~~
-{: #ac-known-ps title="Example of a Message Body to Request an AC for a Knwon Peer SAP"}
+{: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP"}
+
+## One CE, Two ACs
+
+An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}.
+
+~~~~
+{::include ./json-examples/two-acs-same-ce.json}
+~~~~
+{: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link"}
+
+## Illustrate the Use of Global Profiles
+
+An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce-profile}}. Unlike {{two-acs-same-ce}}, this example factorizes some of the redundant data.
+
+~~~~
+{::include ./json-examples/two-acs-same-ce-profile.json}
+~~~~
+{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile"}
+
+## Illustrate the Use of Per-Node Profiles
+
+An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce-node-profile}}. Unlike {{two-acs-same-ce}}, this example factorizes all redundant data.
+
+~~~~
+{::include ./json-examples/two-acs-same-ce-node-profile.json}
+~~~~
+{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile"}
 
 # Description of the Attachment Circuit YANG Module
 
