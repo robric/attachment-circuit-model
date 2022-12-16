@@ -166,7 +166,7 @@ module ietf-ac-svc {
         type identityref {
           base vpn-common:encapsulation-type;
         }
-        default "vpn-common:priority-tagged";
+        //default "vpn-common:priority-tagged";
         description
           "Encapsulation type.  By default, the type
            of the tagged interface is 'priority-tagged'.";
@@ -238,7 +238,7 @@ module ietf-ac-svc {
         type identityref {
           base vpn-common:encapsulation-type;
         }
-        default "vpn-common:priority-tagged";
+        //default "vpn-common:priority-tagged";
         description
           "Encapsulation type.  By default, the type of the tagged 
            interface is 'priority-tagged'.";
@@ -271,8 +271,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:priority-tagged')" {
           description
-            "Only applies when the type of
-             the tagged interface is
+            "Only applies when the type of the tagged interface is
              'priority-tagged'.";
         }
         description
@@ -337,7 +336,7 @@ module ietf-ac-svc {
              Endpoint.";
         }
         container pseudowire {
-          when "derived-from-or-self(../type, 'pseudowire')" {
+          when "derived-from-or-self(../type, 'l3nm:pseudowire')" {
             description
               "Only applies when the Layer 2 service type is 
                'pseudowire'.";
@@ -364,7 +363,7 @@ module ietf-ac-svc {
           }
         }
         container vpls {
-          when "derived-from-or-self(../type, 'vpls')" {
+          when "derived-from-or-self(../type, 'l3nm:vpls')" {
             description
               "Only applies when the Layer 2 service type is
                'vpls'.";
@@ -386,7 +385,7 @@ module ietf-ac-svc {
           }
         }
         container vxlan {
-          when "derived-from-or-self(../type, 'vxlan')" {
+          when "derived-from-or-self(../type, 'l3nm:vxlan')" {
             description
               "Only applies when the Layer 2 service type is
                'vxlan'.";
@@ -452,11 +451,12 @@ module ietf-ac-svc {
         type identityref {
           base l3nm:address-allocation-type;
         }
-        must "not(derived-from-or-self(current(), 'slaac') or "
+        must "not(derived-from-or-self(current(), 'l3nm:slaac') or "
            + "derived-from-or-self(current(), "
-           + "'provider-dhcp-slaac'))" {
+           + "'l3nm:provider-dhcp-slaac'))" {
           error-message "SLAAC is only applicable to IPv6.";
         }
+        default "l3nm:static-address";
         description
           "Defines how addresses are allocated to the peer site.
 
@@ -524,6 +524,7 @@ module ietf-ac-svc {
         type identityref {
           base l3nm:address-allocation-type;
         }
+        default "l3nm:static-address";
         description
           "Defines how addresses are allocated.
            If there is no value for the address allocation type, 
@@ -600,11 +601,12 @@ module ietf-ac-svc {
         type identityref {
           base l3nm:address-allocation-type;
         }
-        must "not(derived-from-or-self(current(), 'slaac') or "
+        must "not(derived-from-or-self(current(), 'l3nm:slaac') or "
            + "derived-from-or-self(current(), "
-           + "'provider-dhcp-slaac'))" {
+           + "'l3nm:provider-dhcp-slaac'))" {
           error-message "SLAAC is only applicable to IPv6.";
         }
+        default "l3nm:static-address";
         description
           "Defines how addresses are allocated to the peer site.
 
@@ -753,6 +755,7 @@ module ietf-ac-svc {
         type identityref {
           base l3nm:address-allocation-type;
         }
+        default "l3nm:static-address";
         description
           "Defines how addresses are allocated.
            If there is no value for the address allocation type, 
@@ -1584,7 +1587,7 @@ module ietf-ac-svc {
           description
             "Choice for the encryption profile.";
           case customer-profile {
-           leaf customer-key-chain {
+          leaf customer-key-chain {
               type key-chain:key-chain-ref;
               description
                 "Customer-supplied key chain.";
