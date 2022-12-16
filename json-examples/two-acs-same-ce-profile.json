@@ -8,19 +8,11 @@
             "type": "ietf-vpn-common:dot1q"
           }
         },
-        "ip-connection": {
-          "ipv4": {
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address"
-          },
-          "ipv6": {
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address"
-          }
-        },
         "routing-protocols": {
           "routing-protocol": [
             {
               "id": "1",
-              "type": "ietf-vpn-common:direct"
+              "type": "ietf-vpn-common:direct-routing"
             }
           ]
         }

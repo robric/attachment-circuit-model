@@ -16,7 +16,6 @@
           "ipv4": {
             "local-address": "192.0.2.1",
             "prefix-length": 30,
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address",
             "primary-address": "1",
             "address": [
               {
@@ -28,7 +27,6 @@
           "ipv6": {
             "local-address": "2001:db8::1",
             "prefix-length": 64,
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address",
             "primary-address": "1",
             "address": [
               {
@@ -42,7 +40,7 @@
           "routing-protocol": [
             {
               "id": "1",
-              "type": "ietf-vpn-common:direct"
+              "type": "ietf-vpn-common:direct-routing"
             }
           ]
         }
@@ -62,7 +60,6 @@
           "ipv4": {
             "local-address": "192.0.2.1",
             "prefix-length": 30,
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address",
             "primary-address": "1",
             "address": [
               {
@@ -74,7 +71,6 @@
           "ipv6": {
             "local-address": "2001:db8::1",
             "prefix-length": 64,
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address",
             "primary-address": "1",
             "address": [
               {
@@ -88,7 +84,7 @@
           "routing-protocol": [
             {
               "id": "1",
-              "type": "ietf-vpn-common:direct"
+              "type": "ietf-vpn-common:direct-routing"
             }
           ]
         }

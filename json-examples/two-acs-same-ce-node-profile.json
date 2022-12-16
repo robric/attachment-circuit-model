@@ -10,7 +10,6 @@
         },
         "ip-connection": {
           "ipv4": {
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address",
             "local-address": "192.0.2.1",
             "prefix-length": 30,
             "primary-address": "1",
@@ -22,7 +21,6 @@
             ]
           },
           "ipv6": {
-            "address-allocation-type": "ietf-l3vpn-ntw:static-address",
             "local-address": "2001:db8::1",
             "prefix-length": 64,
             "primary-address": "1",
@@ -38,7 +36,7 @@
           "routing-protocol": [
             {
               "id": "1",
-              "type": "ietf-vpn-common:direct"
+              "type": "ietf-vpn-common:direct-routing"
             }
           ]
         }
