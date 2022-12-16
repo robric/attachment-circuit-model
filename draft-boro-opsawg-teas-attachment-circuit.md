@@ -176,7 +176,7 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 
 ## One CE, Two ACs
 
-An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}.
+An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}. This example assumes that static addressing is used for the ACs.
 
 ~~~~
 {::include ./json-examples/two-acs-same-ce.json}
