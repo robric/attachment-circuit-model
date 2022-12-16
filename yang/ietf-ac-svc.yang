@@ -9,11 +9,6 @@ module ietf-ac-svc {
       "RFC 9181: A Common YANG Data Model for Layer 2 and Layer 3
                  VPNs";
   }
-  import ietf-l3vpn-ntw {
-    prefix l3nm;
-    reference
-      "RFC 9182: A YANG Network Data Model for Layer 3 VPNs";
-  }
   import ietf-inet-types {
     prefix inet;
     reference
@@ -66,11 +61,125 @@ module ietf-ac-svc {
 
   // Identities 
 
+  identity address-allocation-type {
+    description
+      "Base identity for address allocation type in the
+       Provider Edge to Customer Edge (PE-CE) link.";
+  }
+
+  identity provider-dhcp {
+    base address-allocation-type;
+    description
+      "The provider's network provides a DHCP service to the
+       customer.";
+  }
+
+  identity provider-dhcp-relay {
+    base address-allocation-type;
+    description
+      "The provider's network provides a DHCP relay service to the
+       customer.";
+  }
+
+  identity provider-dhcp-slaac {
+    if-feature "vpn-common:ipv6";
+    base address-allocation-type;
+    description
+      "The provider's network provides a DHCP service to the
+       customer as well as IPv6 Stateless Address
+       Autoconfiguration (SLAAC).";
+    reference
+      "RFC 4862: IPv6 Stateless Address Autoconfiguration";
+  }
+
+  identity static-address {
+    base address-allocation-type;
+    description
+      "The provider's network provides static IP addressing to the
+       customer.";
+  }
+
+  identity slaac {
+    if-feature "vpn-common:ipv6";
+    base address-allocation-type;
+    description
+      "The provider's network uses IPv6 SLAAC to provide
+       addressing to the customer.";
+    reference
+      "RFC 4862: IPv6 Stateless Address Autoconfiguration";
+  }
+
   identity dynamic-infra {
-    base l3nm:address-allocation-type;
+    base address-allocation-type;
     description
       "The IP address is dynamically allocated by the hosting
        infrastrcture.";
+  }
+
+  identity local-defined-next-hop {
+    description
+      "Base identity of local defined next hops.";
+  }
+
+  identity discard {
+    base local-defined-next-hop;
+    description
+      "Indicates an action to discard traffic for the
+       corresponding destination.
+       For example, this can be used to black-hole traffic.";
+  }
+
+  identity local-link {
+    base local-defined-next-hop;
+    description
+      "Treat traffic towards addresses within the specified
+       next-hop prefix as though they are connected to a local
+       link.";
+  }
+
+  identity l2-tunnel-type {
+    description
+      "Base identity for Layer 2 tunnel selection under the VPN
+       network access.";
+  }
+
+  identity pseudowire {
+    base l2-tunnel-type;
+    description
+      "Pseudowire tunnel termination in the VPN network access.";
+  }
+
+  identity vpls {
+    base l2-tunnel-type;
+    description
+      "Virtual Private LAN Service (VPLS) tunnel termination in
+       the VPN network access.";
+  }
+
+  identity vxlan {
+    base l2-tunnel-type;
+    description
+      "Virtual eXtensible Local Area Network (VXLAN) tunnel
+       termination in the VPN network access.";
+  }
+
+  /* Typedefs */
+
+  typedef predefined-next-hop {
+    type identityref {
+      base local-defined-next-hop;
+    }
+    description
+      "Predefined next-hop designation for locally generated
+       routes.";
+  }
+
+  typedef area-address {
+    type string {
+      pattern '[0-9A-Fa-f]{2}(\.[0-9A-Fa-f]{4}){0,6}';
+    }
+    description
+      "This type defines the area address format.";
   }
 
   typedef attachment-circuit-reference {
@@ -328,7 +437,7 @@ module ietf-ac-svc {
            Other values may be defined, if needed.";
         leaf type {
           type identityref {
-            base l3nm:l2-tunnel-type;
+            base l2-tunnel-type;
           }
 
           description
@@ -336,7 +445,7 @@ module ietf-ac-svc {
              Endpoint.";
         }
         container pseudowire {
-          when "derived-from-or-self(../type, 'l3nm:pseudowire')" {
+          when "derived-from-or-self(../type, 'pseudowire')" {
             description
               "Only applies when the Layer 2 service type is 
                'pseudowire'.";
@@ -363,7 +472,7 @@ module ietf-ac-svc {
           }
         }
         container vpls {
-          when "derived-from-or-self(../type, 'l3nm:vpls')" {
+          when "derived-from-or-self(../type, 'vpls')" {
             description
               "Only applies when the Layer 2 service type is
                'vpls'.";
@@ -385,7 +494,7 @@ module ietf-ac-svc {
           }
         }
         container vxlan {
-          when "derived-from-or-self(../type, 'l3nm:vxlan')" {
+          when "derived-from-or-self(../type, 'vxlan')" {
             description
               "Only applies when the Layer 2 service type is
                'vxlan'.";
@@ -449,14 +558,14 @@ module ietf-ac-svc {
       }
       leaf address-allocation-type {
         type identityref {
-          base l3nm:address-allocation-type;
+          base address-allocation-type;
         }
-        must "not(derived-from-or-self(current(), 'l3nm:slaac') or "
+        must "not(derived-from-or-self(current(), 'slaac') or "
            + "derived-from-or-self(current(), "
-           + "'l3nm:provider-dhcp-slaac'))" {
+           + "'provider-dhcp-slaac'))" {
           error-message "SLAAC is only applicable to IPv6.";
         }
-        default "l3nm:static-address";
+        default "static-address";
         description
           "Defines how addresses are allocated to the peer site.
 
@@ -522,9 +631,9 @@ module ietf-ac-svc {
       }
       leaf address-allocation-type {
         type identityref {
-          base l3nm:address-allocation-type;
+          base address-allocation-type;
         }
-        default "l3nm:static-address";
+        default "static-address";
         description
           "Defines how addresses are allocated.
            If there is no value for the address allocation type, 
@@ -599,14 +708,14 @@ module ietf-ac-svc {
       }
       leaf address-allocation-type {
         type identityref {
-          base l3nm:address-allocation-type;
+          base address-allocation-type;
         }
-        must "not(derived-from-or-self(current(), 'l3nm:slaac') or "
+        must "not(derived-from-or-self(current(), 'slaac') or "
            + "derived-from-or-self(current(), "
-           + "'l3nm:provider-dhcp-slaac'))" {
+           + "'provider-dhcp-slaac'))" {
           error-message "SLAAC is only applicable to IPv6.";
         }
-        default "l3nm:static-address";
+        default "static-address";
         description
           "Defines how addresses are allocated to the peer site.
 
@@ -755,9 +864,9 @@ module ietf-ac-svc {
       }
       leaf address-allocation-type {
         type identityref {
-          base l3nm:address-allocation-type;
+          base address-allocation-type;
         }
-        default "l3nm:static-address";
+        default "static-address";
         description
           "Defines how addresses are allocated.
            If there is no value for the address allocation type, 
@@ -1018,7 +1127,7 @@ module ietf-ac-svc {
              be activated.";
         }
         leaf area-address {
-          type l3nm:area-address;
+          type area-address;
           mandatory true;
           description
             "Area address.";
@@ -1135,7 +1244,7 @@ module ietf-ac-svc {
             leaf next-hop {
               type union {
                 type inet:ip-address;
-                type l3nm:predefined-next-hop;
+                type predefined-next-hop;
               }
               description
                 "The next hop that is to be used for the static route.  
@@ -1163,7 +1272,7 @@ module ietf-ac-svc {
             leaf next-hop {
               type union {
                 type inet:ip-address;
-                type l3nm:predefined-next-hop;
+                type predefined-next-hop;
               }
               description
                 "The next hop that is to be used for the static route.  
@@ -1317,7 +1426,7 @@ module ietf-ac-svc {
              are to be activated.";
         }
         leaf area-address {
-          type l3nm:area-address;
+          type area-address;
           mandatory true;
           description
             "Area address.";

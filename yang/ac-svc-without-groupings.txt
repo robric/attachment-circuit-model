@@ -73,7 +73,7 @@ module: ietf-ac-svc
      |  |     |  +--rw metric?           uint16
      |  |     +--rw isis
      |  |     |  +--rw address-family?   identityref
-     |  |     |  +--rw area-address      l3nm:area-address
+     |  |     |  +--rw area-address      area-address
      |  |     +--rw rip
      |  |     |  +--rw address-family?   identityref
      |  |     +--rw vrrp
@@ -238,7 +238,7 @@ module: ietf-ac-svc
      |  |     |        +--ro last-change?   yang:date-and-time
      |  |     +--rw isis
      |  |     |  +--rw address-family?   identityref
-     |  |     |  +--rw area-address      l3nm:area-address
+     |  |     |  +--rw area-address      area-address
      |  |     |  +--rw status
      |  |     |     +--rw admin-status
      |  |     |     |  +--rw status?        identityref
@@ -439,7 +439,7 @@ module: ietf-ac-svc
         |     |        +--ro last-change?   yang:date-and-time
         |     +--rw isis
         |     |  +--rw address-family?   identityref
-        |     |  +--rw area-address      l3nm:area-address
+        |     |  +--rw area-address      area-address
         |     |  +--rw status
         |     |     +--rw admin-status
         |     |     |  +--rw status?        identityref
