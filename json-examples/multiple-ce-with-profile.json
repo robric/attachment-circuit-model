@@ -16,7 +16,7 @@
     "ac": [
       {
         "name": "ac1",
-        "description": "First site",
+        "description": "Connect a first site",
         "ac-global-profile": [
           "simple-node-profile"
         ],
@@ -26,17 +26,17 @@
       },
       {
         "name": "ac2",
-        "description": "Second Site",
+        "description": "Connect a second Site",
         "ac-global-profile": [
           "simple-node-profile"
         ],
         "l2-connection": {
-          "bearer-reference": "ce1-network"
+          "bearer-reference": "ce2-network"
         }
       },
       {
         "name": "ac3",
-        "description": "Third site",
+        "description": "Connect a third site",
         "ac-global-profile": [
           "simple-node-profile"
         ],
@@ -46,7 +46,7 @@
       },
       {
         "name": "ac4",
-        "description": "Another site",
+        "description": "Connect a forth site",
         "ac-global-profile": [
           "simple-node-profile"
         ],
