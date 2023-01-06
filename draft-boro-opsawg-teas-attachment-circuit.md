@@ -89,7 +89,7 @@ Service provider:
 
 # Sample Uses of the Attachment Circuit Data Models
 
-~~~~
+~~~~ aasvg
 ┌───────┐                      ┌──────────────────────┐
 │       ├────────┐             │                      │
 │  CE1  │        │             │                      │
@@ -111,7 +111,7 @@ Service provider:
 └───────┘                      └──────────────────────┘
 
 ~~~~
-
+{: #uc title='Examples of ACs' artwork-align="center"}
 
 ## Separate AC Provisioning vs. Actual Service Provisioning
 
@@ -151,7 +151,7 @@ The procedure to provision a service in a service provider network may depend on
                  | NETCONF/CLI..................
                  |        |                   |
 ~~~~
-{: #u-ex title="An Example of AC Model Usage"}
+{: #u-ex title="An Example of AC Model Usage" artwork-align="center"}
 
 ## Examples
 
@@ -162,7 +162,7 @@ An example of a request to create a simple AC over an existing bearer is shown i
 ~~~~
 {::include ./json-examples/simple-ac-existing-bearer.json}
 ~~~~
-{: #ac-b title="Example of a Message Body to Request an AC over an Existing Bearer"}
+{: #ac-b title="Example of a Message Body to Request an AC over an Existing Bearer" artwork-align="center"}
 
 
 ## Request An AC for a Knwon Peer SAP
@@ -172,7 +172,7 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 ~~~~
 {::include ./json-examples/simple-ac-known-peer-sap.json}
 ~~~~
-{: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP"}
+{: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP" artwork-align="center"}
 
 ## One CE, Two ACs
 
@@ -181,7 +181,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce.json}
 ~~~~
-{: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link"}
+{: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link" artwork-align="center"}
 
 ## Illustrate the Use of Global Profiles
 
@@ -190,7 +190,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce-profile.json}
 ~~~~
-{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile)"}
+{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile)" artwork-align="center"}
 
 ## Illustrate the Use of Per-Node Profiles
 
@@ -199,20 +199,20 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce-node-profile.json}
 ~~~~
-{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile)"}
+{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile)" artwork-align="center"}
 
 A customer may request adding a new AC by simply referring to an existing per-node AC profile as shown in {{add-ac-same-ce-node-profile}}. This AC inherites all the data that was enclosed in the indicated per-node AC profile (IP addressing, routing, etc.).
 
 ~~~~
 {::include ./json-examples/add-ac-same-ce-node-profile.json}
 ~~~~
-{: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile)"}
+{: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile)" artwork-align="center"}
 
 ## Multiple CEs
 
 {{network-example}} shows an example of CEs that are interconnected by a service provider network.
 
-~~~~
+~~~~ aasvg
 
                    +-----+   +--------------+   +-----+
       +----+       | PE1 |===|              |===| PE3 |       +----+
@@ -224,14 +224,14 @@ A customer may request adding a new AC by simply referring to an existing per-no
       +----+       | PE2 |===|              |===| PE4 |       +----+
                    +-----+   +--------------+   +-----+
 ~~~~
-{: #network-example title="Network Topology Example"}
+{: #network-example title="Network Topology Example" artwork-align="center"}
 
 {{multiple-sites}} depicts an example of the message body of a request to instantiate these the various ACs that are shown in  {{network-example}}.
 
 ~~~~
 {::include ./json-examples/multiple-ce-with-profile.json}
 ~~~~
-{: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs"}
+{: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs" artwork-align="center"}
 
 # Description of the Attachment Circuit YANG Module
 
@@ -265,7 +265,7 @@ module: ietf-ac-svc
         +--rw security
            ...
 ~~~~
-{: #o-svc-tree title="Overall AC Service Tree Structure"}
+{: #o-svc-tree title="Overall AC Service Tree Structure" artwork-align="center"}
 
 Each AC is identified with a unique identifier within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
 
@@ -303,7 +303,7 @@ module: ietf-ac-svc
      +--rw ac* [id]
         ...
 ~~~~
-{: #gp-svc-tree title="Service Proviles"}
+{: #gp-svc-tree title="Service Proviles" artwork-align="center"}
 
 As shown in {{gp-svc-tree}}, two profile types can be defined: 'specific-provisioning-profiles' and 'service-provisioning-profiles'. Whether only specific profiles, service profiles, or a combination thereff are used is local to each service provider.
 
@@ -365,13 +365,13 @@ module: ietf-ac-svc
         +--rw security
            ...
 ~~~~
-{: #ac-svc-tree title="cccc Tree Structure"}
+{: #ac-svc-tree title="cccc Tree Structure" artwork-align="center"}
 
 
 ~~~~
 {::include ./yang/ac-svc-without-groupings.txt}
 ~~~~
-{: #d-svc-tree title="AC Service Tree Structure"}
+{: #d-svc-tree title="AC Service Tree Structure" artwork-align="center"}
 
 
 ### Layer 2 Connection Structure
