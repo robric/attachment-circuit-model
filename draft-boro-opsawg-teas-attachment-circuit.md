@@ -166,7 +166,7 @@ This section includes a non-exhaustive list of examples to illustrate the use of
 
 ## Request An AC over An Existing Bearer
 
-An example of a request to create a simple AC over an existing bearer is shown in {{ac-b}}.
+An example of of a request message body to create a simple AC over an existing bearer is shown in {{ac-b}}. The bearer reference is assumed to be known to both the customer and the network provider. How such reference is shared is out of scope.
 
 ~~~~
 {::include ./json-examples/simple-ac-existing-bearer.json}
@@ -176,7 +176,7 @@ An example of a request to create a simple AC over an existing bearer is shown i
 
 ## Request An AC for a Knwon Peer SAP
 
-An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}.
+An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}. In this example, the peer SAP identifier points to an identifier of a service function. The (topological) location of that service function is assumed to be known to the network controller. For example, this can be determined as part of an on-demand procedure to instantiate a service function in a cloud.
 
 ~~~~
 {::include ./json-examples/simple-ac-known-peer-sap.json}
@@ -278,6 +278,8 @@ module: ietf-ac-svc
 ~~~~
 {: #o-svc-tree title="Overall AC Service Tree Structure" artwork-align="center"}
 
+The full tree structure is provided in {{full-tree}}.
+
 Each AC is identified with a unique identifier within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
 
 ## Service Profiles
@@ -311,7 +313,7 @@ module: ietf-ac-svc
      |  ...
      +--rw ac-node-group* [id]
      |  ...
-     +--rw ac* [id]
+     +--rw ac* [name]
         ...
 ~~~~
 {: #gp-svc-tree title="Service Proviles" artwork-align="center"}
@@ -361,11 +363,17 @@ module: ietf-ac-svc
      |  ...f
      +--rw ac-node-group* [id]
      |  ...
-     +--rw ac* [id]
-        +--rw peer-sap-id*         string
-        +--rw profile-id*
-        |       -> /attachment-circuits/ac-global-profile/id
-        +--rw id                   string
+     +--rw ac* [name]
+        +--rw customer-name?        string
+        +--rw description?          string
+        +--rw requested-ac-start?   yang:date-and-time
+        +--rw requested-ac-stop?    yang:date-and-time
+        +--ro actual-ac-start?      yang:date-and-time
+        +--ro actual-ac-stop?       yang:date-and-time
+        +--rw peer-sap-id*          string
+        +--rw ac-global-profile*    ac-global-profile-reference
+        +--rw ac-node-profile*      ac-node-group-reference
+        +--rw name                  string
         +--rw l2-connection
         |  ...
         +--rw ip-connection
@@ -377,28 +385,344 @@ module: ietf-ac-svc
         +--rw security
            ...
 ~~~~
-{: #ac-svc-tree title="cccc Tree Structure" artwork-align="center"}
+{: #ac-svc-tree title="Overall Attachment Circuits Tree Structure" artwork-align="center"}
 
 
 ### Layer 2 Connection Structure
 
-TBC
+As shown in the tree depicted in {{l2-svc-tree}}, the 'l2-connection' container defines service parameters to enable such connectivity at Layer 2.
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...f
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        ...
+        +--rw name                  string
+        +--rw l2-connection
+        |  +--rw encapsulation
+        |  |  +--rw type?              identityref
+        |  |  +--rw dot1q
+        |  |  |  +--rw tag-type?   identityref
+        |  |  |  +--rw cvlan-id?   uint16
+        |  |  +--rw priority-tagged
+        |  |  |  +--rw tag-type?   identityref
+        |  |  +--rw qinq
+        |  |     +--rw tag-type?   identityref
+        |  |     +--rw svlan-id    uint16
+        |  |     +--rw cvlan-id    uint16
+        |  +--rw (l2-service)?
+        |  |  +--:(l2-tunnel-service)
+        |  |  |  +--rw l2-tunnel-service
+        |  |  |     +--rw type?         identityref
+        |  |  |     +--rw pseudowire
+        |  |  |     |  +--rw vcid?      uint32
+        |  |  |     |  +--rw far-end?   union
+        |  |  |     +--rw vpls
+        |  |  |     |  +--rw vcid?      uint32
+        |  |  |     |  +--rw far-end*   union
+        |  |  |     +--rw vxlan
+        |  |  |        +--rw vni-id             uint32
+        |  |  |        +--rw peer-mode?         identityref
+        |  |  |        +--rw peer-ip-address*   inet:ip-address
+        |  |  +--:(l2vpn)
+        |  |     +--rw l2vpn-id?            vpn-common:vpn-id
+        |  +--rw bearer-reference?          string {vpn-common:bearer-reference}?
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
+~~~~
+{: #l2-svc-tree title="Layer 2 Connection Tree Structure" artwork-align="center"}
+
 
 ### Layer 3 Connection Structure
 
-TBC
+As shown in the tree depicted in {{l3-svc-tree}}, the 'l3-connection' container defines service parameters to enable Layer 3 connectivity for an AC.
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...f
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        ...
+        +--rw name                  string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  +--rw ipv4 {vpn-common:ipv4}?
+        |  |  +--rw local-address?                           inet:ipv4-address
+        |  |  +--rw prefix-length?                           uint8
+        |  |  +--rw address-allocation-type?                 identityref
+        |  |  +--rw (allocation-type)?
+        |  |     +--:(dynamic)
+        |  |     |  +--rw (address-assign)?
+        |  |     |  |  +--:(number)
+        |  |     |  |  |  +--rw number-of-dynamic-address?   uint16
+        |  |     |  |  +--:(explicit)
+        |  |     |  |     +--rw customer-addresses
+        |  |     |  |        +--rw address-pool* [pool-id]
+        |  |     |  |           +--rw pool-id          string
+        |  |     |  |           +--rw start-address    inet:ipv4-address
+        |  |     |  |           +--rw end-address?     inet:ipv4-address
+        |  |     |  +--rw (provider-dhcp)?
+        |  |     |  |  +--:(dhcp-service-type)
+        |  |     |  |     +--rw dhcp-service-type?           enumeration
+        |  |     |  +--rw (dhcp-relay)?
+        |  |     |     +--:(customer-dhcp-servers)
+        |  |     |        +--rw customer-dhcp-servers
+        |  |     |           +--rw server-ip-address*   inet:ipv4-address
+        |  |     +--:(static-addresses)
+        |  |        +--rw address* [address-id]
+        |  |           +--rw address-id          string
+        |  |           +--rw customer-address?   inet:ipv4-address
+        |  +--rw ipv6 {vpn-common:ipv6}?
+        |     +--rw local-address?                           inet:ipv6-address
+        |     +--rw prefix-length?                           uint8
+        |     +--rw address-allocation-type?                 identityref
+        |     +--rw (allocation-type)?
+        |        +--:(dynamic)
+        |        |  +--rw (address-assign)?
+        |        |  |  +--:(number)
+        |        |  |  |  +--rw number-of-dynamic-address?   uint16
+        |        |  |  +--:(explicit)
+        |        |  |     +--rw customer-addresses
+        |        |  |        +--rw address-pool* [pool-id]
+        |        |  |           +--rw pool-id          string
+        |        |  |           +--rw start-address    inet:ipv6-address
+        |        |  |           +--rw end-address?     inet:ipv6-address
+        |        |  +--rw (provider-dhcp)?
+        |        |  |  +--:(dhcp-service-type)
+        |        |  |     +--rw dhcp-service-type?           enumeration
+        |        |  +--rw (dhcp-relay)?
+        |        |     +--:(customer-dhcp-servers)
+        |        |        +--rw customer-dhcp-servers
+        |        |           +--rw server-ip-address*   inet:ipv6-address
+        |        +--:(static-addresses)
+        |           +--rw address* [address-id]
+        |              +--rw address-id          string
+        |              +--rw customer-address?   inet:ipv6-address
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
+~~~~
+{: #l3-svc-tree title="Layer 3 Connection Tree Structure" artwork-align="center"}
 
 ### Routing
 
-TBC
+As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines th erequired parameters to enable the required routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols are then enabled between a PE and the CE. Each routing instance is uniquely identified to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...f
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        ...
+        +--rw name                  string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  +--rw routing-protocol* [id]
+        |     +--rw id                  string
+        |     +--rw type?               identityref
+        |     +--rw routing-profiles* [id]
+        |     |  +--rw id      routing-profile-reference
+        |     |  +--rw type?   identityref
+        |     +--rw static
+        |     |  +--rw cascaded-lan-prefixes
+        |     |     +--rw ipv4-lan-prefixes* [lan next-hop] {vpn-common:ipv4}?
+        |     |     |  +--rw lan         inet:ipv4-prefix
+        |     |     |  +--rw lan-tag?    string
+        |     |     |  +--rw next-hop    union
+        |     |     |  +--rw status
+        |     |     |     +--rw admin-status
+        |     |     |     |  +--rw status?        identityref
+        |     |     |     |  +--rw last-change?   yang:date-and-time
+        |     |     |     +--ro oper-status
+        |     |     |        +--ro status?        identityref
+        |     |     |        +--ro last-change?   yang:date-and-time
+        |     |     +--rw ipv6-lan-prefixes* [lan next-hop] {vpn-common:ipv6}?
+        |     |        +--rw lan         inet:ipv6-prefix
+        |     |        +--rw lan-tag?    string
+        |     |        +--rw next-hop    union
+        |     |        +--rw status
+        |     |           +--rw admin-status
+        |     |           |  +--rw status?        identityref
+        |     |           |  +--rw last-change?   yang:date-and-time
+        |     |           +--ro oper-status
+        |     |              +--ro status?        identityref
+        |     |              +--ro last-change?   yang:date-and-time
+        |     +--rw bgp
+        |     |  +--rw peer-groups
+        |     |  |  +--rw peer-group* [name]
+        |     |  |     +--rw name              string
+        |     |  |     +--ro local-address?    inet:ip-address
+        |     |  |     +--rw peer-as           inet:as-number
+        |     |  |     +--rw address-family?   identityref
+        |     |  +--rw neighbor* [remote-address]
+        |     |     +--rw remote-address    inet:ip-address
+        |     |     +--ro local-address?    inet:ip-address
+        |     |     +--rw peer-group?       -> ../../peer-groups/peer-group/name
+        |     |     +--rw peer-as           inet:as-number
+        |     |     +--rw address-family?   identityref
+        |     |     +--rw status
+        |     |        +--rw admin-status
+        |     |        |  +--rw status?        identityref
+        |     |        |  +--rw last-change?   yang:date-and-time
+        |     |        +--ro oper-status
+        |     |           +--ro status?        identityref
+        |     |           +--ro last-change?   yang:date-and-time
+        |     +--rw ospf
+        |     |  +--rw address-family?   identityref
+        |     |  +--rw area-id           yang:dotted-quad
+        |     |  +--rw metric?           uint16
+        |     |  +--rw status
+        |     |     +--rw admin-status
+        |     |     |  +--rw status?        identityref
+        |     |     |  +--rw last-change?   yang:date-and-time
+        |     |     +--ro oper-status
+        |     |        +--ro status?        identityref
+        |     |        +--ro last-change?   yang:date-and-time
+        |     +--rw isis
+        |     |  +--rw address-family?   identityref
+        |     |  +--rw area-address      area-address
+        |     |  +--rw status
+        |     |     +--rw admin-status
+        |     |     |  +--rw status?        identityref
+        |     |     |  +--rw last-change?   yang:date-and-time
+        |     |     +--ro oper-status
+        |     |        +--ro status?        identityref
+        |     |        +--ro last-change?   yang:date-and-time
+        |     +--rw rip
+        |     |  +--rw address-family?   identityref
+        |     |  +--rw status
+        |     |     +--rw admin-status
+        |     |     |  +--rw status?        identityref
+        |     |     |  +--rw last-change?   yang:date-and-time
+        |     |     +--ro oper-status
+        |     |        +--ro status?        identityref
+        |     |        +--ro last-change?   yang:date-and-time
+        |     +--rw vrrp
+        |        +--rw address-family?   identityref
+        |        +--rw status
+        |           +--rw admin-status
+        |           |  +--rw status?        identityref
+        |           |  +--rw last-change?   yang:date-and-time
+        |           +--ro oper-status
+        |              +--ro status?        identityref
+        |              +--ro last-change?   yang:date-and-time
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
+~~~~
+{: #rtg-svc-tree title="Routing Tree Structure" artwork-align="center"}
 
 ### OAM
 
-TBC
+As shown in the tree depicted in {{oam-svc-tree}}, the 'oam' container defines OAM-related parameters of an AC.
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...f
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        ...
+        +--rw name                  string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  +--rw bfd {vpn-common:bfd}?
+        |     +--rw holdtime?   uint32
+        |     +--rw status
+        |        +--rw admin-status
+        |        |  +--rw status?        identityref
+        |        |  +--rw last-change?   yang:date-and-time
+        |        +--ro oper-status
+        |           +--ro status?        identityref
+        |           +--ro last-change?   yang:date-and-time
+        +--rw security
+           ...
+~~~~
+{: #oam-svc-tree title="OAM Tree Structure" artwork-align="center"}
 
 ### Security
 
-TBC
+As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defines sercurity parameters of an AC.
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...f
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        ...
+        +--rw name                  string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           +--rw encryption {vpn-common:encryption}?
+           |  +--rw enabled?   boolean
+           |  +--rw layer?     enumeration
+           +--rw encryption-profile
+              +--rw (profile)?
+                 +--:(customer-profile)
+                    +--rw customer-key-chain?   key-chain:key-chain-ref
+~~~~
+{: #sec-svc-tree title="Security Tree Structure" artwork-align="center"}
 
 # YANG Module
 
@@ -473,7 +797,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 
 --- back
 
-# Full Tree
+# Full Tree {#full-tree}
 
 ~~~~
 {::include ./yang/ac-svc-without-groupings.txt}
