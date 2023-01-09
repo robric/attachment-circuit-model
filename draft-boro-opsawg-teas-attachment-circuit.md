@@ -44,18 +44,12 @@ author:
     email: lana.wubo@huawei.com
 
 normative:
-ISO10589:
-         title: "Information technology - Telecommunications and information exchange between systems - Intermediate System
-              to Intermediate System intra-domain routeing information
-              exchange protocol for use in conjunction with the protocol
-              for providing the connectionless-mode network service (ISO
-              8473)"
-          author:
-            org: ISO
-          date: 2002
-          seriesinfo:
-               ISO/IEC 10589:2002
-          target: https://www.iso.org/standard/30932.html
+  ISO10589:
+    title: Information technology - Telecommunications and information exchange between systems - Intermediate System to Intermediate System intra-domain routeing information exchange protocol for use in conjunction with the protocol for providing the connectionless-mode network service (ISO8473)
+    author:
+      org: ISO
+    date: 2002
+    target: https://www.iso.org/standard/30932.html
 
 informative:
 
