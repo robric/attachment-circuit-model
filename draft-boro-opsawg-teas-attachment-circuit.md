@@ -10,7 +10,7 @@ date:
 consensus: true
 v: 3
 area: "Operations and Management"
-workgroup: "Operations and Management Area Working Group"
+workgroup: "OPSAW"
 keyword:
  - Slice Service
  - L3VPN
@@ -50,25 +50,25 @@ informative:
 
 --- abstract
 
-This document specifies a YANG service data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
+This document specifies a YANG service data model for Attachment Circuits (ACs). The model can be used for the provisioning ACs prior or during service provisioning (e.g., Network Slice Service). The model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply include an AC reference is a design choice of these service models. Relying on the AC model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
+
+Each AC is identified with a unique identifier within a domain. The mapping between this AC and a PE that terminates the AC (on the network provide side) is hidden to the application/customer that makes use of the AC service model. This information is internal to the network controller. As such, the details about the (node-specific network) attachment interfaces are not exposed in this service model.
 
 --- middle
 
 # Introduction
 
-This document specifies a YANG service data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
+This document specifies a YANG service data model for managing attachment circuits (ACs) that are exposed by a network to its customers (e.g., enterprise site, network function, hosting infrastructure, peer network provider) . The model can be used for the provisioning AC prior or during service provisioning (e.g., Network Slice Service). Also, the model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply include an AC reference is a design choice of these service models.
 
-TBC
+Relying on the AC model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features (e.g., new encryption scheme, additional routing protocol).
 
-An AC can be bound to a single or multiple SAPs {{!I-D.ietf-opsawg-sap}}.
+Each AC is identified with a unique identifier within a domain. From a network provider standpoint, an AC can be bound to a single or multiple SAPs {{!I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
 
- The YANG data model in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
+ The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
-
-# Terminology
 
 The meanings of the symbols in the YANG tree diagrams are defined in {{?RFC8340}}.
 
@@ -89,12 +89,16 @@ Service provider:
 
 # Sample Uses of the Attachment Circuit Data Models
 
+{{uc}} depictes two target topology flavors that may host ACs. A CE may be a physical node or a logical entity.
+
+CEs may be dedicated to one single service or host multiple service instances (e.g., service functions {{?RFC7665}}. A single AC (as seen by a network provider) may have one or multiple peer SAPs.
+
 ~~~~ aasvg
 ┌───────┐                      ┌──────────────────────┐
 │       ├────────┐             │                      │
 │  CE1  │        │             │                      │
 └───────┘        │             │                      │
-                 ├─────────────┤        PE            │
+                 ├─────────────┤      Network         │
 ┌───────┐        │             │                      │
 │       │        │             │                      │
 │  CE2  ├────────┘             │                      │
@@ -104,18 +108,19 @@ Service provider:
 │       │                      │                      │
 │  CE1  ├──────────────────────┤                      │
 └───────┘                      │                      │
-                               │        PE            │
+                               │      Network         │
 ┌───────┐                      │                      │
 │       ├──────────────────────┤                      │
 │  CE2  │                      │                      │
 └───────┘                      └──────────────────────┘
-
 ~~~~
 {: #uc title='Examples of ACs' artwork-align="center"}
 
 ## Separate AC Provisioning vs. Actual Service Provisioning
 
 The procedure to provision a service in a service provider network may depend on the practices adopted by a service provider, including the flow put in place for the provisioning of advanced network services and how they are bound to an attachment circuit. For example, the same attachment circuit may be used to host multiple services. In order to avoid service interference and redundant information in various locations, a service provider may expose an interface to manage ACs network-wide. Customers can the request a base attachment circuit to be put in place, and then refer to that base AC when requesting services that are bound to that AC.
+
+{{u-ex}} shows the positioning of the AC service model is the overall service delivery process.
 
 ~~~~
                           +---------------+
@@ -155,6 +160,9 @@ The procedure to provision a service in a service provider network may depend on
 
 ## Examples
 
+This section includes a non-exhaustive list of examples to illustrate the use of the AC service model.
+
+
 ## Request An AC over An Existing Bearer
 
 An example of a request to create a simple AC over an existing bearer is shown in {{ac-b}}.
@@ -172,16 +180,16 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 ~~~~
 {::include ./json-examples/simple-ac-known-peer-sap.json}
 ~~~~
-{: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP" artwork-align="center"}
+{: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP"}
 
 ## One CE, Two ACs
 
-An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}. This example assumes that static addressing is used for the ACs.
+An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}. This example assumes that static addressing is used for both ACs.
 
 ~~~~
 {::include ./json-examples/two-acs-same-ce.json}
 ~~~~
-{: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link" artwork-align="center"}
+{: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link"}
 
 ## Illustrate the Use of Global Profiles
 
@@ -190,7 +198,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce-profile.json}
 ~~~~
-{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile)" artwork-align="center"}
+{: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile)"}
 
 ## Illustrate the Use of Per-Node Profiles
 
@@ -199,14 +207,14 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {::include ./json-examples/two-acs-same-ce-node-profile.json}
 ~~~~
-{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile)" artwork-align="center"}
+{: #two-acs-same-ce-node-profile title="Example of a Message Body to Request Two ACes on The Same Link (Node Profile)"}
 
 A customer may request adding a new AC by simply referring to an existing per-node AC profile as shown in {{add-ac-same-ce-node-profile}}. This AC inherites all the data that was enclosed in the indicated per-node AC profile (IP addressing, routing, etc.).
 
 ~~~~
 {::include ./json-examples/add-ac-same-ce-node-profile.json}
 ~~~~
-{: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile)" artwork-align="center"}
+{: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile)"}
 
 ## Multiple CEs
 
@@ -214,29 +222,31 @@ A customer may request adding a new AC by simply referring to an existing per-no
 
 ~~~~ aasvg
 
-                   +-----+   +--------------+   +-----+
-      +----+       | PE1 |===|              |===| PE3 |       +----+
-      | CE1+-------+     |   |              |   |     +-------+ CE3|
-      +----+       +-----+   |              |   +-----+       +----+
-                             |     Core     |
-      +----+       +-----+   |              |   +-----+       +----+
-      |CE2 +-------+     |   |              |   |     +-------+ CE4|
-      +----+       | PE2 |===|              |===| PE4 |       +----+
-                   +-----+   +--------------+   +-----+
+                   +----------------------------------+
+      +----+       |                                  |       +----+
+      | CE1+-------+                                  +-------+ CE3|
+      +----+       |                                  |       +----+
+                   |              Network             |
+      +----+       |                                  |       +----+
+      |CE2 +-------+                                  +-------+ CE4|
+      +----+       |                                  |       +----+
+                   +----------------------------------+
 ~~~~
 {: #network-example title="Network Topology Example" artwork-align="center"}
 
-{{multiple-sites}} depicts an example of the message body of a request to instantiate these the various ACs that are shown in  {{network-example}}.
+{{multiple-sites}} depicts an example of the message body of a request to instantiate the various ACs that are shown in {{network-example}}.
 
 ~~~~
 {::include ./json-examples/multiple-ce-with-profile.json}
 ~~~~
-{: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs" artwork-align="center"}
+{: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs"}
 
 # Description of the Attachment Circuit YANG Module
 
 
 ## Overall Structure of the Module
+
+The overall tree structure of the AC service module is shown in {{o-svc-tree}}.
 
 ~~~~
 module: ietf-ac-svc
@@ -331,12 +341,13 @@ The following specific rovisioning profiles can be defined:
 
 All these profiles are uniquely identified by the NETCONF/RESTCONF server by an identifier. To ease referencing these profiles by other data models, specific typedefs are defined for each of these profiles. Likewise, an attachment circuit referenc typedef is defiened when referencing a (global) attachment circuit by its name is required. These typedefs SHOULD be used when other modules need a reference to one of these profiles or attahment circuits.
 
-
 ## Attachment Circuits Profiles
 
 ## Node-Specific Profiles
 
 ## Attachment Circuits
+
+The structure of 'attachment-circuits' is shown in {{ac-svc-tree}}.
 
 ~~~~
 module: ietf-ac-svc
@@ -368,30 +379,29 @@ module: ietf-ac-svc
 {: #ac-svc-tree title="cccc Tree Structure" artwork-align="center"}
 
 
-~~~~
-{::include ./yang/ac-svc-without-groupings.txt}
-~~~~
-{: #d-svc-tree title="AC Service Tree Structure" artwork-align="center"}
-
-
 ### Layer 2 Connection Structure
 
+TBC
 
 ### Layer 3 Connection Structure
 
+TBC
 
 ### Routing
 
+TBC
 
 ### OAM
 
+TBC
 
 ### Security
 
+TBC
 
 # YANG Module
 
-This module uses types defined in XXX.
+This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 
 ~~~~~~~~~~
 <CODE BEGINS> file "ietf-ac-svc@2022-11-30.yang"
@@ -461,6 +471,14 @@ This module uses types defined in XXX.
 ~~~~
 
 --- back
+
+# Full Tree
+
+~~~~
+{::include ./yang/ac-svc-without-groupings.txt}
+~~~~
+{: #d-svc-tree title="AC Service Tree Structure" artwork-align="center"}
+
 
 # Acknowledgments
 {:numbered="false"}
