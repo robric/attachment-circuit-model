@@ -44,7 +44,7 @@ author:
     email: lana.wubo@huawei.com
 
 normative:
-ISO10589: 
+ISO10589:
          title: "Information technology - Telecommunications and information exchange between systems - Intermediate System
               to Intermediate System intra-domain routeing information
               exchange protocol for use in conjunction with the protocol
@@ -545,11 +545,11 @@ module: ietf-ac-svc
 
 As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines th erequired parameters to enable the required routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols are then enabled between a PE and the CE. Each routing instance is uniquely identified to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
 
-In addition to static routing, the module supports the following routing protocols: 
+In addition to static routing, the module supports the following routing protocols:
 
 * BGP {{!RFC4271}}
 * OSPF {{!RFC4577}} or {{!RFC6565}}
-* IS-IS [ISO10589]{{!RFC1195}}{{!RFC5308}}
+* IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}
 * RIP {{!RFC2453}}
 
 The model also supports the Virtual Router Redundancy Protocol (VRRP) {{!RFC5798}} on an AC.
