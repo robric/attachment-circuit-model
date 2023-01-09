@@ -96,9 +96,9 @@ Service provider:
 
 # Sample Uses of the Attachment Circuit Data Models
 
-{{uc}} depictes two target topology flavors that may host ACs. A CE may be a physical node or a logical entity. The same request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of illustration, only one a subset of these ACs are shown in {{uc}}.
+{{uc}} depictes two target topology flavors that may host ACs. A CE may be a physical node or a logical entity. The same AC request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of simplfying the illustration, only a subset of these ACs is shown in {{uc}}.
 
-CEs may be dedicated to one single service or host multiple service instances (e.g., service functions {{?RFC7665}}. A single AC (as seen by a network provider) may have one or multiple peer SAPs.
+CEs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs.
 
 ~~~~ aasvg
 ┌───────┐                      ┌──────────────────────┐
@@ -182,7 +182,7 @@ An example of of a request message body to create a simple AC over an existing b
 
 ## Request An AC for a Knwon Peer SAP
 
-An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}. In this example, the peer SAP identifier points to an identifier of a service function. The (topological) location of that service function is assumed to be known to the network controller. For example, this can be determined as part of an on-demand procedure to instantiate a service function in a cloud.
+An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}. In this example, the peer SAP identifier points to an identifier of a service function. The (topological) location of that service function is assumed to be known to the network controller. For example, this can be determined as part of an on-demand procedure to instantiate a service function in a cloud. That instantiated service function can be granted a connectivity service via the provider network.
 
 ~~~~
 {::include ./json-examples/simple-ac-known-peer-sap.json}
