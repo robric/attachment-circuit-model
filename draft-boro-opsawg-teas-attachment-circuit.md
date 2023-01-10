@@ -170,17 +170,17 @@ The procedure to provision a service in a service provider network may depend on
 This section includes a non-exhaustive list of examples to illustrate the use of the AC service model.
 
 
-## Request An AC over An Existing Bearer
+### Request An AC over An Existing Bearer
 
 An example of of a request message body to create a simple AC over an existing bearer is shown in {{ac-b}}. The bearer reference is assumed to be known to both the customer and the network provider. How such reference is shared is out of scope.
 
 ~~~~
 {::include ./json-examples/simple-ac-existing-bearer.json}
 ~~~~
-{: #ac-b title="Example of a Message Body to Request an AC over an Existing Bearer" artwork-align="center"}
+{: #ac-b title="Example of a Message Body to Request an AC over an Existing Bearer"}
 
 
-## Request An AC for a Knwon Peer SAP
+### Request An AC for a Knwon Peer SAP
 
 An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}. In this example, the peer SAP identifier points to an identifier of a service function. The (topological) location of that service function is assumed to be known to the network controller. For example, this can be determined as part of an on-demand procedure to instantiate a service function in a cloud. That instantiated service function can be granted a connectivity service via the provider network.
 
@@ -189,7 +189,7 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 ~~~~
 {: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP"}
 
-## One CE, Two ACs
+### One CE, Two ACs
 
 An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}. This example assumes that static addressing is used for both ACs.
 
@@ -198,7 +198,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link"}
 
-## Illustrate the Use of Global Profiles
+### Illustrate the Use of Global Profiles
 
 An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce-profile}}. Unlike {{two-acs-same-ce}}, this example factorizes some of the redundant data.
 
@@ -207,7 +207,7 @@ An example of a request to create two ACs to service the same CE on the same lin
 ~~~~
 {: #two-acs-same-ce-profile title="Example of a Message Body to Request Two ACes on The Same Link (Global Profile)"}
 
-## Illustrate the Use of Per-Node Profiles
+### Illustrate the Use of Per-Node Profiles
 
 An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce-node-profile}}. Unlike {{two-acs-same-ce}}, this example factorizes all redundant data.
 
@@ -223,7 +223,7 @@ A customer may request adding a new AC by simply referring to an existing per-no
 ~~~~
 {: #add-ac-same-ce-node-profile title="Example of a Message Body to Add a new AC over an existing link (Node Profile)"}
 
-## Multiple CEs
+### Multiple CEs
 
 {{network-example}} shows an example of CEs that are interconnected by a service provider network.
 
@@ -366,7 +366,7 @@ module: ietf-ac-svc
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
-     |  ...f
+     |  ...
      +--rw ac-node-group* [id]
      |  ...
      +--rw ac* [name]
@@ -406,7 +406,7 @@ module: ietf-ac-svc
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
-     |  ...f
+     |  ...
      +--rw ac-node-group* [id]
      |  ...
      +--rw ac* [name]
@@ -465,7 +465,7 @@ module: ietf-ac-svc
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
-     |  ...f
+     |  ...
      +--rw ac-node-group* [id]
      |  ...
      +--rw ac* [name]
@@ -556,7 +556,7 @@ module: ietf-ac-svc
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
-     |  ...f
+     |  ...
      +--rw ac-node-group* [id]
      |  ...
      +--rw ac* [name]
@@ -678,7 +678,7 @@ module: ietf-ac-svc
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
-     |  ...f
+     |  ...
      +--rw ac-node-group* [id]
      |  ...
      +--rw ac* [name]
@@ -717,7 +717,7 @@ module: ietf-ac-svc
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
-     |  ...f
+     |  ...
      +--rw ac-node-group* [id]
      |  ...
      +--rw ac* [name]
