@@ -205,7 +205,26 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 
 ### One CE, Two ACs
 
-An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce}}. This example assumes that static addressing is used for both ACs.
+Lets consider the example of an eNodeB (CE) that is directly connected to the access routers of the mobile backhaul (see {{enodeb}}). In this example, two ACs are needed to service the eNodeB.
+
+~~~~ aasvg
++-------------+                  +------------------+
+|             |                  | PE               |
+|             |                  |  192.0.2.1       |
+|   eNodeB    |==================|  2001:db8::1     |
+|             |          vlan 1  |                  |
+|             |==================|                  |
+|             |          vlan 2  |                  |
+|             | Direct           |                  |
++-------------+ Routing          |                  |
+                                 |                  |
+                                 |                  |
+                                 |                  |
+                                 +------------------+
+~~~~
+{: #enodeb title="Example of a CE-PE ACs"}
+
+An example of a request to create the ACs to service the eNodeB is shown in {{two-acs-same-ce}}. This example assumes that static addressing is used for both ACs.
 
 ~~~~
 {::include ./json-examples/two-acs-same-ce.json}
