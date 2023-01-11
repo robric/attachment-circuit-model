@@ -12,8 +12,7 @@
             "dot1q": {
               "cvlan-id": 3
             }
-          },
-          "bearer-reference": "line-156"
+          }
         }
       }
     ]
