@@ -273,14 +273,14 @@ module ietf-ac-svc {
       "Defines a type to a routing profile for referencing purposes.";
   }
 
-  typedef bearer-reference {
-    type leafref {
-      path "/ac-svc:bearers/ac-svc:bearer/ac-svc:id";
-    }
-    description
-      "Defines a reference to a routing profile for referencing purposes.";
-  }
-
+  /*
+    typedef bearer-reference {
+      type leafref {
+        path "/ac-svc:bearers/ac-svc:bearer/ac-svc:id";
+      }
+      description
+        "Defines a type to a bearer for referencing purposes.";
+    }*/
   // L2 connection
 
   grouping l2-connection-profile {
@@ -552,7 +552,7 @@ module ietf-ac-svc {
     }
     leaf bearer-reference {
       if-feature "vpn-common:bearer-reference";
-      type bearer-reference;
+      type string;
       description
         "This is an internal reference for the service provider
          to identify the bearer associated with this AC.";
@@ -1761,6 +1761,11 @@ module ietf-ac-svc {
         description
           "An identifier of the bearer.";
       }
+      leaf description {
+        type string;
+        description
+          "A description of this bearer.";
+      }
       container customer-device {
         description
           "Identification of the customer device that terminates the
@@ -1811,6 +1816,14 @@ module ietf-ac-svc {
         }
         description
           "Type of the requested bearer (e.g., Ethernet, or wireless)";
+      }
+      leaf bearer-reference {
+        if-feature "vpn-common:bearer-reference";
+        type string;
+        config false;
+        description
+          "This is an internal reference for the service provider
+           to identify the bearer associated with this AC.";
       }
     }
   }
