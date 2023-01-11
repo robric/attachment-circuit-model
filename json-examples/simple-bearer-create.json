@@ -1,0 +1,14 @@
+{
+  "ietf-ac-svc:bearers": {
+    "bearer": [
+      {
+        "id": "an-identifier",
+        "description": "A bearer example",
+        "customer-device": {
+          "device-id": "CE_X_SITE_Y",
+          "requested-type": "ietf-ac-svc:ethernet"
+        }
+      }
+    ]
+  }
+}

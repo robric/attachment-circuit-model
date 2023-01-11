@@ -1,0 +1,59 @@
+{
+  "ietf-ac-svc:attachment-circuits": {
+    "ac-global-profile": [
+      {
+        "id": "simple-profile",
+        "l2-connection": {
+          "encapsulation": {
+            "type": "ietf-vpn-common:dot1q",
+            "dot1q": {
+              "cvlan-id": 1
+            }
+          }
+        }
+      }
+    ],
+    "ac": [
+      {
+        "name": "ac1",
+        "description": "Connect a first site",
+        "ac-global-profile": [
+          "simple-node-profile"
+        ],
+        "l2-connection": {
+          "bearer-reference": "ce1-network"
+        }
+      },
+      {
+        "name": "ac2",
+        "description": "Connect a second Site",
+        "ac-global-profile": [
+          "simple-node-profile"
+        ],
+        "l2-connection": {
+          "bearer-reference": "ce2-network"
+        }
+      },
+      {
+        "name": "ac3",
+        "description": "Connect a third site",
+        "ac-global-profile": [
+          "simple-node-profile"
+        ],
+        "l2-connection": {
+          "bearer-reference": "ce3-network"
+        }
+      },
+      {
+        "name": "ac4",
+        "description": "Connect a forth site",
+        "ac-global-profile": [
+          "simple-node-profile"
+        ],
+        "l2-connection": {
+          "bearer-reference": "ce4-network"
+        }
+      }
+    ]
+  }
+}

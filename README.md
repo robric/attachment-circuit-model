@@ -1,6 +1,6 @@
 # A YANG Data Model for Attachment Circuits
 
-This is the working area for the individual Internet-Draft, "A YANG Data Model for Attachment Circuits".
+This is the working area for the individual Internet-Draft, "A YANG Data Model for Attachment Circuits". This document specifies a service YANG data model for attachment circuits. The model can be used for the provisioning attachment circuits prior or during service provisioning (e.g., Network Slice Service).
 
 * [Editor's Copy](https://boucadair.github.io/attachment-circuit-model/#go.draft-boro-opsawg-teas-attachment-circuit.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-boro-opsawg-teas-attachment-circuit)
