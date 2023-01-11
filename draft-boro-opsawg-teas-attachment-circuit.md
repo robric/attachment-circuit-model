@@ -275,16 +275,18 @@ module: ietf-ac-svc
   |  ...
   +--rw service-provisioning-profiles
   |  ...
+  +--rw bearers
+  |  ... 
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
      |  ...
      +--rw ac-node-group* [id]
      |  ...
-     +--rw ac* [id]
+     +--rw ac* [name]
         +--rw peer-sap-id*         string
         +--rw profile-id*
         |       -> /attachment-circuits/ac-global-profile/id
-        +--rw id                   string
+        +--rw name                   string
         +--rw l2-connection
         |  ...
         +--rw ip-connection
@@ -328,6 +330,8 @@ module: ietf-ac-svc
   +--rw service-provisioning-profiles
   |  +--rw service-profile-identifier* [id]
   |     +--rw id    string
+  +--rw bearers
+  |  ... 
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
      |  ...
@@ -368,6 +372,56 @@ All these profiles are uniquely identified by the NETCONF/RESTCONF server by an 
 
 ## Node-Specific Profiles
 
+## Bearers
+
+~~~~
+module: ietf-ac-svc
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
+  |  +--rw bearer* [id]
+  |     +--rw id                  string
+  |     +--rw description?        string
+  |     +--rw customer-device
+  |     |  +--rw device-id?   string
+  |     |  +--rw location
+  |     |     +--rw address?        string
+  |     |     +--rw postal-code?    string
+  |     |     +--rw state?          string
+  |     |     +--rw city?           string
+  |     |     +--rw country-code?   string
+  |     +--rw requested-type?     identityref
+  |     +--ro bearer-reference?   string {vpn-common:bearer-reference}?
+  |     +--rw requested-start?    yang:date-and-time
+  |     +--rw requested-stop?     yang:date-and-time
+  |     +--ro actual-start?       yang:date-and-time
+  |     +--ro actual-stop?        yang:date-and-time
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        +--rw peer-sap-id*         string
+        +--rw profile-id*
+        |       -> /attachment-circuits/ac-global-profile/id
+        +--rw name                   string
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
+~~~~
+{: #bearer-st title="Bearers Tree Structure" artwork-align="center"}
+
+
 ## Attachment Circuits
 
 The structure of 'attachment-circuits' is shown in {{ac-svc-tree}}.
@@ -377,6 +431,8 @@ module: ietf-ac-svc
   +--rw specific-provisioning-profiles
   |  ...
   +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
@@ -417,6 +473,8 @@ module: ietf-ac-svc
   +--rw specific-provisioning-profiles
   |  ...
   +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
@@ -476,6 +534,8 @@ module: ietf-ac-svc
   +--rw specific-provisioning-profiles
   |  ...
   +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
@@ -567,6 +627,8 @@ module: ietf-ac-svc
   +--rw specific-provisioning-profiles
   |  ...
   +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
@@ -690,6 +752,8 @@ module: ietf-ac-svc
   |  ...
   +--rw service-provisioning-profiles
   |  ...
+  +--rw bearers
+  |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
      |  ...
@@ -728,6 +792,8 @@ module: ietf-ac-svc
   +--rw specific-provisioning-profiles
   |  ...
   +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
   |  ...
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
