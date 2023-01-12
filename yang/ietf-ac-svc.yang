@@ -1269,6 +1269,11 @@ module ietf-ac-svc {
                  predefined next-hop type (e.g., 'discard' or
                  'local-link').";
             }
+            leaf metric {
+              type uint32;
+              description
+                "Indicates the metric associated with the static route.";
+            }
             uses vpn-common:service-status;
           }
           list ipv6-lan-prefixes {
@@ -1295,6 +1300,11 @@ module ietf-ac-svc {
                 "The next hop that is to be used for the static route.
                  This may be specified as an IP address or a predefined
                  next-hop type (e.g., 'discard' or 'local-link').";
+            }
+            leaf metric {
+              type uint32;
+              description
+                "Indicates the metric associated with the static route.";
             }
             uses vpn-common:service-status;
           }
