@@ -1073,6 +1073,14 @@ module ietf-ac-svc {
               description
                 "Name of the BGP peer-group";
             }
+            leaf local-as {
+              type inet:as-number;
+              config false;
+              description
+                "Indicates a local AS Number (ASN). This ASN is exposed
+                 to a customer so that it knows which ASN to use
+                 to set up a BGP session.";
+           }
             leaf peer-as {
               type inet:as-number;
               mandatory true;
@@ -1338,6 +1346,14 @@ module ietf-ac-svc {
                 "The local IP address that will be used to establish
                  the BGP session.";
             }
+            leaf local-as {
+              type inet:as-number;
+              config false;
+              description
+                "Indicates a local AS Number (ASN), if
+                 an ASN distinct from the ASN configured
+                 at the peer group level is needed.";
+           }
             leaf peer-as {
               type inet:as-number;
               mandatory true;
@@ -1379,6 +1395,12 @@ module ietf-ac-svc {
             description
               "The peer-group with which this neighbor is
                associated.";
+          }
+          leaf local-as {
+            type inet:as-number;
+            config false;
+            description
+              "Indicates a local ASN.";
           }
           leaf peer-as {
             type inet:as-number;

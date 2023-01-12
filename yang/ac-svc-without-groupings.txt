@@ -87,6 +87,7 @@ module: ietf-ac-svc
      |  |     |  +--rw peer-groups
      |  |     |     +--rw peer-group* [name]
      |  |     |        +--rw name              string
+     |  |     |        +--ro local-as?         inet:as-number
      |  |     |        +--rw peer-as           inet:as-number
      |  |     |        +--rw address-family?   identityref
      |  |     +--rw ospf
@@ -250,6 +251,7 @@ module: ietf-ac-svc
      |  |     |  |  +--rw peer-group* [name]
      |  |     |  |     +--rw name              string
      |  |     |  |     +--ro local-address?    inet:ip-address
+     |  |     |  |     +--ro local-as?         inet:as-number
      |  |     |  |     +--rw peer-as           inet:as-number
      |  |     |  |     +--rw address-family?   identityref
      |  |     |  +--rw neighbor* [remote-address]
@@ -257,6 +259,7 @@ module: ietf-ac-svc
      |  |     |     +--ro local-address?    inet:ip-address
      |  |     |     +--rw peer-group?
      |  |     |     |       -> ../../peer-groups/peer-group/name
+     |  |     |     +--ro local-as?         inet:as-number
      |  |     |     +--rw peer-as           inet:as-number
      |  |     |     +--rw address-family?   identityref
      |  |     |     +--rw status
@@ -470,6 +473,7 @@ module: ietf-ac-svc
         |     |  |  +--rw peer-group* [name]
         |     |  |     +--rw name              string
         |     |  |     +--ro local-address?    inet:ip-address
+        |     |  |     +--ro local-as?         inet:as-number
         |     |  |     +--rw peer-as           inet:as-number
         |     |  |     +--rw address-family?   identityref
         |     |  +--rw neighbor* [remote-address]
@@ -477,6 +481,7 @@ module: ietf-ac-svc
         |     |     +--ro local-address?    inet:ip-address
         |     |     +--rw peer-group?
         |     |     |       -> ../../peer-groups/peer-group/name
+        |     |     +--ro local-as?         inet:as-number
         |     |     +--rw peer-as           inet:as-number
         |     |     +--rw address-family?   identityref
         |     |     +--rw status
