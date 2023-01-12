@@ -921,6 +921,23 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 ~~~~
 {: #d-svc-tree title="AC Service Tree Structure" artwork-align="center"}
 
+# Augmentation to Other Service-Specific Models to Bind a Service to an AC
+
+## Tree
+ACs creates using the ietf-ac-svc module can be references in other modules (L2SM, L3SM, L2NM, L3NM, and Slicing). The tree structure of the augmentation is shown in {{ac-glue-tree}}
+
+~~~~
+{::include ./yang/ac-glue-tree.txt}
+~~~~
+{: #ac-glue-tree title="Augmenting Other Service-Specific Modules" artwork-align="center"}
+
+## Module
+
+~~~~
+<CODE BEGINS> file "ietf-ac-glue@2022-11-30.yang"
+{::include ./yang/ietf-ac-glue.yang}
+<CODE ENDS>
+~~~~
 
 # Acknowledgments
 {:numbered="false"}
