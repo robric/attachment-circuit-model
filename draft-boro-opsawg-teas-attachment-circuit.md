@@ -569,6 +569,7 @@ module: ietf-ac-svc
         +--rw ip-connection
         |  +--rw ipv4 {vpn-common:ipv4}?
         |  |  +--rw local-address?                           inet:ipv4-address
+        |  |  +--rw virtual-address?            inet:ipv4-address
         |  |  +--rw prefix-length?                           uint8
         |  |  +--rw address-allocation-type?                 identityref
         |  |  +--rw (allocation-type)?
@@ -595,6 +596,7 @@ module: ietf-ac-svc
         |  |           +--rw customer-address?   inet:ipv4-address
         |  +--rw ipv6 {vpn-common:ipv6}?
         |     +--rw local-address?                           inet:ipv6-address
+        |     +--rw virtual-address?                         inet:ipv6-address
         |     +--rw prefix-length?                           uint8
         |     +--rw address-allocation-type?                 identityref
         |     +--rw (allocation-type)?
