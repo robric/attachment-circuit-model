@@ -716,6 +716,11 @@ module ietf-ac-svc {
         description
           "The IP address used at the provider's interface.";
       }
+      leaf virtual-address {
+        type inet:ipv4-address;
+        description
+          "This addresss may be used for redundancy purposes.";
+      }
       leaf prefix-length {
         type uint8 {
           range "0..32";
@@ -871,6 +876,11 @@ module ietf-ac-svc {
         type inet:ipv6-address;
         description
           "IPv6 address of the provider side.";
+      }
+      leaf virtual-address {
+        type inet:ipv6-address;
+        description
+          "This addresss may be used for redundancy purposes.";
       }
       leaf prefix-length {
         type uint8 {
