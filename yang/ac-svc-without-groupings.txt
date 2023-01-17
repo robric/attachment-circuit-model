@@ -88,7 +88,7 @@ module: ietf-ac-svc
      |  |     |     +--rw peer-group* [name]
      |  |     |        +--rw name              string
      |  |     |        +--ro local-as?         inet:as-number
-     |  |     |        +--rw peer-as           inet:as-number
+     |  |     |        +--rw peer-as?          inet:as-number
      |  |     |        +--rw address-family?   identityref
      |  |     +--rw ospf
      |  |     |  +--rw address-family?   identityref
@@ -256,15 +256,16 @@ module: ietf-ac-svc
      |  |     |  |     +--rw name              string
      |  |     |  |     +--ro local-address?    inet:ip-address
      |  |     |  |     +--ro local-as?         inet:as-number
-     |  |     |  |     +--rw peer-as           inet:as-number
+     |  |     |  |     +--rw peer-as?          inet:as-number
      |  |     |  |     +--rw address-family?   identityref
-     |  |     |  +--rw neighbor* [remote-address]
-     |  |     |     +--rw remote-address    inet:ip-address
+     |  |     |  +--rw neighbor* [id]
+     |  |     |     +--rw id                string
+     |  |     |     +--rw remote-address?   inet:ip-address
      |  |     |     +--ro local-address?    inet:ip-address
      |  |     |     +--rw peer-group?
      |  |     |     |       -> ../../peer-groups/peer-group/name
      |  |     |     +--ro local-as?         inet:as-number
-     |  |     |     +--rw peer-as           inet:as-number
+     |  |     |     +--rw peer-as?          inet:as-number
      |  |     |     +--rw address-family?   identityref
      |  |     |     +--rw status
      |  |     |        +--rw admin-status
@@ -482,15 +483,16 @@ module: ietf-ac-svc
         |     |  |     +--rw name              string
         |     |  |     +--ro local-address?    inet:ip-address
         |     |  |     +--ro local-as?         inet:as-number
-        |     |  |     +--rw peer-as           inet:as-number
+        |     |  |     +--rw peer-as?          inet:as-number
         |     |  |     +--rw address-family?   identityref
-        |     |  +--rw neighbor* [remote-address]
-        |     |     +--rw remote-address    inet:ip-address
+        |     |  +--rw neighbor* [id]
+        |     |     +--rw id                string
+        |     |     +--rw remote-address?   inet:ip-address
         |     |     +--ro local-address?    inet:ip-address
         |     |     +--rw peer-group?
         |     |     |       -> ../../peer-groups/peer-group/name
         |     |     +--ro local-as?         inet:as-number
-        |     |     +--rw peer-as           inet:as-number
+        |     |     +--rw peer-as?          inet:as-number
         |     |     +--rw address-family?   identityref
         |     |     +--rw status
         |     |        +--rw admin-status

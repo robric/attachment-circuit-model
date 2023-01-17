@@ -1093,7 +1093,6 @@ module ietf-ac-svc {
            }
             leaf peer-as {
               type inet:as-number;
-              mandatory true;
               description
                 "Indicates the customer's ASN when the customer
                  requests BGP routing.";
@@ -1366,7 +1365,6 @@ module ietf-ac-svc {
            }
             leaf peer-as {
               type inet:as-number;
-              mandatory true;
               description
                 "Indicates the customer's ASN when the customer
                  requests BGP routing.";
@@ -1383,13 +1381,21 @@ module ietf-ac-svc {
           }
         }
         list neighbor {
-          key "remote-address";
+          key "id";
           description
             "List of BGP neighbors.";
+          leaf id {
+            type string;
+            description
+              "A neighbor identifier.";
+          }
           leaf remote-address {
             type inet:ip-address;
             description
-              "The remote IP address of this entry's BGP peer.";
+              "The remote IP address of this entry's BGP peer.
+
+               If this leaf is not present, this means that the primary 
+               customer IP address is used as remote IP address.";
           }
           leaf local-address {
             type inet:ip-address;
@@ -1414,7 +1420,6 @@ module ietf-ac-svc {
           }
           leaf peer-as {
             type inet:as-number;
-            mandatory true;
             description
               "Indicates the customer's ASN when
                the customer requests BGP routing.";
