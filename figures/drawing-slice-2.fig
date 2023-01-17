@@ -24,7 +24,7 @@
  - CE-address: 172.30.1.1/30
  - PE-address: 172.30.1.2/30
  - Routing: static.192.168.100.0/24 via
-            172.30.1.1 tag primary_UPice
+            172.30.1.1 tag primary_UP_slice
 
  ac2 properties:
  - bearer-reference: bearerY@site2
