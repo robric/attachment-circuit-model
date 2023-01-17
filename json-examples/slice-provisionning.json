@@ -59,7 +59,7 @@
               "cvlan-id": 200
             }
           },
-          "bearer-reference": "bearerX@site1"
+          "bearer-reference": "bearerY@site2"
         },
         "ip-connection": {
           "ipv4": {
