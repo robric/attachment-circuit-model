@@ -1,4 +1,52 @@
 {
+  "ietf-network-slice-service:network-slice-services": {
+    "slo-sle-templates": {
+      "slo-sle-template": [
+        {
+          "id": "low-latency-template",
+          "template-description": "lowest possible latencey forwarding behavior"
+        }
+      ]
+    },
+    "slice-service": [
+      {
+        "service-id": "Slice EMBB_UP",
+        "service-description": "Dedicate TN Slice for EMBB-UP",
+        "service-tags": {
+          "tag-type": [
+            {
+              "tag-type": "ietf-nss:service-tag-service",
+              "value": [
+                "L3"
+              ]
+            }
+          ]
+        },
+        "slo-sle-template": "low-latency-template",
+        "status": {},
+        "sdps": {
+          "sdp": [
+            {
+              "sdp-id": "sdp1",
+              "ac-ref": [
+                {
+                  "name":"ac1"
+                }
+              ]
+            },
+            {
+              "sdp-id": "sdp2",
+              "ac-ref": [
+                {
+                  "name":"ac2"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
   "ietf-ac-svc:attachment-circuits": {
     "ac": [
       {
