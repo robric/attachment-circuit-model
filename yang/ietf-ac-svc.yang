@@ -1211,6 +1211,30 @@ module ietf-ac-svc {
     }
   }
 
+grouping encryption-choice {
+
+        description
+          "Container for the encryption profile.";
+        choice profile {
+          description
+            "Choice for the encryption profile.";
+          case provider-profile {
+            leaf provider-profile {
+              type ac-svc:encryption-profile-reference;
+              description
+                "Reference to a provider encryption profile.";
+            }
+          }
+          case customer-profile {
+            leaf customer-key-chain {
+              type key-chain:key-chain-ref;
+              description
+                "Customer-supplied key chain.";
+            }
+          }
+        }
+}
+
   grouping routing {
     description
       "Defines routing protocols.";
@@ -1646,17 +1670,7 @@ module ietf-ac-svc {
         }
         description
           "Container for the encryption profile.";
-        choice profile {
-          description
-            "Choice for the encryption profile.";
-          case customer-profile {
-            leaf customer-key-chain {
-              type key-chain:key-chain-ref;
-              description
-                "Customer-supplied key chain.";
-            }
-          }
-        }
+        uses encryption-choice;
       }
     }
   }
@@ -1760,17 +1774,7 @@ module ietf-ac-svc {
         }
         description
           "Container for the encryption profile.";
-        choice profile {
-          description
-            "Choice for the encryption profile.";
-          case customer-profile {
-            leaf customer-key-chain {
-              type key-chain:key-chain-ref;
-              description
-                "Customer-supplied key chain.";
-            }
-          }
-        }
+        uses encryption-choice;
       }
     }
   }

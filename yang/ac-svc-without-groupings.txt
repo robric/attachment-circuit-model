@@ -110,6 +110,9 @@ module: ietf-ac-svc
      |     |  +--rw layer?     enumeration
      |     +--rw encryption-profile
      |        +--rw (profile)?
+     |           +--:(provider-profile)
+     |           |  +--rw provider-profile?
+     |           |          ac-svc:encryption-profile-reference
      |           +--:(customer-profile)
      |              +--rw customer-key-chain?
      |                      key-chain:key-chain-ref
@@ -329,6 +332,9 @@ module: ietf-ac-svc
      |     |  +--rw layer?     enumeration
      |     +--rw encryption-profile
      |        +--rw (profile)?
+     |           +--:(provider-profile)
+     |           |  +--rw provider-profile?
+     |           |          ac-svc:encryption-profile-reference
      |           +--:(customer-profile)
      |              +--rw customer-key-chain?
      |                      key-chain:key-chain-ref
@@ -556,6 +562,9 @@ module: ietf-ac-svc
            |  +--rw layer?     enumeration
            +--rw encryption-profile
               +--rw (profile)?
+                 +--:(provider-profile)
+                 |  +--rw provider-profile?
+                 |          ac-svc:encryption-profile-reference
                  +--:(customer-profile)
                     +--rw customer-key-chain?
                             key-chain:key-chain-ref
