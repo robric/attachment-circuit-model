@@ -12,16 +12,6 @@
       {
         "service-id": "Slice EMBB_UP",
         "service-description": "Dedicate TN Slice for EMBB-UP",
-        "service-tags": {
-          "tag-type": [
-            {
-              "tag-type": "ietf-nss:service-tag-service",
-              "value": [
-                "L3"
-              ]
-            }
-          ]
-        },
         "slo-sle-template": "low-latency-template",
         "status": {},
         "sdps": {
