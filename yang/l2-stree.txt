@@ -1,0 +1,60 @@
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        +--rw customer-name?       string
+        +--rw description?         string
+        +--rw requested-start?     yang:date-and-time
+        +--rw requested-stop?      yang:date-and-time
+        +--ro actual-start?        yang:date-and-time
+        +--ro actual-stop?         yang:date-and-time
+        +--rw peer-sap-id*         string
+        +--rw ac-global-profile*   ac-global-profile-reference
+        +--rw ac-node-profile*     ac-node-group-reference
+        +--rw name                 string
+        +--rw l2-connection
+        |  +--rw encapsulation
+        |  |  +--rw type?              identityref
+        |  |  +--rw dot1q
+        |  |  |  +--rw tag-type?   identityref
+        |  |  |  +--rw cvlan-id?   uint16
+        |  |  +--rw priority-tagged
+        |  |  |  +--rw tag-type?   identityref
+        |  |  +--rw qinq
+        |  |     +--rw tag-type?   identityref
+        |  |     +--rw svlan-id    uint16
+        |  |     +--rw cvlan-id    uint16
+        |  +--rw (l2-service)?
+        |  |  +--:(l2-tunnel-service)
+        |  |  |  +--rw l2-tunnel-service
+        |  |  |     +--rw type?         identityref
+        |  |  |     +--rw pseudowire
+        |  |  |     |  +--rw vcid?      uint32
+        |  |  |     |  +--rw far-end?   union
+        |  |  |     +--rw vpls
+        |  |  |     |  +--rw vcid?      uint32
+        |  |  |     |  +--rw far-end*   union
+        |  |  |     +--rw vxlan
+        |  |  |        +--rw vni-id             uint32
+        |  |  |        +--rw peer-mode?         identityref
+        |  |  |        +--rw peer-ip-address*   inet:ip-address
+        |  |  +--:(l2vpn)
+        |  |     +--rw l2vpn-id?            vpn-common:vpn-id
+        |  +--rw bearer-reference?          string
+        |          {vpn-common:bearer-reference}?
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           ...
