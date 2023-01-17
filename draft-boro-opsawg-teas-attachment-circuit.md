@@ -714,7 +714,7 @@ module: ietf-ac-svc
 As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defines a set of AS security parameters.
 
 ~~~~
-{::include ./yang/security.txt}
+{::include ./yang/security-stree.txt}
 ~~~~
 {: #sec-svc-tree title="Security Tree Structure" artwork-align="center"}
 
