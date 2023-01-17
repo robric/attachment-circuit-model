@@ -289,33 +289,7 @@ A customer may request adding a new AC by simply referring to an existing per-no
 The overall tree structure of the AC service module is shown in {{o-svc-tree}}.
 
 ~~~~
-module: ietf-ac-svc
-  +--rw specific-provisioning-profiles
-  |  ...
-  +--rw service-provisioning-profiles
-  |  ...
-  +--rw bearers
-  |  ...
-  +--rw attachment-circuits
-     +--rw ac-global-profile* [id]
-     |  ...
-     +--rw ac-node-group* [id]
-     |  ...
-     +--rw ac* [name]
-        +--rw peer-sap-id*         string
-        +--rw profile-id*
-        |       -> /attachment-circuits/ac-global-profile/id
-        +--rw name                   string
-        +--rw l2-connection
-        |  ...
-        +--rw ip-connection
-        |  ...
-        +--rw routing-protocols
-        |  ...
-        +--rw oam
-        |  ...
-        +--rw security
-           ...
+{::include ./yang/overall-stree.txt}
 ~~~~
 {: #o-svc-tree title="Overall AC Service Tree Structure" artwork-align="center"}
 
@@ -330,34 +304,7 @@ Each AC is identified with a unique identifier within a domain. The mapping betw
 The 'specific-provisioning-profiles' container ({{gp-svc-tree}}) can be used by a service provider to maintain a set of specific profiles that are similar to those defined in {{!RFC9181}}. The exact definition of the profiles is local to each service provider. The model only includes an identifier for these profiles in order to facilitate identifying and binding local policies when building an AC.
 
 ~~~~
-module: ietf-ac-svc
-  +--rw specific-provisioning-profiles
-  |  +--rw valid-provider-identifiers
-  |     +--rw external-connectivity-identifier* [id]
-  |     |       {external-connectivity}?
-  |     |  +--rw id    string
-  |     +--rw encryption-profile-identifier* [id]
-  |     |  +--rw id    string
-  |     +--rw qos-profile-identifier* [id]
-  |     |  +--rw id    string
-  |     +--rw bfd-profile-identifier* [id]
-  |     |  +--rw id    string
-  |     +--rw forwarding-profile-identifier* [id]
-  |     |  +--rw id    string
-  |     +--rw routing-profile-identifier* [id]
-  |        +--rw id    string
-  +--rw service-provisioning-profiles
-  |  +--rw service-profile-identifier* [id]
-  |     +--rw id    string
-  +--rw bearers
-  |  ...
-  +--rw attachment-circuits
-     +--rw ac-global-profile* [id]
-     |  ...
-     +--rw ac-node-group* [id]
-     |  ...
-     +--rw ac* [name]
-        ...
+{::include ./yang/sp-svc-profiles-stree.txt}
 ~~~~
 {: #gp-svc-tree title="Service Proviles" artwork-align="center"}
 
@@ -394,49 +341,7 @@ All these profiles are uniquely identified by the NETCONF/RESTCONF server by an 
 ## Bearers
 
 ~~~~
-module: ietf-ac-svc
-  +--rw specific-provisioning-profiles
-  |  ...
-  +--rw service-provisioning-profiles
-  |  ...
-  +--rw bearers
-  |  +--rw bearer* [id]
-  |     +--rw id                  string
-  |     +--rw description?        string
-  |     +--rw customer-device
-  |     |  +--rw device-id?   string
-  |     |  +--rw location
-  |     |     +--rw address?        string
-  |     |     +--rw postal-code?    string
-  |     |     +--rw state?          string
-  |     |     +--rw city?           string
-  |     |     +--rw country-code?   string
-  |     +--rw requested-type?     identityref
-  |     +--ro bearer-reference?   string {vpn-common:bearer-reference}?
-  |     +--rw requested-start?    yang:date-and-time
-  |     +--rw requested-stop?     yang:date-and-time
-  |     +--ro actual-start?       yang:date-and-time
-  |     +--ro actual-stop?        yang:date-and-time
-  +--rw attachment-circuits
-     +--rw ac-global-profile* [id]
-     |  ...
-     +--rw ac-node-group* [id]
-     |  ...
-     +--rw ac* [name]
-        +--rw peer-sap-id*         string
-        +--rw profile-id*
-        |       -> /attachment-circuits/ac-global-profile/id
-        +--rw name                   string
-        +--rw l2-connection
-        |  ...
-        +--rw ip-connection
-        |  ...
-        +--rw routing-protocols
-        |  ...
-        +--rw oam
-        |  ...
-        +--rw security
-           ...
+{::include ./yang/bearers-stree.txt}
 ~~~~
 {: #bearer-st title="Bearers Tree Structure" artwork-align="center"}
 
@@ -806,40 +711,10 @@ module: ietf-ac-svc
 
 ### Security
 
-As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defines sercurity parameters of an AC.
+As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defines a set of AS security parameters.
 
 ~~~~
-module: ietf-ac-svc
-  +--rw specific-provisioning-profiles
-  |  ...
-  +--rw service-provisioning-profiles
-  |  ...
-  +--rw bearers
-  |  ...
-  +--rw attachment-circuits
-     +--rw ac-global-profile* [id]
-     |  ...
-     +--rw ac-node-group* [id]
-     |  ...
-     +--rw ac* [name]
-        ...
-        +--rw name                  string
-        +--rw l2-connection
-        |  ...
-        +--rw ip-connection
-        |  ...
-        +--rw routing-protocols
-        |  ...
-        +--rw oam
-        |  ...
-        +--rw security
-           +--rw encryption {vpn-common:encryption}?
-           |  +--rw enabled?   boolean
-           |  +--rw layer?     enumeration
-           +--rw encryption-profile
-              +--rw (profile)?
-                 +--:(customer-profile)
-                    +--rw customer-key-chain?   key-chain:key-chain-ref
+{::include ./yang/security.txt}
 ~~~~
 {: #sec-svc-tree title="Security Tree Structure" artwork-align="center"}
 
