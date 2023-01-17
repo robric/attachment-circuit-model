@@ -1,7 +1,3 @@
-~~~~ aasvg
---------------------------------------------------------------------
-
-
       5G SMO                 IETF NSC                 5G SMO
          │               (TN ORCHESTRATOR)               │
          │                        │                      │
@@ -22,5 +18,4 @@
                     │                          │
             Physical Link ID:           Physical Link ID:
               bearerX@site1               bearerX@site2
-~~~~
 

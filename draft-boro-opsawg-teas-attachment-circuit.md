@@ -273,11 +273,17 @@ Firstly, {{slice-vlan-1}} describes the end-to-end network topology as well the 
 
 Network Functions have been deployed within  
 
-
 ~~~~
-{::include ./figures/drawing-slice-1.txt}
+{::include ./figures/drawing-slice-1.fig}
 ~~~~
 {: #slice-vlan-1 title="Topology"}
+
+{{slice-vlan-2}}  describes the logical connectivity enforced thanks to both IETF Network Slice and Attachment Circuit Data models.
+
+~~~~
+{::include ./figures/drawing-slice-2.fig}
+~~~~
+{: #slice-vlan-2 title="Topology"}
 
 
 # Description of the Attachment Circuit YANG Module
