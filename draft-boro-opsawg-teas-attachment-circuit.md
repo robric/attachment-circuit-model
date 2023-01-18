@@ -271,7 +271,7 @@ Firstly, {{slice-vlan-1}} describes the end-to-end network topology as well the 
 - A 5G SMO is responsible for the deployment Network Functions and the indirect management of a local Gateway (i.e. CE device).
 - An IETF Network Slice Controller is responsible for the deployment of IETF Network Slices accross the TN.
 
-Network Functions have been deployed within  
+Network Functions have been deployed within
 
 ~~~~
 {::include ./figures/drawing-slice-1.fig}
