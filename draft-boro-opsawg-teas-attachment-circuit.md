@@ -262,7 +262,7 @@ A customer may request adding a new AC by simply referring to an existing per-no
 ~~~~
 {: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs"}
 
-### Configuration of attachment circuits to an IETF Network Slice
+### Binding Attachment Circuits to an IETF Network Slice
 
 This examples shows how the attachment circuit data model to complement [???REF IETF SLICE DM] to connect a site with a slice.
 
