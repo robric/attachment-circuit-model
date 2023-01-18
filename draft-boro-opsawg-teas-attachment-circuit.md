@@ -264,7 +264,7 @@ A customer may request adding a new AC by simply referring to an existing per-no
 
 ### Binding Attachment Circuits to an IETF Network Slice
 
-This examples shows how the attachment circuit data model to complement [???REF IETF SLICE DM] to connect a site with a slice.
+This example shows how the AC service model complements {{?I-D.ietf-teas-ietf-network-slice-nbi-yang}} to connect a site to a slice service.
 
 Firstly, {{slice-vlan-1}} describes the end-to-end network topology as well the orchestration scopes for
 - The topology is made up of two sites (site1 and site2), interconnected via a Transport Network (e.g. IP/MPLS Network). A Network Function is deployed within each site in a dedicated IP Subnet. 
