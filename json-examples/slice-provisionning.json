@@ -18,9 +18,9 @@
           "sdp": [
             {
               "sdp-id": "sdp1",
-              "ac-ref": [
+              "ietf-ac-glue:ac-ref": [
                 {
-                  "name":"ac1"
+                 "ac1"
                 }
               ]
             },
@@ -29,7 +29,6 @@
               "ac-ref": [
                 {
                   "name":"ac2"
-                }
               ]
             }
           ]
@@ -69,7 +68,7 @@
           "routing-protocol": [
             {
               "id": "1",
-              "type": "??????????? makes sense or not ?",
+              "type": "ietf-vpn-common:bgp-routing",
               "static": {
                 "cascaded-lan-prefixes": {
                   "ipv4-lan-prefixes": [
