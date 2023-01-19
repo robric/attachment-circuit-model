@@ -68,7 +68,7 @@
           "routing-protocol": [
             {
               "id": "1",
-              "type": "??????????? makes sense or not ?",
+              "type": "ietf-vpn-common:bgp-routing",
               "static": {
                 "cascaded-lan-prefixes": {
                   "ipv4-lan-prefixes": [
