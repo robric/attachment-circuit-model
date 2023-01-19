@@ -101,12 +101,12 @@
         },
         "ip-connection": {
           "ipv4": {
-            "local-address": "172.30.2.2",
+            "local-address": "192.0.2.6",
             "prefix-length": 30,
             "address": [
               {
                 "address-id": "1",
-                "customer-address": "172.30.2.1"
+                "customer-address": "192.0.2.5"
               }
             ]
           }
@@ -120,8 +120,6 @@
                 "neighbor": [
                   {   
                       "id": "1",
-                      "remote-address":"172.30.2.1",
-                      "local-address":"172.30.2.2",
                       "local-as":"1000",
                       "peer-as":"65000"
                   }   
