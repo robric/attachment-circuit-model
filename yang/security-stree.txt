@@ -1,0 +1,33 @@
+  +--rw specific-provisioning-profiles
+  |  ...
+  +--rw service-provisioning-profiles
+  |  ...
+  +--rw bearers
+  |  ...
+  +--rw attachment-circuits
+     +--rw ac-global-profile* [id]
+     |  ...
+     +--rw ac-node-group* [id]
+     |  ...
+     +--rw ac* [name]
+        ...
+        +--rw l2-connection
+        |  ...
+        +--rw ip-connection
+        |  ...
+        +--rw routing-protocols
+        |  ...
+        +--rw oam
+        |  ...
+        +--rw security
+           +--rw encryption {vpn-common:encryption}?
+           |  +--rw enabled?   boolean
+           |  +--rw layer?     enumeration
+           +--rw encryption-profile
+              +--rw (profile)?
+                 +--:(provider-profile)
+                 |  +--rw provider-profile?
+                 |          ac-svc:encryption-profile-reference
+                 +--:(customer-profile)
+                    +--rw customer-key-chain?
+                            key-chain:key-chain-ref

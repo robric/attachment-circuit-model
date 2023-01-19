@@ -87,7 +87,8 @@ module: ietf-ac-svc
      |  |     |  +--rw peer-groups
      |  |     |     +--rw peer-group* [name]
      |  |     |        +--rw name              string
-     |  |     |        +--rw peer-as           inet:as-number
+     |  |     |        +--ro local-as?         inet:as-number
+     |  |     |        +--rw peer-as?          inet:as-number
      |  |     |        +--rw address-family?   identityref
      |  |     +--rw ospf
      |  |     |  +--rw address-family?   identityref
@@ -109,6 +110,9 @@ module: ietf-ac-svc
      |     |  +--rw layer?     enumeration
      |     +--rw encryption-profile
      |        +--rw (profile)?
+     |           +--:(provider-profile)
+     |           |  +--rw provider-profile?
+     |           |          ac-svc:encryption-profile-reference
      |           +--:(customer-profile)
      |              +--rw customer-key-chain?
      |                      key-chain:key-chain-ref
@@ -149,6 +153,8 @@ module: ietf-ac-svc
      |  |  +--rw ipv4 {vpn-common:ipv4}?
      |  |  |  +--rw local-address?
      |  |  |  |       inet:ipv4-address
+     |  |  |  +--rw virtual-address?
+     |  |  |  |       inet:ipv4-address
      |  |  |  +--rw prefix-length?                           uint8
      |  |  |  +--rw address-allocation-type?
      |  |  |  |       identityref
@@ -180,6 +186,8 @@ module: ietf-ac-svc
      |  |  |           +--rw customer-address?   inet:ipv4-address
      |  |  +--rw ipv6 {vpn-common:ipv6}?
      |  |     +--rw local-address?
+     |  |     |       inet:ipv6-address
+     |  |     +--rw virtual-address?
      |  |     |       inet:ipv6-address
      |  |     +--rw prefix-length?                           uint8
      |  |     +--rw address-allocation-type?
@@ -224,6 +232,7 @@ module: ietf-ac-svc
      |  |     |     |  +--rw lan         inet:ipv4-prefix
      |  |     |     |  +--rw lan-tag?    string
      |  |     |     |  +--rw next-hop    union
+     |  |     |     |  +--rw metric?     uint32
      |  |     |     |  +--rw status
      |  |     |     |     +--rw admin-status
      |  |     |     |     |  +--rw status?        identityref
@@ -236,6 +245,7 @@ module: ietf-ac-svc
      |  |     |        +--rw lan         inet:ipv6-prefix
      |  |     |        +--rw lan-tag?    string
      |  |     |        +--rw next-hop    union
+     |  |     |        +--rw metric?     uint32
      |  |     |        +--rw status
      |  |     |           +--rw admin-status
      |  |     |           |  +--rw status?        identityref
@@ -248,14 +258,17 @@ module: ietf-ac-svc
      |  |     |  |  +--rw peer-group* [name]
      |  |     |  |     +--rw name              string
      |  |     |  |     +--ro local-address?    inet:ip-address
-     |  |     |  |     +--rw peer-as           inet:as-number
+     |  |     |  |     +--ro local-as?         inet:as-number
+     |  |     |  |     +--rw peer-as?          inet:as-number
      |  |     |  |     +--rw address-family?   identityref
-     |  |     |  +--rw neighbor* [remote-address]
-     |  |     |     +--rw remote-address    inet:ip-address
+     |  |     |  +--rw neighbor* [id]
+     |  |     |     +--rw id                string
+     |  |     |     +--rw remote-address?   inet:ip-address
      |  |     |     +--ro local-address?    inet:ip-address
      |  |     |     +--rw peer-group?
      |  |     |     |       -> ../../peer-groups/peer-group/name
-     |  |     |     +--rw peer-as           inet:as-number
+     |  |     |     +--ro local-as?         inet:as-number
+     |  |     |     +--rw peer-as?          inet:as-number
      |  |     |     +--rw address-family?   identityref
      |  |     |     +--rw status
      |  |     |        +--rw admin-status
@@ -319,6 +332,9 @@ module: ietf-ac-svc
      |     |  +--rw layer?     enumeration
      |     +--rw encryption-profile
      |        +--rw (profile)?
+     |           +--:(provider-profile)
+     |           |  +--rw provider-profile?
+     |           |          ac-svc:encryption-profile-reference
      |           +--:(customer-profile)
      |              +--rw customer-key-chain?
      |                      key-chain:key-chain-ref
@@ -367,6 +383,8 @@ module: ietf-ac-svc
         |  +--rw ipv4 {vpn-common:ipv4}?
         |  |  +--rw local-address?
         |  |  |       inet:ipv4-address
+        |  |  +--rw virtual-address?
+        |  |  |       inet:ipv4-address
         |  |  +--rw prefix-length?                           uint8
         |  |  +--rw address-allocation-type?
         |  |  |       identityref
@@ -398,6 +416,8 @@ module: ietf-ac-svc
         |  |           +--rw customer-address?   inet:ipv4-address
         |  +--rw ipv6 {vpn-common:ipv6}?
         |     +--rw local-address?
+        |     |       inet:ipv6-address
+        |     +--rw virtual-address?
         |     |       inet:ipv6-address
         |     +--rw prefix-length?                           uint8
         |     +--rw address-allocation-type?
@@ -442,6 +462,7 @@ module: ietf-ac-svc
         |     |     |  +--rw lan         inet:ipv4-prefix
         |     |     |  +--rw lan-tag?    string
         |     |     |  +--rw next-hop    union
+        |     |     |  +--rw metric?     uint32
         |     |     |  +--rw status
         |     |     |     +--rw admin-status
         |     |     |     |  +--rw status?        identityref
@@ -454,6 +475,7 @@ module: ietf-ac-svc
         |     |        +--rw lan         inet:ipv6-prefix
         |     |        +--rw lan-tag?    string
         |     |        +--rw next-hop    union
+        |     |        +--rw metric?     uint32
         |     |        +--rw status
         |     |           +--rw admin-status
         |     |           |  +--rw status?        identityref
@@ -466,14 +488,17 @@ module: ietf-ac-svc
         |     |  |  +--rw peer-group* [name]
         |     |  |     +--rw name              string
         |     |  |     +--ro local-address?    inet:ip-address
-        |     |  |     +--rw peer-as           inet:as-number
+        |     |  |     +--ro local-as?         inet:as-number
+        |     |  |     +--rw peer-as?          inet:as-number
         |     |  |     +--rw address-family?   identityref
-        |     |  +--rw neighbor* [remote-address]
-        |     |     +--rw remote-address    inet:ip-address
+        |     |  +--rw neighbor* [id]
+        |     |     +--rw id                string
+        |     |     +--rw remote-address?   inet:ip-address
         |     |     +--ro local-address?    inet:ip-address
         |     |     +--rw peer-group?
         |     |     |       -> ../../peer-groups/peer-group/name
-        |     |     +--rw peer-as           inet:as-number
+        |     |     +--ro local-as?         inet:as-number
+        |     |     +--rw peer-as?          inet:as-number
         |     |     +--rw address-family?   identityref
         |     |     +--rw status
         |     |        +--rw admin-status
@@ -537,6 +562,9 @@ module: ietf-ac-svc
            |  +--rw layer?     enumeration
            +--rw encryption-profile
               +--rw (profile)?
+                 +--:(provider-profile)
+                 |  +--rw provider-profile?
+                 |          ac-svc:encryption-profile-reference
                  +--:(customer-profile)
                     +--rw customer-key-chain?
                             key-chain:key-chain-ref
