@@ -20,7 +20,7 @@
               "sdp-id": "sdp1",
               "ietf-ac-glue:ac-ref": [
                 {
-                  "name":"ac1"
+                 "ac1"
                 }
               ]
             },
