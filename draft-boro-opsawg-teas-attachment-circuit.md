@@ -281,6 +281,30 @@ A customer may request adding a new AC by simply referring to an existing per-no
 ~~~~
 {: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs"}
 
+### Binding Attachment Circuits to an IETF Network Slice
+
+This example shows how the AC service model complements {{?I-D.ietf-teas-ietf-network-slice-nbi-yang}} to connect a site to a slice service.
+
+Firstly, {{slice-vlan-1}} describes the end-to-end network topology as well the orchestration scopes for
+- The topology is made up of two sites (site1 and site2), interconnected via a Transport Network (e.g. IP/MPLS Network). A Network Function is deployed within each site in a dedicated IP Subnet. 
+- A 5G SMO is responsible for the deployment Network Functions and the indirect management of a local Gateway (i.e. CE device).
+- An IETF Network Slice Controller is responsible for the deployment of IETF Network Slices accross the TN.
+
+Network Functions have been deployed within
+
+~~~~
+{::include ./figures/drawing-slice-1.fig}
+~~~~
+{: #slice-vlan-1 title="Topology"}
+
+{{slice-vlan-2}}  describes the logical connectivity enforced thanks to both IETF Network Slice and Attachment Circuit Data models.
+
+~~~~
+{::include ./figures/drawing-slice-2.fig}
+~~~~
+{: #slice-vlan-2 title="Topology"}
+
+
 # Description of the Attachment Circuit YANG Module
 
 
