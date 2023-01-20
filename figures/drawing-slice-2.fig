@@ -1,4 +1,4 @@
-                             AS 1000   ◄────BGP───► AS 65000
+                             AS 65536  ◄────BGP───► AS 65550
 
  ┌───┐                     ┌────────┐                    ┌───┐
  │NF1│       192.0.2.0/30  │        │   192.0.2.4/30     │NF2│
@@ -30,6 +30,6 @@
  - vlan-id: 200
  - CE-address: 192.0.2.5/30
  - PE-address: 192.0.2.6/30
- - Routing: BGP local-as:1000
-                customer-as:65000
+ - Routing: BGP local-as:65536
+                customer-as:65550
                 customer-address: 192.0.2.6
