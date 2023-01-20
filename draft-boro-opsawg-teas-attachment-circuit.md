@@ -291,20 +291,33 @@ Firstly, {{slice-vlan-1}} describes the end-to-end network topology as well the 
 - A 5G SMO is responsible for the deployment Network Functions and the indirect management of a local Gateway (i.e., CE device).
 - An IETF Network Slice Controller is responsible for the deployment of IETF Network Slices accross the TN.
 
-Network Functions have been deployed within each site.
+Network Functions are deployed within each site.
 
 ~~~~
 {::include ./figures/drawing-slice-1.fig}
 ~~~~
 {: #slice-vlan-1 title="A Topology"}
 
-{{slice-vlan-2}} describes the logical connectivity enforced thanks to both IETF Network Slice and Attachment Circuit Data models.
+{{slice-vlan-2}} describes the logical connectivity enforced thanks to both IETF Network Slice and Attachment Circuit models.
 
 ~~~~
 {::include ./figures/drawing-slice-2.fig}
 ~~~~
 {: #slice-vlan-2 title="Logical Overview"}
 
+{{slice-acs}} shows the message body of the request to create the required ACs using the Attachment Circuit module.
+
+~~~~
+{::include ./json-examples/acs-for-slices.json}
+~~~~
+{: #slice-acs title="Message Body of a Request to Create Required ACs"}
+
+{{slice-prov}} shows the message body of the request to create the a slice service bound to the ACs created using {{slice-acs}}. Only references to these ACs are included in the Slice Service request.
+
+~~~~
+{::include ./json-examples/slice-provisionning.json}
+~~~~
+{: #slice-prov title="Message Body of a Request to Create a Slice Service Referring to the ACs"}
 
 # Description of the Attachment Circuit YANG Module
 
