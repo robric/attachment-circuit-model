@@ -1,5 +1,5 @@
 ---
-title: "A YANG Service Data Model for Attachment Circuits"
+title: "YANG Service Data Models for Attachment Circuits"
 abbrev: "ACSM"
 category: std
 
@@ -56,9 +56,9 @@ informative:
 
 --- abstract
 
-This document specifies a YANG service data model for Attachment Circuits (ACs). The model can be used for the provisioning of ACs prior or during service provisioning (e.g., Network Slice Service).
+This document specifies a YANG service data model for Attachment Circuits (ACs). The model can be used for the provisioning of ACs prior or during service provisioning (e.g., Network Slice Service). The document specifies also a module that updates other service and network modules with the required informaiton to bind specific services to ACs that are created using the AC service model.
 
-The model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply include an AC reference is a design choice of these service models. Relying upon the AC model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
+The AC service model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply include an AC reference is a design choice of these service models. Relying upon the AC model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
 
 Each AC is identified with a unique identifier within a domain. The mapping between this AC and a PE that terminates the AC is hidden to the application/customer that makes use of the AC service model. Such an information is internal to the network controller. Thus, the details about the (network node-specific) attachment interfaces are not exposed in this service model.
 
@@ -71,6 +71,8 @@ This document specifies a YANG service data model for managing attachment circui
 Also, the model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply includes an AC reference (that was communicated during AC instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACs over which services are delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol).
 
 Each AC is identified with a unique identifier within a domain. From a network provider standpoint, an AC can be bound to a single or multiple SAPs {{!I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
+
+The document specifies also a module ({{glue}}) that updates other service and network modules with the required informaiton to bind specific services to ACs that are created using the AC service model.
 
  The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
@@ -279,7 +281,7 @@ A customer may request adding a new AC by simply referring to an existing per-no
 ~~~~
 {::include ./json-examples/multiple-ce-with-profile.json}
 ~~~~
-{: #multiple-sites title="Example of a Message Body to of Creating Multiple ACs bound to Multiple CEs"}
+{: #multiple-sites title="Example of a Message Body of a Request to Create Multiple ACs bound to Multiple CEs"}
 
 ### Binding Attachment Circuits to an IETF Network Slice
 
@@ -296,7 +298,7 @@ Network Functions are deployed within each site.
 ~~~~
 {::include ./figures/drawing-slice-1.fig}
 ~~~~
-{: #slice-vlan-1 title="A Topology"}
+{: #slice-vlan-1 title="An Example of a Network Topology Used to Deploy Slices"}
 
 {{slice-vlan-2}} describes the logical connectivity enforced thanks to both IETF Network Slice and Attachment Circuit models.
 
@@ -312,7 +314,7 @@ Network Functions are deployed within each site.
 ~~~~
 {: #slice-acs title="Message Body of a Request to Create Required ACs"}
 
-{{slice-prov}} shows the message body of the request to create the a slice service bound to the ACs created using {{slice-acs}}. Only references to these ACs are included in the Slice Service request.
+{{slice-prov}} shows the message body of the request to create the a slice service bound to the ACs created using {{slice-acs}}. Only references to these ACs are included in the Slice Service request. This example assumes that the module defined {{glue}} is also supported by the NSC.
 
 ~~~~
 {::include-fold ./json-examples/slice-provisionning.json}
@@ -538,7 +540,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 ~~~~
 {: #d-svc-tree title="AC Service Tree Structure" artwork-align="center"}
 
-# Augmentation to Other Service-Specific Models to Bind a Service to an AC
+# Augmentation to Other Service-Specific Models to Bind a Service to an AC {#glue}
 
 ## Tree
 ACs creates using the ietf-ac-svc module can be references in other modules (L2SM, L3SM, L2NM, L3NM, and Slicing). The tree structure of the augmentation is shown in {{ac-glue-tree}}
