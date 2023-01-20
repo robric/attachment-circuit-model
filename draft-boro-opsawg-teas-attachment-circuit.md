@@ -308,14 +308,14 @@ Network Functions are deployed within each site.
 {{slice-acs}} shows the message body of the request to create the required ACs using the Attachment Circuit module.
 
 ~~~~
-{::include ./json-examples/acs-for-slices.json}
+{::include-fold ./json-examples/acs-for-slices.json}
 ~~~~
 {: #slice-acs title="Message Body of a Request to Create Required ACs"}
 
 {{slice-prov}} shows the message body of the request to create the a slice service bound to the ACs created using {{slice-acs}}. Only references to these ACs are included in the Slice Service request.
 
 ~~~~
-{::include ./json-examples/slice-provisionning.json}
+{::include-fold ./json-examples/slice-provisionning.json}
 ~~~~
 {: #slice-prov title="Message Body of a Request to Create a Slice Service Referring to the ACs"}
 
