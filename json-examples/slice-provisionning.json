@@ -19,7 +19,6 @@
             {
               "sdp-id": "sdp1",
               "ietf-ac-glue:ac-ref": [
-                {
                  "ac1"
                 }
               ]
