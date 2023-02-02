@@ -394,6 +394,7 @@ Such a reference can be used, e.g., in a subsequent service request to create an
 ~~~~
 {: #bearer-st title="Bearers Tree Structure" artwork-align="center"}
 
+The same customer site (CE, NF, etc.) can terminate one or multiple bearers; each of them uniquely identified by a refrence that is assigned by the network provider. These bearers can terminate on the same or distinct network nodes. CEs that terminate multiple bearers are called multi-homed CEs.
 
 ## Attachment Circuits
 
