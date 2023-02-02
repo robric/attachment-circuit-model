@@ -164,6 +164,12 @@ The procedure to provision a service in a service provider network may depend on
                  |        |                   |
                  | NETCONF/CLI..................
                  |        |                   |
+               +--------------------------------+
+ +----+ Bearer |                                | Bearer +----+
+ |CE A+---|----+            Network             +--------+CE B|
+ +----+        |                                |        +----+
+               +--------------------------------+
+  Site A                                                  Site B
 ~~~~
 {: #u-ex title="An Example of AC Model Usage" artwork-align="center"}
 
