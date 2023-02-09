@@ -74,6 +74,8 @@ Each AC is identified with a unique identifier within a domain. From a network p
 
 The document specifies also a module ({{glue}}) that updates other service and network modules with the required informaiton to bind specific services to ACs that are created using the AC service model.
 
+The AC service model does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{!I-D.ietf-opsawg-sap}}.
+
  The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
 # Conventions and Definitions
