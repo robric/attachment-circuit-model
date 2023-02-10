@@ -26,7 +26,7 @@ author:
  -
     fullname: Richard Roberts
     organization: Juniper
-     role: editor
+    role: editor
     email: rroberts@juniper.net
 
  -
