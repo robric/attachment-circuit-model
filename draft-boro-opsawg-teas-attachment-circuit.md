@@ -111,7 +111,7 @@ Service provider:
 
 {{uc}} depictes two target topology flavors that may host ACs. A CE may be a physical node or a logical entity. The same AC request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of simplfying the illustration, only a subset of these ACs is shown in {{uc}}.
 
-CEs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs.
+CEs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs. For example, and as discussed in {{!RFC4364}}, multiple CEs can be attached to the PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CE and the network provides a multipoint service.
 
 ~~~~ aasvg
 ┌───────┐                      ┌──────────────────────┐
