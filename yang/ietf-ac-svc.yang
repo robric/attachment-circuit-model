@@ -2066,11 +2066,6 @@ module ietf-ac-svc {
         description
           "Identification of the customer device that terminates the
            bearer.";
-        leaf device-id {
-          type string;
-          description
-            "Identifier for the device.";
-        }
         list sites {
           description
             "Location of the node.";
