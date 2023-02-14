@@ -77,6 +77,8 @@ Each AC is identified with a unique identifier within a (provider) domain. From 
 
 The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{!I-D.ietf-opsawg-sap}}.
 
+The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
+
 ## Position vs. Other Data Models
 
 The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models, e.g., Service Attachment Points (SAPs) {{!I-D.ietf-opsawg-sap}}, AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
@@ -85,7 +87,13 @@ The AC service model **is not a device model**. A network provider may use a var
 
 The document specifies also a module ({{glue}}) that updates other service and network modules with the required information to bind specific services to ACs that are created using the AC service model. It is anticipated that future revisions of the L3SM/L2SM can make use of the AC service model, by (ultimately) offloading all the AC-related matters from the core L3SM/L2SM to focus on L2/L3 VPN service matters.
 
- The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
+## Why Not Using L2SM as Reference Data Model for ACaaS?
+
+The L2SM {{?RFC8466}} covers some AC-related considerations. Nevertheless, the L2SM structure is too layer 2 centric. For example, the L2SM part does not cover Layer 3 provisioning, which is required for the instantiation of typical ACs.
+
+## Why Not Using L3SM as Reference Data Model for ACaaS?
+
+Similar to the L2NM, the L3SM {{?RFC8299}} covers some AC-related considerations. Nevertheless, the L3SM structure does not adequately cover layer 2 provisioning matters. Moreover, the L3SM is drawn with conventional L3VPN deployments in mind and, as such, has some limitations for instantiating ACs in other deployment contexts (e.g., cloud environments). For example, the L3SM does not allow to provision multiple BGP sessions over the same AC.
 
 # Conventions and Definitions
 
