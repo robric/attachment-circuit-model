@@ -77,7 +77,7 @@ Each AC is identified with a unique identifier within a (provider) domain. From 
 
 The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{!I-D.ietf-opsawg-sap}}.
 
-# Position vs. Other Data Models
+## Position vs. Other Data Models
 
 The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models, e.g., Service Attachment Points (SAPs) {{!I-D.ietf-opsawg-sap}}, AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
 
