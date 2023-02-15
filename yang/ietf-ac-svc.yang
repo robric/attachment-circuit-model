@@ -2066,45 +2066,58 @@ module ietf-ac-svc {
         description
           "Identification of the customer device that terminates the
            bearer.";
-        leaf device-id {
-          type string;
-          description
-            "Identifier for the device.";
-        }
-        container location {
+
+        list sites {
           description
             "Location of the node.";
-          leaf address {
+          key site-id;
+          
+          leaf site-id {
             type string;
             description
-              "Address (number and street) of the site.";
-          }
-          leaf postal-code {
+              "Identifier of the site";
+          } 
+          
+          leaf device-id {
             type string;
             description
-              "Postal code of the site.";
+              "Identifier for the device.";
           }
-          leaf state {
-            type string;
+
+          container location {
             description
-              "State of the site.  This leaf can also be
-               used to describe a region for a country that
-               does not have states.";
+              "Location of the node.";
+              leaf address {
+                type string;
+                description
+                  "Address (number and street) of the site.";
+              }
+              leaf postal-code {
+                type string;
+                description
+                  "Postal code of the site.";
+              }
+              leaf state {
+                type string;
+                description
+                  "State of the site.  This leaf can also be
+                   used to describe a region for a country that
+                   does not have states.";
+              }
+              leaf city {
+                type string;
+                description
+                  "City of the site.";
+              }
+              leaf country-code {
+                type string {
+                  pattern '[A-Z]{2}';
+                }
+                description
+                  "Country of the site.
+                   Expressed as ISO ALPHA-2 code.";
+              } 
           }
-          leaf city {
-            type string;
-            description
-              "City of the site.";
-          }
-          leaf country-code {
-            type string {
-              pattern '[A-Z]{2}';
-            }
-            description
-              "Country of the site.
-               Expressed as ISO ALPHA-2 code.";
-          }
-        }
       }
       leaf requested-type {
         type identityref {
@@ -2124,6 +2137,7 @@ module ietf-ac-svc {
       uses op-instructions;
     }
   }
+}
   container attachment-circuits {
     description
       "Main container for the attachment circuits.";
