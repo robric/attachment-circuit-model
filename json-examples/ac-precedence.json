@@ -1,0 +1,32 @@
+{
+  "ietf-ac-svc:attachment-circuits": {
+    "ac": [
+      {
+        "name": "ac1",
+        "description": "Example to illustrate AC precedence usage",
+        "group": [
+          {
+            "group-id": "1",
+            "precedence": "primary"
+          }
+        ],
+        "l2-connection": {
+          "bearer-reference": "bearerX@site1"
+        }
+      },
+      {
+        "name": "ac2",
+        "description": "Example to illustrate AC precedence usage",
+        "group": [
+          {
+            "group-id": "1",
+            "precedence": "secondary"
+          }
+        ],
+        "l2-connection": {
+          "bearer-reference": "bearerY@site1"
+        }
+      }
+    ]
+  }
+}
