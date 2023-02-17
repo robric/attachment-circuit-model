@@ -338,6 +338,52 @@ Network Functions are deployed within each site.
 ~~~~
 {: #slice-prov title="Message Body of a Request to Create a Slice Service Referring to the ACs"}
 
+## Connecting a Virtualized environment running in a Cloud Provider 
+
+This example shows how the AC service model may be use to connect a Cloud Infrastructure to a SP network. This use-case is represented in {{cloud-provider-1}}. This example makes the following assumption: 
+i) An internal Customer (i.e. SP Cloud Team or partner) has a virtualized intrastructure running in a Cloud Provider. A simplistic deployment is represented here with a set of Virtual Machines running in a Virtal Private Environment. The deployment and management of this  infrastructure is achieved via the private APIs supported by the Cloud Provider: this realization  is out of the scope of this document. 
+ii) The connectivity to the Data Center is achieved thanks to a service based on direct attachment (physical connection), which is delivered upon ordering via API to the Cloud Provider. When ordering a unique "Connection Identifier" is generated and returned.
+iii) The customer provisions the networking logic within the Cloud Provider based on the unique connection Identifier in ii) (i.e. logical interfaces, IP addressing, gateway routing) is achieved thanks to a set of Cloud provider APIs. 
+
+~~~~
+{::include ./figures/drawing-cp-1.fig}
+~~~~
+{: #cloud-provider-1 title="An Example of realization for connecting a Cloud site"}
+
+Figure {{cloud-provider-2}} illustrates the pre-provisionning logic for the physical connection to the Cloud Provider.After this connection is delivered to the SP, the Network inventory is updated with bearer-reference  set to the value of the "Connection Identifier".
+
+~~~~
+  Customer                                                       Cloud
+Orchestration  DIRECT INTERCONNECTION ORDERING (API)            Provider
+               ──────────────────────────────────────────────►
+
+               Connection Created with "Connection ID:1234-56789
+               ◄───────────────────────────────────────────────
+                                        x
+                                        x
+                                        x
+                                        x
+
+       Physical Connection 1234-56789 is delivered and
+                         connected to PE1
+
+       Network  Inventory Upated with:
+         bearer-reference: 1234-56789 for PE1/Interface If-A
+~~~~
+{: #cloud-provider-2 title="Illustration of pre-provisionning ii)"}
+
+Next, API workflows can be initiated:
+- Cloud Provider for the configuration azs per iii)
+- Service Provider Network via the Attachment Circuit model. This request can be used in conjunction with additional requests based on L3SM (VPN provisioning) or Network Slice Service model (5G hybrid Cloud deployment).
+
+{{cloud-provider-ac}} shows the message body of the request to create the required ACs to connect the Cloud Provider Virtualized (VM) using the Attachment Circuit module. Note that this Cloud Provider mandates the use of md5 authentication for bringing up BGP connections.
+
+~~~~
+{::include-fold ./json-examples/cloud-provider.json}
+~~~~
+{: #cloud-provider-ac title="Message Body of a Request to Create the ACs for connecting to the Cloud Provider"}
+
+
 # Description of the Attachment Circuit YANG Module
 
 
