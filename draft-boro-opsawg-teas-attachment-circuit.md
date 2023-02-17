@@ -340,10 +340,10 @@ Network Functions are deployed within each site.
 
 ## Connecting a Virtualized environment running in a Cloud Provider 
 
-This example shows how the AC service model may be use to connect a Cloud Infrastructure to a SP network. This use-case is represented in {{cloud-provider-1}}. This example makes the following assumption: 
-i) An internal Customer (i.e. SP Cloud Team or partner) has a virtualized intrastructure running in a Cloud Provider. A simplistic deployment is represented here with a set of Virtual Machines running in a Virtal Private Environment. The deployment and management of this  infrastructure is achieved via the private APIs supported by the Cloud Provider: this realization  is out of the scope of this document. 
+This example shows how the AC service model may be use to connect a Cloud Infrastructure to a SP network. This use-case is represented in {{cloud-provider-1}}. This example makes the following assumption:
+i) An internal Customer (i.e. SP Cloud Team or partner) has a virtualized intrastructure running in a Cloud Provider. A simplistic deployment is represented here with a set of Virtual Machines running in a Virtal Private Environment. The deployment and management of this  infrastructure is achieved via the private APIs supported by the Cloud Provider: this realization  is out of the scope of this document.
 ii) The connectivity to the Data Center is achieved thanks to a service based on direct attachment (physical connection), which is delivered upon ordering via API to the Cloud Provider. When ordering a unique "Connection Identifier" is generated and returned.
-iii) The customer provisions the networking logic within the Cloud Provider based on the unique connection Identifier in ii) (i.e. logical interfaces, IP addressing, gateway routing) is achieved thanks to a set of Cloud provider APIs. 
+iii) The customer provisions the networking logic within the Cloud Provider based on the unique connection Identifier in ii) (i.e. logical interfaces, IP addressing, gateway routing) is achieved thanks to a set of Cloud provider APIs.
 
 ~~~~
 {::include ./figures/drawing-cp-1.fig}
