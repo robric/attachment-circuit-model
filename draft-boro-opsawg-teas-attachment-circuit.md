@@ -352,7 +352,7 @@ iii) The customer provisions the networking logic within the Cloud Provider base
 
 Figure {{cloud-provider-2}} illustrates the pre-provisionning logic for the physical connection to the Cloud Provider.After this connection is delivered to the SP, the Network inventory is updated with bearer-reference  set to the value of the "Connection Identifier".
 
-~~~~
+~~~~ aasvg
   Customer                                                       Cloud
 Orchestration  DIRECT INTERCONNECTION ORDERING (API)            Provider
                ──────────────────────────────────────────────►
