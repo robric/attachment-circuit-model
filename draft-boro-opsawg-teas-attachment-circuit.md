@@ -300,7 +300,7 @@ A customer may request adding a new AC by simply referring to an existing per-no
 ~~~~
 {: #multiple-sites title="Example of a Message Body of a Request to Create Multiple ACs bound to Multiple CEs"}
 
-## Binding Attachment Circuits to an IETF Network Slice
+### Binding Attachment Circuits to an IETF Network Slice
 
 This example shows how the AC service model complements {{?I-D.ietf-teas-ietf-network-slice-nbi-yang}} to connect a site to a slice service.
 
@@ -338,10 +338,10 @@ Network Functions are deployed within each site.
 ~~~~
 {: #slice-prov title="Message Body of a Request to Create a Slice Service Referring to the ACs"}
 
-## Connecting a Virtualized environment running in a Cloud Provider 
+### Connecting a Virtualized environment running in a Cloud Provider 
 
 This example shows how the AC service model may be use to connect a Cloud Infrastructure to a SP network. This use-case is represented in {{cloud-provider-1}}. This example makes the following assumption:
-i) An internal Customer (i.e. SP Cloud Team or partner) has a virtualized intrastructure running in a Cloud Provider. A simplistic deployment is represented here with a set of Virtual Machines running in a Virtal Private Environment. The deployment and management of this  infrastructure is achieved via the private APIs supported by the Cloud Provider: this realization  is out of the scope of this document.
+i) An internal Customer (e.g. Mobile Network Team or partner) has a virtualized intrastructure running in a Cloud Provider. A simplistic deployment is represented here with a set of Virtual Machines running in a Virtal Private Environment. The deployment and management of this  infrastructure is achieved via the private APIs supported by the Cloud Provider: this realization  is out of the scope of this document.
 ii) The connectivity to the Data Center is achieved thanks to a service based on direct attachment (physical connection), which is delivered upon ordering via API to the Cloud Provider. When ordering a unique "Connection Identifier" is generated and returned.
 iii) The customer provisions the networking logic within the Cloud Provider based on the unique connection Identifier in ii) (i.e. logical interfaces, IP addressing, gateway routing) is achieved thanks to a set of Cloud provider APIs.
 
@@ -373,7 +373,7 @@ Orchestration  DIRECT INTERCONNECTION ORDERING (API)            Provider
 {: #cloud-provider-2 title="Illustration of pre-provisionning ii)"}
 
 Next, API workflows can be initiated:
-- Cloud Provider for the configuration azs per iii)
+- Cloud Provider for the configuration as per iii)
 - Service Provider Network via the Attachment Circuit model. This request can be used in conjunction with additional requests based on L3SM (VPN provisioning) or Network Slice Service model (5G hybrid Cloud deployment).
 
 {{cloud-provider-ac}} shows the message body of the request to create the required ACs to connect the Cloud Provider Virtualized (VM) using the Attachment Circuit module. Note that this Cloud Provider mandates the use of md5 authentication for bringing up BGP connections.
