@@ -338,7 +338,7 @@ Network Functions are deployed within each site.
 ~~~~
 {: #slice-prov title="Message Body of a Request to Create a Slice Service Referring to the ACs"}
 
-### Connecting a Virtualized environment running in a Cloud Provider 
+### Connecting a Virtualized environment running in a Cloud Provider
 
 This example shows how the AC service model may be use to connect a Cloud Infrastructure to a SP network. This use-case is represented in {{cloud-provider-1}}. This example makes the following assumption:
 i) An internal Customer (e.g. Mobile Network Team or partner) has a virtualized intrastructure running in a Cloud Provider. A simplistic deployment is represented here with a set of Virtual Machines running in a Virtal Private Environment. The deployment and management of this  infrastructure is achieved via the private APIs supported by the Cloud Provider: this realization  is out of the scope of this document.
