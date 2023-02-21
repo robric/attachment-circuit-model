@@ -44,6 +44,22 @@ author:
     organization: Huawei Technologies
     email: lana.wubo@huawei.com
 
+contributor:
+  -
+    name: Victor Lopez
+    org: Nokia
+    email: victor.lopez@nokia.com
+
+  -
+    name: Ivan Bykov
+    org: Ribbon Communications
+    email: Ivan.Bykov@rbbn.com
+
+  -
+    name: Qin Wu
+    org: Huawei
+    email: bill.wu@huawei.com
+
 normative:
   ISO10589:
     title: Information technology - Telecommunications and information exchange between systems - Intermediate System to Intermediate System intra-domain routeing information exchange protocol for use in conjunction with the protocol for providing the connectionless-mode network service (ISO8473)
@@ -663,18 +679,3 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 {:numbered="false"}
 
 TODO acknowledge.
-
-# Contributors
-{:numbered="false"}
-
-Victor Lopez
-Nokia
-Email: victor.lopez@nokia.com
-
-Ivan Bykov
-Ribbon Communications
-Email: Ivan.Bykov@rbbn.com
-
-Qin Wu
-Huawei
-Email: bill.wu@huawei.com
