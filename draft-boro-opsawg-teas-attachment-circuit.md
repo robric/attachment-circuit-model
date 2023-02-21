@@ -95,6 +95,11 @@ The meanings of the symbols in the YANG tree diagrams are defined in {{?RFC8340}
 
 This document uses the following terms:
 
+Bearer:
+: A physical or logical link that connects a customer node (or site) to a provider network. A bearer can be a wireless or wired link. One or multiple technologies can be used to build a bearer. The bearer type can be specified by a customer.
+: The operator allocates a unique bearer reference to identify a bearer within its network (e.g., customer line identifier). Such a reference can be retrieved by a customer and used in subsequent service placement requests to unambiguously identify where a service is to be bound.
+: The concept of bearer can be generalized to refer to the required underlying connection for the provisioning of an attachment circuit. One or multiple attachment circuits may be hosted over the same bearer (e.g., multiple VLANs on the same bearer that is provided by a physical link).
+
 Network controller:
 : Denotes a functional entity responsible for the management of the service provider network.
 
