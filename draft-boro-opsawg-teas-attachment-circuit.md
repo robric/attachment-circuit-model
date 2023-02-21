@@ -441,7 +441,9 @@ Next, API workflows can be initiated:
 * Cloud Provider for the configuration as per (3) above.
 * Service provider network via the Attachment Circuit model. This request can be used in conjunction with additional requests based on L3SM (VPN provisioning) or Network Slice Service model (5G hybrid Cloud deployment).
 
-{{cloud-provider-ac}} shows the message body of the request to create the required ACs to connect the Cloud Provider Virtualized (VM) using the Attachment Circuit module. Note that this Cloud Provider mandates the use of md5 authentication for bringing up BGP connections.
+{{cloud-provider-ac}} shows the message body of the request to create the required ACs to connect the Cloud Provider Virtualized (VM) using the Attachment Circuit module. Note that this Cloud Provider mandates the use of MD5 authentication for establishing BGP connections.
+
+> The module supports MD5 to basically accommodate the installed BGP base (including by some Cloud Providers). Note that MD5 suffers from the security weaknesses discussed in Section 2 of {{?RFC6151}} and Section 2.1 of {{?RFC6952}}.
 
 ~~~~
 {::include-fold ./json-examples/cloud-provider.json}
@@ -660,6 +662,15 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    * TBC
    * TBC
 
+   Several data nodes ('bgp', 'ospf', 'isis', and 'rip') rely
+   upon {{!RFC8177}} for authentication purposes.  As such, the AC service module
+   inherits the security considerations discussed in Section 5 of
+   {{!RFC8177}}.  Also, these data nodes support supplying explicit keys as
+   strings in ASCII format.  The use of keys in hexadecimal string
+   format would afford greater key entropy with the same number of key-
+   string octets.  However, such a format is not included in this
+   version of the AC service model, because it is not supported by the underlying
+   device modules (e.g., {{?RFC8695}}).
 
 
 # IANA Considerations
