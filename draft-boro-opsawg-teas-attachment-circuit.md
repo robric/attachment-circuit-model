@@ -302,6 +302,16 @@ An example of a request to create the ACs to service the eNodeB is shown in {{tw
 ~~~~
 {: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link"}
 
+### Control Precedence over Multiple ACs
+
+When multiple ACs are requested by the same customer (for the same site), the request can tag one of these ACes as "primary" and the other ones as "secondary". An example of such a request is shown in {{ac-precedence}}. In this example, both ACes are bound to the same "group-id", and the "precedence" data node is set as a function of the intended role of each AC (primary or secondary).
+
+~~~~
+{::include ./json-examples/ac-precedence.json}
+~~~~
+{: #ac-precedence title="Example of a Message Body to Associate a Precedence Level with ACes"}
+
+
 ### Illustrate the Use of Global Profiles
 
 An example of a request to create two ACs to service the same CE on the same link is shown in {{two-acs-same-ce-profile}}. Unlike {{two-acs-same-ce}}, this example factorizes some of the redundant data.
