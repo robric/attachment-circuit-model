@@ -1,5 +1,5 @@
 ---
-title: "YANG Service Data Models for Attachment Circuits"
+title: "YANG Data Models for Attachment Circuits-as-a-Service (ACaaS)"
 abbrev: "ACaaS"
 category: std
 
@@ -100,13 +100,15 @@ This document adheres to the definition of an Attachment Circuit as provided in 
    a tunnel of some sort; what matters is that it be possible for two
    devices to be network layer peers over the attachment circuit.
 
-When a customer requests a new value-added service, the service can be bound to existing attachment circuits or trigger the instantiation of new attachment circuits. The provisioning of an value-added service should thus accommodate both deployments.
+When a customer requests a new value-added service, the service can be bound to existing attachment circuits or trigger the instantiation of new attachment circuits. The provisioning of an value-added service should, thus, accommodate both deployments.
 
 Also, because the instantiation of an attachment circuit requires coordinating the provisioning of endpoints that might not belong to the same administrative entity (customer vs. provider or distinct operational teams within the same provider, etc.), **programmatic means to expose 'attachment circuits'-as-a-service will greatly simplify the provisioning of value added services** that will be delivered over an attachment circuits.
 
 This document specifies a YANG service data model for managing attachment circuits that are exposed by a network to its customers (e.g., an enterprise site, a network function, a hosting infrastructure, a peer network provider). The model can be used for the provisioning of ACs prior or during advanced service provisioning (e.g., Network Slice Service).
 
 The model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACs over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.
+
+An AC service request can provide a reference to a bearer or peer SAPs. Both schemes are supported in the AC service model.
 
 Each AC is identified with a unique identifier within a (provider) domain. From a network provider standpoint, an AC can be bound to a single or multiple Service Attachment Points (SAPs) {{!I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between an AC and a PE in the provider network that terminates that AC is hidden to the application that makes use of the AC service model. Such mapping information is internal to the network controllers. As such, the details about the (node-specific) attachment interfaces are not exposed in the AC service model.
 
@@ -116,19 +118,19 @@ The AC service model **does not make any assumption about the internal structure
 
 The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
-## Position vs. Other Data Models
+## Position ACaaS vs. Other Data Models
 
 The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models, e.g., Service Attachment Points (SAPs) {{!I-D.ietf-opsawg-sap}}, AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
 
 The AC service model **is not a device model**. A network provider may use a variety of device models (e.g., Routing management {{?RFC8349}} or BGP {{?I-D.ietf-idr-bgp-model}}) to provision an AC service.
 
-The document specifies also a module ({{glue}}) that updates other service and network modules with the required information to bind specific services to ACs that are created using the AC service model. It is anticipated that future revisions of the L3SM/L2SM can make use of the AC service model, by (ultimately) offloading all the AC-related matters from the core L3SM/L2SM to focus on L2/L3 VPN service matters.
+The document specifies also a module ({{glue}}) that updates other service and network modules with the required information to bind services to specific ACs that are created using the AC service model. It is anticipated that future revisions of the L3SM/L2SM can make use of the AC service model, by (preferably) offloading all the AC-related management matters from the core L3SM/L2SM to focus on L2/L3 VPN service matters.
 
-## Why Not Using L2SM as Reference Data Model for ACaaS?
+### Why Not Using L2SM as Reference Data Model for ACaaS?
 
 The L2SM {{?RFC8466}} covers some AC-related considerations. Nevertheless, the L2SM structure is too layer 2 centric. For example, the L2SM part does not cover Layer 3 provisioning, which is required for the instantiation of typical ACs.
 
-## Why Not Using L3SM as Reference Data Model for ACaaS?
+### Why Not Using L3SM as Reference Data Model for ACaaS?
 
 Similar to the L2NM, the L3SM {{?RFC8299}} covers some AC-related considerations. Nevertheless, the L3SM structure does not adequately cover layer 2 provisioning matters. Moreover, the L3SM is drawn with conventional L3VPN deployments in mind and, as such, has some limitations for instantiating ACs in other deployment contexts (e.g., cloud environments). For example, the L3SM does not allow to provision multiple BGP sessions over the same AC.
 
@@ -254,7 +256,7 @@ A bearer-reference is then generated by the controller for this bearer. {{get-be
 ~~~~
 {: #get-bearer title="Example of a Response Message Body with the Bearer Reference"}
 
-### Request An AC over An Existing Bearer
+### Request An AC over An Existing Bearer {#ac-bearer-exist}
 
 An example of  a request message body to create a simple AC over an existing bearer is shown in {{ac-b}}. The bearer reference is assumed to be known to both the customer and the network provider. Such a reference can be retrieved, e.g., following the example described in {{ex-create-bearer}} or using other means (including, exchanged out-of-band or via proprietary APIs).
 
@@ -263,7 +265,7 @@ An example of  a request message body to create a simple AC over an existing bea
 ~~~~
 {: #ac-b title="Example of a Message Body to Request an AC over an Existing Bearer"}
 
-### Request An AC for a Knwon Peer SAP
+### Request An AC for a Knwon Peer SAP {#ac-no-bearer-peer-sap}
 
 An example of a request to create a simple AC, when the peer SAP is known, is shown in {{ac-known-ps}}. In this example, the peer SAP identifier points to an identifier of a service function. The (topological) location of that service function is assumed to be known to the network controller. For example, this can be determined as part of an on-demand procedure to instantiate a service function in a cloud. That instantiated service function can be granted a connectivity service via the provider network.
 
