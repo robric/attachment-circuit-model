@@ -1,6 +1,6 @@
 ---
 title: "YANG Service Data Models for Attachment Circuits"
-abbrev: "ACSM"
+abbrev: "ACaaS"
 category: std
 
 docname: draft-boro-opsawg-teas-attachment-circuit-latest
@@ -69,7 +69,26 @@ Each AC is identified with a unique identifier within a domain. The mapping betw
 
 ## Scope and Intended Use
 
-This document specifies a YANG service data model for managing attachment circuits (ACs) that are exposed by a network to its customers (e.g., an enterprise site, a network function, a hosting infrastructure, a peer network provider). The model can be used for the provisioning of ACs prior or during advanced service provisioning (e.g., Network Slice Service).
+Connectivity services are provided by networks to customers via dedicated terminating points (e.g., service functions, customer edges (CEs), peer ASBRs, data centers gateways, Internet Exchange Points). A connectivity service is basically about ensuring data transfer received from (or destined to) a given terminating point to (or from) other terminating points that belong to the same customer/service, an interconnection node, or an ancillary node. A set of objectives for the connectivity service may eventually be negotiated and agreed upon between a customer a network provider. For that data transfer to take place within the provider network, it is assumed that adequate setup is provisioned over the links that connect customer terminating points and a provider network so that data can be successfully exchanged over these links. The required setup is referred to in this document as Attachment Circuits (ACs), while the underlying link is referred to as "bearers".
+
+This document adheres to the definition of an Attachment Circuit as provided in Section 1.2 of {{!RFC4364}}, especially:
+
+> Routers can be attached to each other, or to end systems, in a
+   variety of different ways: PPP connections, ATM Virtual Circuits
+   (VCs), Frame Relay VCs, ethernet interfaces, Virtual Local Area
+   Networks (VLANs) on ethernet interfaces, GRE tunnels, Layer 2
+   Tunneling Protocol (L2TP) tunnels, IPsec tunnels, etc.  We will use
+   the term "attachment circuit" to refer generally to some such means
+   of attaching to a router.  An attachment circuit may be the sort of
+   connection that is usually thought of as a "data link", or it may be
+   a tunnel of some sort; what matters is that it be possible for two
+   devices to be network layer peers over the attachment circuit.
+
+When a customer requests a new value-added service, the service can be bound to existing attachment circuits or trigger the instantiation of new attachment circuits. The provisioning of an value-added service should thus accommodate both deployments.
+
+Also, because the instantiation of an attachment circuit requires coordinating the provisioning of endpoints that might not belong to the same administrative entity (customer vs. provider or distinct operational teams within the same provider, etc.), **programmatic means to expose 'attachment circuits'-as-a-service will greatly simplify the provisioning of value added services** that will be delivered over an attachment circuits.
+
+This document specifies a YANG service data model for managing attachment circuits that are exposed by a network to its customers (e.g., an enterprise site, a network function, a hosting infrastructure, a peer network provider). The model can be used for the provisioning of ACs prior or during advanced service provisioning (e.g., Network Slice Service).
 
 The model is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service model or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACs over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.
 
