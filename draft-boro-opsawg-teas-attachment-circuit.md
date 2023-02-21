@@ -112,7 +112,9 @@ Each AC is identified with a unique identifier within a (provider) domain. From 
 
 The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{!I-D.ietf-opsawg-sap}}.
 
-The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
+{{examples}} provides a set of examples to illustrate the use of the AC service model. These examples use the IPv4 address blocks reserved for documentation {{?RFC5737}}, the IPv6 prefix reserved for documentation {{?RFC3849}}, and the Autonomous System (AS) numbers reserved for documentation {{?RFC5398}}.
+
+The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
 ## Position vs. Other Data Models
 
@@ -232,7 +234,7 @@ The procedure to provision a service in a service provider network may depend on
 ~~~~
 {: #u-ex title="An Example of AC Model Usage" artwork-align="center"}
 
-## Examples
+## Examples {#examples}
 
 This section includes a non-exhaustive list of examples to illustrate the use of the AC service model.
 
