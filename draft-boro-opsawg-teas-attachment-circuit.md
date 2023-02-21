@@ -161,29 +161,35 @@ Service provider:
 
 # Sample Uses of the Attachment Circuit Data Models
 
-{{uc}} depictes two target topology flavors that may host ACs. A CE may be a physical node or a logical entity. The same AC request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of simplfying the illustration, only a subset of these ACs is shown in {{uc}}.
+{{uc}} depicts two target topology flavors that involve ACs. These topologies are characterized as follows:
 
-CEs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs. For example, and as discussed in {{!RFC4364}}, multiple CEs can be attached to the PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CE and the network provides a multipoint service.
+* A Customer Terminating Point (CTP) may be a physical node or a logical entity. A CTP is seen by the network as a peer SAP.
+
+* The same AC request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of simplfying the illustration, only a subset of these ACs is shown in {{uc}}.
+
+* CTPs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}).
+
+* A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (i.e., CTPs in this example). For example, and as discussed in {{!RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service.
 
 ~~~~ aasvg
 ┌───────┐                      ┌──────────────────────┐
 │       ├────────┐             │                      │
-│  CE1  │        │             │                      │
+│ CTP#1 │        │             │                      │
 └───────┘        │             │                      │
                  ├─────────────┤      Network         │
 ┌───────┐        │             │                      │
 │       │        │             │                      │
-│  CE2  ├────────┘             │                      │
+│ CTP#2 ├────────┘             │                      │
 └───────┘                      └──────────────────────┘
 
 ┌───────┐                      ┌──────────────────────┐
 │       │                      │                      │
-│  CE1  ├──────────────────────┤                      │
+│ CTP#1 ├──────────────────────┤                      │
 └───────┘                      │                      │
                                │      Network         │
 ┌───────┐                      │                      │
 │       ├──────────────────────┤                      │
-│  CE2  │                      │                      │
+│ CTP#2 │                      │                      │
 └───────┘                      └──────────────────────┘
 ~~~~
 {: #uc title='Examples of ACs' artwork-align="center"}
@@ -229,7 +235,7 @@ The procedure to provision a service in a service provider network may depend on
                  |        |                   |
                +--------------------------------+
  +----+ Bearer |                                | Bearer +----+
- |CE A+---|----+            Network             +--------+CE B|
+ |CTP +--------+            Network             +--------+ CTP|
  +----+        |                                |        +----+
                +--------------------------------+
   Site A                                                  Site B
@@ -276,7 +282,7 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 
 ### One CE, Two ACs
 
-Lets consider the example of an eNodeB (CE) that is directly connected to the access routers of the mobile backhaul (see {{enodeb}}). In this example, two ACs are needed to service the eNodeB.
+Lets consider the example of an eNodeB (CTP) that is directly connected to the access routers of the mobile backhaul (see {{enodeb}}). In this example, two ACs are needed to service the eNodeB.
 
 ~~~~ aasvg
 +-------------+                  +------------------+
@@ -699,7 +705,7 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
    Prefix:  ietf-ac-svc
    Reference:  RFC xxxx
-   
+
    Name:  ietf-ac-svc
    Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-glue
@@ -710,6 +716,8 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 --- back
 
 # Full Tree of the Service AC Module {#full-tree}
+
+The full tree of the ACaaS module is shown in {{d-svc-tree}}.
 
 ~~~~
 {::include ./yang/ac-svc-without-groupings.txt}
