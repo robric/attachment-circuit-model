@@ -1,5 +1,5 @@
 ---
-title: "YANG Data Models for Attachment Circuits-as-a-Service (ACaaS)"
+title: "YANG Data Models for 'Attachment Circuits'-as-a-Service (ACaaS)"
 abbrev: "ACaaS"
 category: std
 
