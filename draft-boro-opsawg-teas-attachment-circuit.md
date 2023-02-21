@@ -579,6 +579,8 @@ The model also supports the Virtual Router Redundancy Protocol (VRRP) {{!RFC5798
 
 For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{!RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{!RFC2080}}.
 
+Similar to {{!RFC9182}}, this version of the ACaaS assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the ACaaS. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{!RFC5925}}).
+
 
 #### OAM
 
@@ -611,7 +613,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 ## Augmentations to Existing Service-Specific Models to Bind a Service to an AC {#glue}
 
 ### Tree Structure
-ACs created using the "ietf-ac-svc" module can be referenced in other modules (e.g., L2SM, L3SM, L2NM, L3NM, and Slicing). Some augmentations are required to that aim as shown in {{ac-glue-tree}}
+ACs created using the "ietf-ac-svc" module can be referenced in other modules (e.g., L2SM, L3SM, L2NM, L3NM, and Slicing). Some augmentations are required to that aim as shown in {{ac-glue-tree}}.
 
 ~~~~
 {::include ./yang/ac-glue-tree.txt}
@@ -694,6 +696,12 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 ~~~~
    Name:  ietf-ac-svc
    Maintained by IANA?  N
+   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
+   Prefix:  ietf-ac-svc
+   Reference:  RFC xxxx
+   
+   Name:  ietf-ac-svc
+   Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-glue
    Prefix:  ac-glue
    Reference:  RFC xxxx
@@ -711,4 +719,4 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+TBC.
