@@ -297,14 +297,6 @@ module ietf-ac-svc {
       "Defines a type to a routing profile for referencing purposes.";
   }
 
-  /*
-    typedef bearer-reference {
-      type leafref {
-        path "/ac-svc:bearers/ac-svc:bearer/ac-svc:id";
-      }
-      description
-        "Defines a type to a bearer for referencing purposes.";
-    }*/
   // L2 connection
 
   grouping l2-connection-profile {
@@ -863,13 +855,6 @@ module ietf-ac-svc {
         case static-addresses {
           description
             "Lists the IPv4 addresses that are used.";
-          /*leaf primary-address {
-            type leafref {
-              path "../address/address-id";
-            }
-            description
-              "Primary IP address of the connection.";
-          }*/
           list address {
             key "address-id";
             ordered-by user;
@@ -1018,13 +1003,6 @@ module ietf-ac-svc {
         case static-addresses {
           description
             "Lists the IPv6 addresses that are used.";
-          /*leaf primary-address {
-            type leafref {
-              path "../address/address-id";
-            }
-            description
-              "Primary IP address of the connection.";
-          }*/
           list address {
             key "address-id";
             ordered-by user;
