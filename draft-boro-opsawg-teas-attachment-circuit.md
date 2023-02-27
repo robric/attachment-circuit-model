@@ -703,10 +703,10 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    Name:  ietf-ac-svc
    Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
-   Prefix:  ietf-ac-svc
+   Prefix:  ac-svc
    Reference:  RFC xxxx
 
-   Name:  ietf-ac-svc
+   Name:  ietf-ac-glue
    Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-glue
    Prefix:  ac-glue
