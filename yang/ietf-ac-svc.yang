@@ -9,6 +9,11 @@ module ietf-ac-svc {
       "RFC 9181: A Common YANG Data Model for Layer 2 and Layer 3
                  VPNs";
   }
+  import ietf-bearer-svc {
+    prefix bearer-svc;
+    reference
+      "RFC xxxx: A YANG Service Data Model for Attachment Circuits";
+  }
   import ietf-inet-types {
     prefix inet;
     reference
@@ -66,23 +71,6 @@ module ietf-ac-svc {
   }
 
   // Identities 
-
-  identity bearer-type {
-    description
-      "Base identity for bearers type.";
-  }
-
-  identity ethernet {
-    base bearer-type;
-    description
-      "Ethernet.";
-  }
-
-  identity wireless {
-    base bearer-type;
-    description
-      "Wireless.";
-  }
 
   identity address-allocation-type {
     description
@@ -1989,42 +1977,12 @@ module ietf-ac-svc {
     }
   }
 
-  grouping op-instructions {
-    description
-      "Scheduling instructions.";
-    leaf requested-start {
-      type yang:date-and-time;
-      description
-        "Indicates the requested date and time when the AC is
-         expected to be active.";
-    }
-    leaf requested-stop {
-      type yang:date-and-time;
-      description
-        "Indicates the requested date and time when the AC is
-         expected to be disabled.";
-    }
-    leaf actual-start {
-      type yang:date-and-time;
-      config false;
-      description
-        "Indciates the actual date and time when the AC
-         actually was enabled.";
-    }
-    leaf actual-stop {
-      type yang:date-and-time;
-      config false;
-      description
-        "Indciates the actual date and time when the AC
-         actually was disabled.";
-    }
-  }
-
   container specific-provisioning-profiles {
     description
       "Contains a set of valid profiles to reference for an AC.";
     uses vpn-common:vpn-profile-cfg;
   }
+
   container service-provisioning-profiles {
     description
       "Contains a set of valid profiles to reference for an AC.";
@@ -2041,85 +1999,7 @@ module ietf-ac-svc {
       }
     }
   }
-  container bearers {
-    description
-      "Main container for the bearers.";
-    list bearer {
-      key "id";
-      description
-        "Maintains a list of bearers.";
-      leaf id {
-        type string;
-        description
-          "An identifier of the bearer.";
-      }
-      leaf description {
-        type string;
-        description
-          "A description of this bearer.";
-      }
-      container customer-device {
-        description
-          "Identification of the customer device that terminates the
-           bearer.";
-        leaf device-id {
-          type string;
-          description
-            "Identifier for the device.";
-        }
-        container location {
-          description
-            "Location of the node.";
-          leaf address {
-            type string;
-            description
-              "Address (number and street) of the site.";
-          }
-          leaf postal-code {
-            type string;
-            description
-              "Postal code of the site.";
-          }
-          leaf state {
-            type string;
-            description
-              "State of the site.  This leaf can also be
-               used to describe a region for a country that
-               does not have states.";
-          }
-          leaf city {
-            type string;
-            description
-              "City of the site.";
-          }
-          leaf country-code {
-            type string {
-              pattern '[A-Z]{2}';
-            }
-            description
-              "Country of the site.
-               Expressed as ISO ALPHA-2 code.";
-          }
-        }
-      }
-      leaf requested-type {
-        type identityref {
-          base bearer-type;
-        }
-        description
-          "Type of the requested bearer (e.g., Ethernet, or wireless)";
-      }
-      leaf bearer-reference {
-        if-feature "vpn-common:bearer-reference";
-        type string;
-        config false;
-        description
-          "This is an internal reference for the service provider
-           to identify the bearer associated with this AC.";
-      }
-      uses op-instructions;
-    }
-  }
+
   container attachment-circuits {
     description
       "Main container for the attachment circuits.";
@@ -2160,7 +2040,7 @@ module ietf-ac-svc {
         description
           "Associates a description with an AC.";
       }
-      uses op-instructions;
+      uses bearer-svc:op-instructions;
       leaf-list peer-sap-id {
         type string;
         description
