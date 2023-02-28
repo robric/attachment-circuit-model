@@ -9,10 +9,10 @@ module ietf-bearer-svc {
       "RFC 9181: A Common YANG Data Model for Layer 2 and Layer 3
                  VPNs";
   }
-  import ietf-yang-types {
-    prefix yang;
+  import ietf-ac-common {
+    prefix ac-common;
     reference
-      "RFC 6991: Common YANG Data Types, Section 3";
+      "RFC xxxx: A YANG Service Data Model for Attachment Circuits";
   }
 
   organization
@@ -72,37 +72,6 @@ module ietf-bearer-svc {
     base bearer-type;
     description
       "Wireless.";
-  }
-
-  grouping op-instructions {
-    description
-      "Scheduling instructions.";
-    leaf requested-start {
-      type yang:date-and-time;
-      description
-        "Indicates the requested date and time when the AC is
-         expected to be active.";
-    }
-    leaf requested-stop {
-      type yang:date-and-time;
-      description
-        "Indicates the requested date and time when the AC is
-         expected to be disabled.";
-    }
-    leaf actual-start {
-      type yang:date-and-time;
-      config false;
-      description
-        "Indciates the actual date and time when the AC
-         actually was enabled.";
-    }
-    leaf actual-stop {
-      type yang:date-and-time;
-      config false;
-      description
-        "Indciates the actual date and time when the AC
-         actually was disabled.";
-    }
   }
 
   container bearers {
@@ -181,7 +150,7 @@ module ietf-bearer-svc {
           "This is an internal reference for the service provider
            to identify the bearers.";
       }
-      uses op-instructions;
+      uses ac-common:op-instructions;
     }
   }
 }
