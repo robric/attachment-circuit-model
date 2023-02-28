@@ -767,23 +767,23 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 
 --- back
 
-# Full Tree of the "ietf-ac-common" Module {#ac-common-full-tree}
+# Full Tree of The "ietf-ac-common" Module {#sec-ac-common-full-tree}
 
-The full tree of the ACaaS module is shown in {{d-svc-tree}}.
+The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}.
 
 ~~~~
 {::include ./yang/ac-common-with-groupings.txt}
 ~~~~
 {: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
 
-# Full Tree of the "ietf-ac-svc" Module {#full-tree}
+# Full Tree of The "ietf-ac-svc" Module {#full-tree}
 
 The full tree of the ACaaS module is shown in {{d-svc-tree}}.
 
 ~~~~
 {::include ./yang/ac-svc-without-groupings.txt}
 ~~~~
-{: #d-svc-tree title="AC Service Full Tree Structure" artwork-align="center"}
+{: #d-svc-tree title="Full Tree Structure of the ACaaS Module" artwork-align="center"}
 
 # Acknowledgments
 {:numbered="false"}
