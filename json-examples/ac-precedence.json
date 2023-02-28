@@ -7,7 +7,7 @@
         "group": [
           {
             "group-id": "1",
-            "precedence": "primary"
+            "precedence": "ietf-ac-common:primary"
           }
         ],
         "l2-connection": {
@@ -20,7 +20,7 @@
         "group": [
           {
             "group-id": "1",
-            "precedence": "secondary"
+            "precedence": "ietf-ac-common:secondary"
           }
         ],
         "l2-connection": {
