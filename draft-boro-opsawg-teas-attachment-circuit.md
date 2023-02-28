@@ -719,6 +719,10 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    the "IETF XML Registry" {{!RFC3688}}:
 
 ~~~~
+   URI:  urn:ietf:params:xml:ns:yang:ietf-ac-common
+   Registrant Contact:  The IESG.
+   XML:  N/A; the requested URI is an XML namespace.
+
    URI:  urn:ietf:params:xml:ns:yang:ietf-bearer-svc
    Registrant Contact:  The IESG.
    XML:  N/A; the requested URI is an XML namespace.
@@ -736,6 +740,12 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    Names" subregistry {{!RFC6020}} within the "YANG Parameters" registry.
 
 ~~~~
+   Name:  ietf-ac-common
+   Maintained by IANA?  N
+   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-common
+   Prefix:  ac-common
+   Reference:  RFC xxxx
+
    Name:  ietf-bearer-svc
    Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-bearer-svc
@@ -757,14 +767,23 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 
 --- back
 
-# Full Tree of the Service AC Module {#full-tree}
+# Full Tree of the "ietf-ac-common" Module {#ac-common-full-tree}
+
+The full tree of the ACaaS module is shown in {{d-svc-tree}}.
+
+~~~~
+{::include ./yang/ac-common-with-groupings.txt}
+~~~~
+{: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
+
+# Full Tree of the "ietf-ac-svc" Module {#full-tree}
 
 The full tree of the ACaaS module is shown in {{d-svc-tree}}.
 
 ~~~~
 {::include ./yang/ac-svc-without-groupings.txt}
 ~~~~
-{: #d-svc-tree title="AC Service Tree Structure" artwork-align="center"}
+{: #d-svc-tree title="AC Service Full Tree Structure" artwork-align="center"}
 
 # Acknowledgments
 {:numbered="false"}
