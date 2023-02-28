@@ -116,9 +116,15 @@ Each AC is identified with a unique identifier within a (provider) domain. From 
 
 The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{!I-D.ietf-opsawg-sap}}.
 
-{{examples}} provides a set of examples to illustrate the use of the AC service model. These examples use the IPv4 address blocks reserved for documentation {{?RFC5737}}, the IPv6 prefix reserved for documentation {{?RFC3849}}, and the Autonomous System (AS) numbers reserved for documentation {{?RFC5398}}.
+The AC service model can be used in a variety of contexts, such as (but not limited to) those provided in {{examples}}:
 
-The AC service model can be used in a variety of contexts, such as binding a slice service to a set of pre-provisioned attachment circuits ({{sec-ex-slice}}) connecting a Cloud Infrastructure to a service provider network ({{sec-ex-cloud}}).
+* Request an attachment circuit for a known peer SAP ({{ac-no-bearer-peer-sap}}).
+* Instantiate multiple attachment circuits over the same bearer ({{sec-ex-one-ce-multi-acs}}).
+* Control the precedence over multiple attachment circuits ({{sec-ex-prec}}).
+* Bind a slice service to a set of pre-provisioned attachment circuits ({{sec-ex-slice}}).
+* Connect a Cloud Infrastructure to a service provider network ({{sec-ex-cloud}}).
+
+These examples use the IPv4 address blocks reserved for documentation {{?RFC5737}}, the IPv6 prefix reserved for documentation {{?RFC3849}}, and the Autonomous System (AS) numbers reserved for documentation {{?RFC5398}}.
 
 The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
@@ -607,7 +613,7 @@ An example of a request to create a simple AC, when the peer SAP is known, is sh
 ~~~~
 {: #ac-known-ps title="Example of a Message Body to Request an AC with a Peer SAP"}
 
-## One CE, Two ACs
+## One CE, Two ACs {#sec-ex-one-ce-multi-acs}
 
 Lets consider the example of an eNodeB (CTP) that is directly connected to the access routers of the mobile backhaul (see {{enodeb}}). In this example, two ACs are needed to service the eNodeB.
 
@@ -635,7 +641,7 @@ An example of a request to create the ACs to service the eNodeB is shown in {{tw
 ~~~~
 {: #two-acs-same-ce title="Example of a Message Body to Request Two ACes on The Same Link"}
 
-## Control Precedence over Multiple ACs
+## Control Precedence over Multiple ACs {#sec-ex-prec}
 
 When multiple ACs are requested by the same customer (for the same site), the request can tag one of these ACes as "primary" and the other ones as "secondary". An example of such a request is shown in {{ac-precedence}}. In this example, both ACes are bound to the same "group-id", and the "precedence" data node is set as a function of the intended role of each AC (primary or secondary).
 
