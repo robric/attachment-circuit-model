@@ -36,46 +36,6 @@ module: ietf-ac-common
        +-- vni-id             uint32
        +-- peer-mode?         identityref
        +-- peer-ip-address*   inet:ip-address
-  grouping l2-connection-basic
-    +-- encapsulation
-       +-- type?    identityref
-       +-- dot1q
-       |  +-- tag-type?   identityref
-       |  +-- cvlan-id?   uint16
-       +-- qinq
-          +-- tag-type?   identityref
-          +-- svlan-id    uint16
-          +-- cvlan-id    uint16
-  grouping l2-connection
-    +-- encapsulation
-    |  +-- type?              identityref
-    |  +-- dot1q
-    |  |  +-- tag-type?   identityref
-    |  |  +-- cvlan-id?   uint16
-    |  +-- priority-tagged
-    |  |  +-- tag-type?   identityref
-    |  +-- qinq
-    |     +-- tag-type?   identityref
-    |     +-- svlan-id    uint16
-    |     +-- cvlan-id    uint16
-    +-- (l2-service)?
-    |  +--:(l2-tunnel-service)
-    |  |  +-- l2-tunnel-service
-    |  |     +-- type?         identityref
-    |  |     +-- pseudowire
-    |  |     |  +-- vcid?      uint32
-    |  |     |  +-- far-end?   union
-    |  |     +-- vpls
-    |  |     |  +-- vcid?      uint32
-    |  |     |  +-- far-end*   union
-    |  |     +-- vxlan
-    |  |        +-- vni-id             uint32
-    |  |        +-- peer-mode?         identityref
-    |  |        +-- peer-ip-address*   inet:ip-address
-    |  +--:(l2vpn)
-    |     +-- l2vpn-id?            vpn-common:vpn-id
-    +-- bearer-reference?          string
-            {vpn-common:bearer-reference}?
   grouping ipv4-allocation-type
     +-- prefix-length?             uint8
     +-- address-allocation-type?   identityref
