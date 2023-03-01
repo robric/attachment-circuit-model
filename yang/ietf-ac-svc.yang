@@ -215,6 +215,8 @@ module ietf-ac-svc {
             "Only applies when the type of the tagged interface is
              'priority-tagged'.";
         }
+        description
+          "Priority-tagged interface.";
         uses ac-common:priority-tagged;
       }
       container qinq {
