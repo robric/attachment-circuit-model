@@ -106,11 +106,11 @@ Also, because the instantiation of an attachment circuit requires coordinating t
 
 This document specifies a YANG service data model ("ietf-ac-svc") for managing attachment circuits that are exposed by a network to its customers (e.g., an enterprise site, a network function, a hosting infrastructure, a peer network provider). The model can be used for the provisioning of ACs prior or during advanced service provisioning (e.g., Network Slice Service).
 
-The model also include a common module ("ietf-ac-common") which is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC service models or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.
+The model also include a common module ("ietf-ac-common") which is designed with the intent to be reusable. Likewise, the "ietf-ac-svc" includes a set of reusable groupings. Whether a service model reuses structures defined in the "ietf-ac-svc" or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). **This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.**
 
-Because the provisioning of an AC requires a bearer to be in place, this document allows customers to manage their bearer requests by means of a new module, called "ietf-bearer-svc"). The customers can then retrieve a provider-assigned bearer reference that they will include in their AC service requests.
+Because the provisioning of an AC requires a bearer to be in place, this document allows customers to manage their bearer requests by means of a new module, called "ietf-bearer-svc". The customers can then retrieve a provider-assigned bearer reference that they will include in their AC service requests.
 
-An AC service request can provide a reference to a bearer or peer SAPs. Both schemes are supported in the AC service model.
+An AC service request can provide a reference to a bearer or a set of peer SAPs. Both schemes are supported in the AC service model.
 
 Each AC is identified with a unique identifier within a (provider) domain. From a network provider standpoint, an AC can be bound to a single or multiple Service Attachment Points (SAPs) {{?I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between an AC and a PE in the provider network that terminates that AC is hidden to the application that makes use of the AC service model. Such mapping information is internal to the network controllers. As such, the details about the (node-specific) attachment interfaces are not exposed in the AC service model.
 
@@ -181,28 +181,25 @@ Service provider:
 
 * CTPs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}).
 
-* A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (i.e., CTPs in this example). For example, and as discussed in {{!RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service.
+* A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2). For example, and as discussed in {{!RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service.
+
+* The same CTP may terminate multiple ACs. These ACes may be over the same or distinct bearers.
+
+* The customer may request protection schemes where the ACs bound to a customer endpoints are terminated by the same PE (e.g., CTP#3), distinct PEs (e.g., CTP#34), etc.
 
 ~~~~ aasvg
-┌───────┐                      ┌──────────────────────┐
-│       ├────────┐             │                      │
-│ CTP#1 │        │             │                      │
-└───────┘        │             │                      │
-                 ├─────────────┤      Network         │
+┌───────┐                      ┌──────────────────────┐                  ┌───────┐
+│       ├────────┐             │                      ├────────AC────────┤       │
+│ CTP#1 │        │             │                      ├────────AC────────┤ CTP#3 |
+└───────┘        │             │                      │                  └───────┘
+                 ├─────AC──────┤      Network         │
 ┌───────┐        │             │                      │
-│       │        │             │                      │
-│ CTP#2 ├────────┘             │                      │
-└───────┘                      └──────────────────────┘
-
-┌───────┐                      ┌──────────────────────┐
-│       │                      │                      │
-│ CTP#1 ├──────────────────────┤                      │
-└───────┘                      │                      │
-                               │      Network         │
-┌───────┐                      │                      │
-│       ├──────────────────────┤                      │
-│ CTP#2 │                      │                      │
-└───────┘                      └──────────────────────┘
+│       │        │             │                      │                  ┌───────┐
+│ CTP#2 ├────────┘             │                      │─────────AC───────┤ CTP#4 │
+└───────┘                      │                      │                  └────+──┘
+                               └───────────+──────────┘                       |
+                                           |                                  |
+                                           └───────────────────AC─────────────┘
 ~~~~
 {: #uc title='Examples of ACs' artwork-align="center"}
 
