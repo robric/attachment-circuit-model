@@ -76,22 +76,21 @@ module ietf-ac-svc {
        by other modules.";
   }
 
-  typedef ac-global-profile-reference {
+  /*typedef ac-global-profile-reference {
     type leafref {
       path "/ac-svc:attachment-circuits/ac-global-profile/id";
     }
     description
       "Defines a reference to a gloabl attachment circuit that can be used
        by other modules.";
-  }
+  }*/
 
-  typedef ac-node-group-reference {
+  typedef ac-group-reference {
     type leafref {
-      path "/ac-svc:attachment-circuits/ac-node-group/id";
+      path "/ac-svc:attachment-circuits/ac-group-profile/id";
     }
     description
-      "Defines a reference to a per-node attachment circuit that can be used
-       by other modules.";
+      "Defines a reference to an attachment circuit profile.";
   }
 
   typedef encryption-profile-reference {
@@ -140,9 +139,8 @@ module ietf-ac-svc {
       "Defines a type to a routing profile for referencing purposes.";
   }
 
-  /* Reusable groupings */
-  /**** Layer 2 encapsulations ****/
-  /**** Layer 2 connection *****/
+  /******************** Reusable groupings ********************/
+
   // Basic Layer 2 connection
 
   grouping l2-connection-basic {
@@ -259,7 +257,6 @@ module ietf-ac-svc {
     }
   }
 
-  /**** Layer 3 connection *****/
   // Basic IP connection
 
   grouping ip-connection-basic {
@@ -298,7 +295,7 @@ module ietf-ac-svc {
     }
   }
 
-  /********* Routing *************/
+  // Routing protocol list
 
   grouping routing-protocol-list {
     description
@@ -328,6 +325,8 @@ module ietf-ac-svc {
       }
     }
   }
+
+  // Basic routing parameters
 
   grouping routing-basic {
     description
@@ -588,7 +587,7 @@ module ietf-ac-svc {
     }
   }
 
-  // Basic security parameters
+  // Encryption choice
 
   grouping encryption-choice {
     description
@@ -612,6 +611,8 @@ module ietf-ac-svc {
       }
     }
   }
+
+  // Basic security parameters
 
   grouping ac-security-basic {
     description
@@ -659,7 +660,7 @@ module ietf-ac-svc {
     }
   }
 
-  /******* Basic AC **********/
+  // Basic AC parameter
 
   grouping ac-basic {
     description
@@ -703,7 +704,7 @@ module ietf-ac-svc {
     }
   }
 
-  /******* full AC **********/
+  // Full AC parameters
 
   grouping ac {
     description
@@ -749,7 +750,7 @@ module ietf-ac-svc {
     }
   }
 
-  /****** Main AC containers *****/
+  /******************** Main AC containers ********************/
 
   container specific-provisioning-profiles {
     description
@@ -775,13 +776,13 @@ module ietf-ac-svc {
   container attachment-circuits {
     description
       "Main container for the attachment circuits.";
-    list ac-global-profile {
+    /*list ac-global-profile {
       key "id";
       description
         "Maintains a list of AC profiles.";
       uses ac-basic;
-    }
-    list ac-node-group {
+    }*/
+    list ac-group-profile {
       key "id";
       description
         "Maintains a list of per-node AC profiles.";
@@ -818,13 +819,13 @@ module ietf-ac-svc {
         description
           "One or more peer SAPs can be indicated.";
       }
-      leaf-list ac-global-profile {
+      /*leaf-list ac-global-profile {
         type ac-global-profile-reference;
         description
           "A reference to an AC profile.";
-      }
-      leaf-list ac-node-profile {
-        type ac-node-group-reference;
+      }*/
+      leaf-list ac-group-profile {
+        type ac-group-reference;
         description
           "A reference to a per-node AC profile.";
       }
