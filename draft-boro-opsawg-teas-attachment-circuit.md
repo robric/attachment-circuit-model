@@ -436,7 +436,7 @@ As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defi
 ~~~~
 {: #sec-svc-tree title="Security Tree Structure" artwork-align="center"}
 
-## YANG Module
+### YANG Module
 
 This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 
@@ -457,7 +457,7 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 ~~~~
 {: #ac-glue-tree title="Augmenting Other Service-Specific Modules" artwork-align="center"}
 
-### Module
+### YANG Module
 
 ~~~~
 <CODE BEGINS> file "ietf-ac-glue@2022-11-30.yang"
@@ -565,6 +565,15 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 ~~~~
 
 --- back
+
+# Reusable Grouping in The "ietf-ac-svc" Module {#ac-gp-tree}
+
+The reusable groupings defined in the ACaaS module are shown in {{fig-ac-gp-tree}}.
+
+~~~~
+{::include ./yang/full-trees/ac-svc-groupings.txt}
+~~~~
+{: #fig-ac-gp-tree title="Tree Structure of the ACaaS Reusable Groupings" artwork-align="center"}
 
 # Full Tree of The "ietf-ac-svc" Module {#full-tree}
 
