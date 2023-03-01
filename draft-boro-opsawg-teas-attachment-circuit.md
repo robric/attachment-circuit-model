@@ -263,7 +263,7 @@ The procedure to provision a service in a service provider network may depend on
 The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}.
 
 ~~~~
-{::include ./yang/ac-common-with-groupings.txt}
+{::include ./yang/full-trees/ac-common-with-groupings.txt}
 ~~~~
 {: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
 
@@ -285,7 +285,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
 Such a reference can be used, e.g., in a subsequent service request to create an AC. The anchroing of the AC can also be achieved by indicating (with or without a bearer reference), a peer SAP identifier (e.g., An identifier of a Service Function).
 
 ~~~~
-{::include ./yang/bearers-stree.txt}
+{::include ./yang/full-trees/bearers-stree.txt}
 ~~~~
 {: #bearer-st title="Bearers Tree Structure" artwork-align="center"}
 
@@ -308,7 +308,7 @@ This module uses types defined in {{!RFC6991}} and {{!RFC9181}}.
 The overall tree structure of the AC service module is shown in {{o-svc-tree}}.
 
 ~~~~
-{::include ./yang/overall-stree.txt}
+{::include ./yang/sub-trees/overall-stree.txt}
 ~~~~
 {: #o-svc-tree title="Overall AC Service Tree Structure" artwork-align="center"}
 
@@ -323,7 +323,7 @@ Each AC is identified with a unique identifier within a domain. The mapping betw
 The 'specific-provisioning-profiles' container ({{gp-svc-tree}}) can be used by a service provider to maintain a set of specific profiles that are similar to those defined in {{!RFC9181}}. The exact definition of the profiles is local to each service provider. The model only includes an identifier for these profiles in order to facilitate identifying and binding local policies when building an AC.
 
 ~~~~
-{::include ./yang/sp-svc-profiles-stree.txt}
+{::include ./yang/sub-trees/sp-svc-profiles-stree.txt}
 ~~~~
 {: #gp-svc-tree title="Service Proviles" artwork-align="center"}
 
@@ -362,7 +362,7 @@ All these profiles are uniquely identified by the NETCONF/RESTCONF server by an 
 The structure of 'attachment-circuits' is shown in {{ac-svc-tree}}.
 
 ~~~~
-{::include ./yang/overall-ac-stree.txt}
+{::include ./yang/sub-trees/overall-ac-stree.txt}
 ~~~~
 {: #ac-svc-tree title="Overall Attachment Circuits Tree Structure" artwork-align="center"}
 
@@ -372,7 +372,7 @@ The structure of 'attachment-circuits' is shown in {{ac-svc-tree}}.
 As shown in the tree depicted in {{l2-svc-tree}}, the 'l2-connection' container defines service parameters to enable such connectivity at Layer 2.
 
 ~~~~
-{::include ./yang/l2-stree.txt}
+{::include ./yang/sub-trees/l2-stree.txt}
 ~~~~
 {: #l2-svc-tree title="Layer 2 Connection Tree Structure" artwork-align="center"}
 
@@ -384,14 +384,14 @@ The 'l3-connection' container defines a set of service parameters to enable Laye
 {{ipv4-svc-tree}} shows the structure of the IPv4 connection.
 
 ~~~~
-{::include ./yang/ipv4-stree.txt}
+{::include ./yang/sub-trees/ipv4-stree.txt}
 ~~~~
 {: #ipv4-svc-tree title="Layer 3 Connection Tree Structure (IPv4)" artwork-align="center"}
 
 {{ipv6-svc-tree}} shows the structure of the IPv6 connection.
 
 ~~~~
-{::include ./yang/ipv6-stree.txt}
+{::include ./yang/sub-trees/ipv6-stree.txt}
 ~~~~
 {: #ipv6-svc-tree title="Layer 3 Connection Tree Structure (IPv6)" artwork-align="center"}
 
@@ -409,7 +409,7 @@ In addition to static routing, the module supports the following routing protoco
 The model also supports the Virtual Router Redundancy Protocol (VRRP) {{!RFC5798}} on an AC.
 
 ~~~~
-{::include ./yang/rtg-stree.txt}
+{::include ./yang/sub-trees/rtg-stree.txt}
 ~~~~
 {: #rtg-svc-tree title="Routing Tree Structure" artwork-align="center"}
 
@@ -423,7 +423,7 @@ Similar to {{!RFC9182}}, this version of the ACaaS assumes that parameters speci
 As shown in the tree depicted in {{oam-svc-tree}}, the 'oam' container defines OAM-related parameters of an AC.
 
 ~~~~
-{::include ./yang/oam-stree.txt}
+{::include ./yang/sub-trees/oam-stree.txt}
 ~~~~
 {: #oam-svc-tree title="OAM Tree Structure" artwork-align="center"}
 
@@ -432,7 +432,7 @@ As shown in the tree depicted in {{oam-svc-tree}}, the 'oam' container defines O
 As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defines a set of AC security parameters.
 
 ~~~~
-{::include ./yang/security-stree.txt}
+{::include ./yang/sub-trees/security-stree.txt}
 ~~~~
 {: #sec-svc-tree title="Security Tree Structure" artwork-align="center"}
 
@@ -453,7 +453,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
 ACs created using the "ietf-ac-svc" module can be referenced in other modules (e.g., L2SM, L3SM, L2NM, L3NM, and Slicing). Some augmentations are required to that aim as shown in {{ac-glue-tree}}.
 
 ~~~~
-{::include ./yang/ac-glue-tree.txt}
+{::include ./yang/full-trees/ac-glue-tree.txt}
 ~~~~
 {: #ac-glue-tree title="Augmenting Other Service-Specific Modules" artwork-align="center"}
 
@@ -571,7 +571,7 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
 The full tree of the ACaaS module is shown in {{d-svc-tree}}.
 
 ~~~~
-{::include ./yang/ac-svc-without-groupings.txt}
+{::include ./yang/full-trees/ac-svc-without-groupings.txt}
 ~~~~
 {: #d-svc-tree title="Full Tree Structure of the ACaaS Module" artwork-align="center"}
 
