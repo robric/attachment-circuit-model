@@ -182,6 +182,11 @@ module: ietf-ac-common
   grouping isis-basic
     +-- address-family?   identityref
     +-- area-address      area-address
+  grouping ipv4-static-rtg-entry
+    +-- lan?        inet:ipv4-prefix
+    +-- lan-tag?    string
+    +-- next-hop?   union
+    +-- metric?     uint32
   grouping ipv4-static-rtg
     +-- ipv4-lan-prefixes* [lan next-hop] {vpn-common:ipv4}?
        +-- lan?        inet:ipv4-prefix
@@ -195,6 +200,11 @@ module: ietf-ac-common
           +--ro oper-status
              +--ro status?        identityref
              +--ro last-change?   yang:date-and-time
+  grouping ipv6-static-rtg-entry
+    +-- lan?        inet:ipv6-prefix
+    +-- lan-tag?    string
+    +-- next-hop?   union
+    +-- metric?     uint32
   grouping ipv6-static-rtg
     +-- ipv6-lan-prefixes* [lan next-hop] {vpn-common:ipv6}?
        +-- lan?        inet:ipv6-prefix
