@@ -73,13 +73,11 @@ informative:
 
 --- abstract
 
-The document specifies a common Attachment Circuits (ACs) YANG module, which is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC models or simply include an AC reference is a design choice of these service models. Relying upon the AC service model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
+The document specifies a common Attachment Circuits (ACs) YANG module, which is designed with the intent to be reusable by other models. For example, the common model can be reused by service models to expose AC as a service, service models that require binding a service to a set of ACs, network model to provision ACs, etc.
 
 --- middle
 
 # Introduction
-
-## Scope and Intended Use
 
 Connectivity services are provided by networks to customers via dedicated terminating points (e.g., service functions, customer edges (CEs), peer ASBRs, data centers gateways, Internet Exchange Points). A connectivity service is basically about ensuring data transfer received from (or destined to) a given terminating point to (or from) other terminating points that belong to the same customer/service, an interconnection node, or an ancillary node. A set of objectives for the connectivity service may eventually be negotiated and agreed upon between a customer a network provider. For that data transfer to take place within the provider network, it is assumed that adequate setup is provisioned over the links that connect customer terminating points and a provider network so that data can be successfully exchanged over these links. The required setup is referred to in this document as Attachment Circuits (ACs), while the underlying link is referred to as "bearers".
 
@@ -96,15 +94,29 @@ This document adheres to the definition of an Attachment Circuit as provided in 
    a tunnel of some sort; what matters is that it be possible for two
    devices to be network layer peers over the attachment circuit.
 
-When a customer requests a new value-added service, the service can be bound to existing attachment circuits or trigger the instantiation of new attachment circuits. The provisioning of an value-added service should, thus, accommodate both deployments.
+When a customer requests a new value-added service, the service can be bound to existing attachment circuits or trigger the instantiation of new attachment circuits. Whether these AC are specific to a given service or be used to deliver a variety of services is deployment specific.
 
-Also, because the instantiation of an attachment circuit requires coordinating the provisioning of endpoints that might not belong to the same administrative entity (customer vs. provider or distinct operational teams within the same provider, etc.), **programmatic means to expose 'attachment circuits'-as-a-service will greatly simplify the provisioning of value added services** that will be delivered over an attachment circuits.
+An example of ACs is depicted in {{uc}}. A Customer Terminating Point (CTP) may be a physical node or a logical entity. A CTP is seen by the network as a peer Service Attachment Point (SAP) {{?I-D.ietf-opsawg-sap}}. CTPs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2). For example, and as discussed in {{?RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service. The same CTP may terminate multiple ACs. These ACes may be over the same or distinct bearers.
 
-The model also include a common module ("ietf-ac-common") which is designed with the intent to be reusable. Likewise, the "ietf-ac-svc" includes a set of reusable groupings. Whether a service model reuses structures defined in the "ietf-ac-svc" or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). **This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.**
+~~~~ aasvg
+┌───────┐                ┌────────────────────┐           ┌───────┐
+│       ├──────┐         │                    ├────AC─────┤       │
+│ CTP#1 │      │         │                    ├────AC─────┤ CTP#3 |
+└───────┘      │         │                    │           └───────┘
+               ├───AC────┤     Network        │
+┌───────┐      │         │                    │
+│       │      │         │                    │           ┌───────┐
+│ CTP#2 ├──────┘         │                    │─────AC────┤ CTP#4 │
+└───────┘                │                    │           └────+──┘
+                         └───────────+────────┘                |
+                                     |                         |
+                                     └────────────AC───────────┘
+~~~~
+{: #uc title='Examples of ACs' artwork-align="center"}
 
+This document specifies a common module ("ietf-ac-common") for ACS. The model is designed with the intent to be reusable by other models and therefore ensure consistent AC structures among modules that manipulate ACs. For example, the common model can be reused by service models to expose AC as a service (e.g., {{?I-D.boro-opsawg-teas-attachment-circuit}}), service models that require binding a service to a set of ACs (e.g., {{?I-D.ietf-teas-ietf-network-slice-nbi-yang}})), network models to provision ACs (e.g., {{?I-D.boro-opsawg-ntw-attachment-circuit}}), device models, etc.
 
 The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
-
 
 # Conventions and Definitions
 
@@ -130,40 +142,6 @@ Service provider network:
 
 Service provider:
 : A service provider that offers network services (e.g., Network Slice Services).
-
-# Sample Uses of the Data Models
-
-## ACs Terminated by One or Multiple Customer Devices
-
-{{uc}} depicts two target topology flavors that involve ACs. These topologies are characterized as follows:
-
-* A Customer Terminating Point (CTP) may be a physical node or a logical entity. A CTP is seen by the network as a peer SAP.
-
-* The same AC request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of simplfying the illustration, only a subset of these ACs is shown in {{uc}}.
-
-* CTPs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}).
-
-* A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2). For example, and as discussed in {{!RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service.
-
-* The same CTP may terminate multiple ACs. These ACes may be over the same or distinct bearers.
-
-* The customer may request protection schemes where the ACs bound to a customer endpoints are terminated by the same PE (e.g., CTP#3), distinct PEs (e.g., CTP#34), etc.
-
-~~~~ aasvg
-┌───────┐                ┌────────────────────┐           ┌───────┐
-│       ├──────┐         │                    ├────AC─────┤       │
-│ CTP#1 │      │         │                    ├────AC─────┤ CTP#3 |
-└───────┘      │         │                    │           └───────┘
-               ├───AC────┤     Network        │
-┌───────┐      │         │                    │
-│       │      │         │                    │           ┌───────┐
-│ CTP#2 ├──────┘         │                    │─────AC────┤ CTP#4 │
-└───────┘                │                    │           └────+──┘
-                         └───────────+────────┘                |
-                                     |                         |
-                                     └────────────AC───────────┘
-~~~~
-{: #uc title='Examples of ACs' artwork-align="center"}
 
 # Description of the AC Common YANG Module
 
@@ -204,7 +182,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
    The "ietf-ac-common" module defines a set of identities, types, and
    groupings.  These nodes are intended to be reused by other YANG
    modules.  The module by itself does not expose any data nodes that
-   are writable, data nodes that contain read-only state, or RPCs.  
+   are writable, data nodes that contain read-only state, or RPCs.
 
    YANG modules that use the groupings that are defined in this document
    should identify the corresponding security considerations.  For
