@@ -70,6 +70,15 @@ normative:
 
 informative:
 
+  AC-SVC-Tree:
+    title: Full Service Attachment Circuit Tree Structure
+    date: 2023
+    target: https://raw.githubusercontent.com/boucadair/attachment-circuit-model/main/yang/full-trees/ac-svc-without-groupings.txt
+
+  AC-SVC-GRP:
+    title: Reusable Groupings in Service Attachment Circuits
+    date: 2023
+    target: https://raw.githubusercontent.com/boucadair/attachment-circuit-model/main/yang/full-trees/ac-svc-groupings.txt
 
 --- abstract
 
@@ -112,7 +121,7 @@ A AC service request can provide a reference to a bearer or a set of peer SAPs. 
 
 Each AC is identified with a unique identifier within a (provider) domain. From a network provider standpoint, an AC can be bound to a single or multiple Service Attachment Points (SAPs) {{?I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between an AC and a PE in the provider network that terminates that AC is hidden to the application that makes use of the AC service model. Such mapping information is internal to the network controllers. As such, the details about the (node-specific) attachment interfaces are not exposed in the AC service model.
 
-The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{!I-D.ietf-opsawg-sap}}.
+The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{?I-D.ietf-opsawg-sap}}.
 
 The AC service model can be used in a variety of contexts, such as (but not limited to) those provided in {{examples}}:
 
@@ -128,7 +137,7 @@ The YANG data models in this document conform to the Network Management Datastor
 
 ## Position ACaaS vs. Other Data Models
 
-The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models, e.g., Service Attachment Points (SAPs) {{!I-D.ietf-opsawg-sap}}, AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
+The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models (e.g., SAPs) AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
 
 The AC service model **is not a device model**. A network provider may use a variety of device models (e.g., Routing management {{?RFC8349}} or BGP {{?I-D.ietf-idr-bgp-model}}) to provision an AC service.
 
@@ -266,6 +275,8 @@ The same customer site (CE, NF, etc.) can terminate one or multiple bearers; eac
 ### Overall Structure
 
 The overall tree structure of the AC service module is shown in {{o-svc-tree}}.
+
+    > Note: The full ACaaS tree is available at {{AC-SVC-Tree}}. The full reusable groupings defined in the ACaaS module are shown in {{AC-SVC-GRP}}.
 
 ~~~~
 {::include ./yang/subtrees/overall-stree.txt}
@@ -503,24 +514,6 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and 
 ~~~~
 
 --- back
-
-# Reusable Grouping in The "ietf-ac-svc" Module {#ac-gp-tree}
-
-The reusable groupings defined in the ACaaS module are shown in {{fig-ac-gp-tree}}.
-
-~~~~
-{::include ./yang/full-trees/ac-svc-groupings.txt}
-~~~~
-{: #fig-ac-gp-tree title="Tree Structure of the ACaaS Reusable Groupings" artwork-align="center"}
-
-# Full Tree of The "ietf-ac-svc" Module {#full-tree}
-
-The full tree of the ACaaS module is shown in {{d-svc-tree}}.
-
-~~~~
-{::include ./yang/full-trees/ac-svc-without-groupings.txt}
-~~~~
-{: #d-svc-tree title="Full Tree Structure of the ACaaS Module" artwork-align="center"}
 
 # Examples {#examples}
 
