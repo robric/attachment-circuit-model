@@ -18,9 +18,8 @@ module: ietf-ac-svc
   |  +--rw service-profile-identifier* [id]
   |     +--rw id    string
   +--rw attachment-circuits
-     +--rw ac-group-profile* [id]
-     |  +--rw id                   string
-     |  +--rw name?                string
+     +--rw ac-group-profile* [name]
+     |  +--rw name                 string
      |  +--rw l2-connection
      |  |  +--rw encapsulation
      |  |  |  +--rw type?              identityref
