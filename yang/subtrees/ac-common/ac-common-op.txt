@@ -1,0 +1,6 @@
+  grouping op-instructions
+    +-- requested-start?   yang:date-and-time
+    +-- requested-stop?    yang:date-and-time
+    +--ro actual-start?      yang:date-and-time
+    +--ro actual-stop?       yang:date-and-time
+
