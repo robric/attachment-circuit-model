@@ -182,9 +182,9 @@ Layer 2 encapsulations:
 
 Layer 2 tunnel services:
 :  These grouping are used to define layer 2 tunnel services that may be needed for the activation of an AC. Examples of supported Layer 2 servers are the pseudowire
-   (Section 6.1 of {{?RFC8077}}),  a Virtual Private LAN Service (VPLS), or a Virtual eXtensible Local Area Networks (VXLANs) {{!RFC7348}}.
+   (Section 6.1 of {{!RFC8077}}),  a Virtual Private LAN Service (VPLS), or a Virtual eXtensible Local Area Networks (VXLANs) {{!RFC7348}}.
 
-Layer 3 address allocation: 
+Layer 3 address allocation:
 : Defines both IPv4 and IPv6 groupings to specify IP address allocation over an AC.
 
 IP connections:
@@ -193,7 +193,7 @@ IP connections:
 Routing parameters:
 : In addition to static routing, the module supports the following routing protocols: BGP {{!RFC4271}}, OSPF {{!RFC4577}} or {{!RFC6565}}, IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}, and RIP {{!RFC2453}}. For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{!RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{!RFC2080}}.
 
-  * Authentication: These groupings include the required information to manage the authentication of OSPF, IS-IS, BGP, and RIP. Similar to {{!RFC9182}}, this version of the common AC model assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the model. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{!RFC5925}}).
+  * Authentication: These groupings include the required information to manage the authentication of OSPF, IS-IS, BGP, and RIP. Similar to {{?RFC9182}}, this version of the common AC model assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the model. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{!RFC5925}}).
 
   * BGP peer groups: Includes a set of parameter to identify a set of BGP peer groups.
   * Basic parameters: These groupings include the minimal set of routing configuration that is required for the activation of OSPF, IS-IS, BGP, and RIP.
