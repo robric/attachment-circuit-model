@@ -77,8 +77,6 @@ This document specifies a YANG service data model for Attachment Circuits (ACs).
 
 Also, the document specifies a set of reusable groupings. Whether a service model reuses structures defined in the AC models or simply include an AC reference is a design choice of these service models. Relying upon the AC service model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
 
-Each AC is identified with a unique identifier within a domain. The mapping between this AC and a network node (typically, a Provider Edge (PE)) that terminates an AC is hidden to the application/customer that makes use of the AC service model. Such an information is internal to the network controller. Thus, the details about the (network node-specific) attachment interfaces are not exposed in this service model.
-
 --- middle
 
 # Introduction
@@ -133,8 +131,6 @@ The YANG data models in this document conform to the Network Management Datastor
 The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models, e.g., Service Attachment Points (SAPs) {{!I-D.ietf-opsawg-sap}}, AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
 
 The AC service model **is not a device model**. A network provider may use a variety of device models (e.g., Routing management {{?RFC8349}} or BGP {{?I-D.ietf-idr-bgp-model}}) to provision an AC service.
-
-The document specifies also a module ({{glue}}) that updates other service and network modules with the required information to bind services to specific ACs that are created using the AC service model. It is anticipated that future revisions of the L3SM/L2SM can make use of the AC service model, by (preferably) offloading all the AC-related management matters from the core L3SM/L2SM to focus on L2/L3 VPN service matters.
 
 ### Why Not Using L2SM as Reference Data Model for ACaaS?
 
@@ -280,6 +276,8 @@ The full tree structure is provided in {{full-tree}}.
 
 Each AC is identified with a unique identifier within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
 
+The AC service model uses groupings and types defined in the AC common model {{!I-D.boro-opsawg-teas-common-ac}}. Therefore, the description of these nodes are not reiterated in the following subsections.
+
 ### Service Profiles
 
 #### Description
@@ -319,6 +317,7 @@ All these profiles are uniquely identified by the NETCONF/RESTCONF server by an 
 
 ### Attachment Circuits Profiles
 
+TBC.
 
 ### Attachment Circuits
 
@@ -371,12 +370,7 @@ The 'l3-connection' container defines a set of service parameters to enable Laye
 
 As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines th erequired parameters to enable the required routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols are then enabled between a PE and the CE. Each routing instance is uniquely identified to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
 
-In addition to static routing, the module supports the following routing protocols:
-
-* BGP {{!RFC4271}}
-* OSPF {{!RFC4577}} or {{!RFC6565}}
-* IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}
-* RIP {{!RFC2453}}
+In addition to static routing, the module supports BGP {{!RFC4271}}, OSPF {{!RFC4577}} or {{!RFC6565}}, IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}, and RIP {{!RFC2453}}.
 
 The model also supports the Virtual Router Redundancy Protocol (VRRP) {{!RFC5798}} on an AC.
 
@@ -388,7 +382,6 @@ The model also supports the Virtual Router Redundancy Protocol (VRRP) {{!RFC5798
 For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{!RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{!RFC2080}}.
 
 Similar to {{!RFC9182}}, this version of the ACaaS assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the ACaaS. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{!RFC5925}}).
-
 
 #### OAM
 
@@ -408,17 +401,6 @@ As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defi
 ~~~~
 {: #sec-svc-tree title="Security Tree Structure" artwork-align="center"}
 
-
-## Bind a Service to an AC {#glue}
-
-ACs created using the "ietf-ac-svc" module can be referenced in other modules (e.g., L2SM, L3SM, L2NM, L3NM, and Slicing). Some augmentations are required to that aim as shown in {{ac-glue-tree}}.
-
-~~~~
-{::include ./yang/full-trees/ac-glue-tree.txt}
-~~~~
-{: #ac-glue-tree title="Augmenting Other Service-Specific Modules" artwork-align="center"}
-
-
 # YANG Modules
 
 ## The Bearer Service ("ietf-bearer-svc") YANG Module
@@ -433,21 +415,13 @@ This module uses types defined in {{!RFC6991}} and {{!RFC9181}}.
 
 ## The AC Service ("ietf-ac-svc") YANG Module
 
-This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and [I-D.boro-opsawg-teas-common-ac].
+This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and {{!I-D.boro-opsawg-teas-common-ac}}.
 
 ~~~~~~~~~~
 <CODE BEGINS> file "ietf-ac-svc@2022-11-30.yang"
 {::include ./yang/ietf-ac-svc.yang}
 <CODE ENDS>
 ~~~~~~~~~~
-
-## The AC Glue ("ietf-ac-glue") YANG Module
-
-~~~~
-<CODE BEGINS> file "ietf-ac-glue@2022-11-30.yang"
-{::include ./yang/ietf-ac-glue.yang}
-<CODE ENDS>
-~~~~
 
 # Security Considerations
 
@@ -509,10 +483,6 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and 
    URI:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
    Registrant Contact:  The IESG.
    XML:  N/A; the requested URI is an XML namespace.
-
-   URI:  urn:ietf:params:xml:ns:yang:ietf-ac-glue
-   Registrant Contact:  The IESG.
-   XML:  N/A; the requested URI is an XML namespace.
 ~~~~
 
    IANA is requested to register the following YANG modules in the "YANG Module
@@ -529,12 +499,6 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and 
    Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-svc
    Prefix:  ac-svc
-   Reference:  RFC xxxx
-
-   Name:  ietf-ac-glue
-   Maintained by IANA?  N
-   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-glue
-   Prefix:  ac-glue
    Reference:  RFC xxxx
 ~~~~
 
@@ -715,7 +679,7 @@ Network Functions are deployed within each site.
 ~~~~
 {: #slice-acs title="Message Body of a Request to Create Required ACs"}
 
-{{slice-prov}} shows the message body of the request to create the a slice service bound to the ACs created using {{slice-acs}}. Only references to these ACs are included in the Slice Service request. This example assumes that the module defined {{glue}} is also supported by the NSC.
+{{slice-prov}} shows the message body of the request to create the a slice service bound to the ACs created using {{slice-acs}}. Only references to these ACs are included in the Slice Service request. This example assumes that the module that "glues" the service/AC is also supported by the NSC.
 
 ~~~~
 {::include-fold ./json-examples/slice-provisionning.json}
