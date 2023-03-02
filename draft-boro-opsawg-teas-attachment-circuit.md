@@ -61,12 +61,6 @@ contributor:
     email: bill.wu@huawei.com
 
 normative:
-  ISO10589:
-    title: Information technology - Telecommunications and information exchange between systems - Intermediate System to Intermediate System intra-domain routeing information exchange protocol for use in conjunction with the protocol for providing the connectionless-mode network service (ISO8473)
-    author:
-      org: ISO
-    date: 2002
-    target: https://www.iso.org/standard/30932.html
 
 informative:
 
