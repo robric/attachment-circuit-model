@@ -173,7 +173,7 @@ The module also defines a set of reusable groupings, including the following:
 ~~~~
 {::include ./yang/subtrees/ac-common/ac-common-op.txt}
 ~~~~
-{: #op-full-tree title="Operational Instructions Groupings" artwork-align="center"}
+{: #op-full-tree title="Operational Instructions Grouping" artwork-align="center"}
 
 Layer 2 encapsulations ({{l2-full-tree}}):
 : Groupings for the following encapsulation schemes are supported: dot1Q, QinQ, and priority-tagged.
