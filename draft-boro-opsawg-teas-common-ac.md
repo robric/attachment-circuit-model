@@ -184,16 +184,19 @@ Layer 2 tunnel services:
 : 'pseudowire' {{?RFC8077}}, 'vpls', 'vxlan', and 'l2-tunnel-service'.
 
 Layer 3 address allocation:
-   'ipv4-allocation-type': xx
-   'ipv4-allocation-type': xxx
+
+   * 'ipv4-allocation-type': xx
+   * 'ipv4-allocation-type': xxx
 
 IP connections:
+
    * 'ipv4-connection-basic': xxx
    * 'ipv6-connection-basic': xxx
    * pv4-connection': xxx
    * pv6-connection': xxx
 
 Routing parameters:
+
   * Authentication: These groupings includes the required information to manage the authentication of OSPF, IS-IS, BGP, and RIP.
   * BGP peer groups: Includes a set of parameter to identify a set of BGP peer groups.
   * Basic parameters: These groupings includes minimal set of routing configuration that is required for the activation of OSPF, IS-IS, BGP, and RIP.
