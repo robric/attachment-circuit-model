@@ -154,6 +154,48 @@ The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}
 ~~~~
 {: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
 
+
+The module defines a set of identities, including the following:
+
+'address-allocation-type':
+: Used to specify the IP address allocation type in an AC.
+
+'local-defined-next-hop':
+: Used to specify next hop actions. For example, this identity can be used to indicate an action to discard traffic for a given destination or treat traffic towards addresses within the specified next-hop prefix as though they are connected to a local link.
+
+'l2-tunnel-type':
+: Uses to control the Layer 2 tunnel selection for an AC. The current version supports indicating pseudowire, Virtual Private LAN Service (VPLS), and Virtual eXtensible Local Area Network (VXLAN).
+
+'precedence-type':
+: Used to redundancy type when requesting ACs. For example, this identity can be used to tag a primary AC and a secondary AC.
+
+The module also defines a set of reusable groupings, including the following:
+
+'op-instructions':
+: A set of parameters to specify/report scheduling instructions for an AC.
+
+Layer 2 encapsulations:
+: 'dot1q', 'priority-tagged', and 'qinq'.
+
+Layer 2 tunnel services:
+: 'pseudowire' {{?RFC8077}}, 'vpls', 'vxlan', and 'l2-tunnel-service'.
+
+Layer 3 address allocation:
+   'ipv4-allocation-type': xx
+   'ipv4-allocation-type': xxx
+
+IP connections:
+   * 'ipv4-connection-basic': xxx
+   * 'ipv6-connection-basic': xxx
+   * pv4-connection': xxx
+   * pv6-connection': xxx
+
+Routing parameters:
+  * Authentication: These groupings includes the required information to manage the authentication of OSPF, IS-IS, BGP, and RIP.
+  * BGP peer groups: Includes a set of parameter to identify a set of BGP peer groups.
+  * Basic parameters: These groupings includes minimal set of routing configuration that is required for the activation of OSPF, IS-IS, BGP, and RIP.
+  * Static routing: Parameters to configure an entry of a list of IP static routing entries.
+
 # Common Attachment Circuit YANG Module
 
 This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
