@@ -145,14 +145,7 @@ Service provider:
 
 # Description of the AC Common YANG Module
 
-## Tree Structure
-
-The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}.
-
-~~~~
-{::include ./yang/full-trees/ac-common-with-groupings.txt}
-~~~~
-{: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
+The full tree of the "ietf-ac-common" module is shown in {{sec-full-tree}}.
 
 ## Identities
 
@@ -174,23 +167,38 @@ The module defines a set of identities, including the following:
 
 The module also defines a set of reusable groupings, including the following:
 
-'op-instructions':
+'op-instructions' ({{op-full-tree}}):
 : Defines a set of parameters to specify scheduling instructions and report related events for an AC.
 
-Layer 2 encapsulations:
+~~~~
+{::include ./yang/subtrees/ac-common/ac-common-op.txt}
+~~~~
+{: #op-full-tree title="Operational Instructions Groupings" artwork-align="center"}
+
+Layer 2 encapsulations ({{l2-full-tree}}):
 : Groupings for the following encapsulation schemes are supported: dot1Q, QinQ, and priority-tagged.
 
-Layer 2 tunnel services:
+Layer 2 tunnel services  ({{l2-full-tree}}):
 :  These grouping are used to define layer 2 tunnel services that may be needed for the activation of an AC. Examples of supported Layer 2 servers are the pseudowire
    (Section 6.1 of {{!RFC8077}}),  a Virtual Private LAN Service (VPLS), or a Virtual eXtensible Local Area Networks (VXLANs) {{!RFC7348}}.
 
-Layer 3 address allocation:
+~~~~
+{::include ./yang/subtrees/ac-common/ac-common-l2-encap.txt}
+~~~~
+{: #l2-full-tree title="Layer 2 Connection Groupings" artwork-align="center"}
+
+Layer 3 address allocation ({{l3-full-tree}}):
 : Defines both IPv4 and IPv6 groupings to specify IP address allocation over an AC.
 
-IP connections:
+IP connections ({{l3-full-tree}})::
 : Defines IPv4 and IPv6 grouping for managing layer 3 connectivity over an AC. Both basic and more elaborated IP connection groupings are supported.
 
-Routing parameters:
+~~~~
+{::include ./yang/subtrees/ac-common/ac-common-ipc.txt}
+~~~~
+{: #l3-full-tree title="Layer 3 Connection Groupings" artwork-align="center"}
+
+Routing parameters ({{rtg-full-tree}}):
 : In addition to static routing, the module supports the following routing protocols: BGP {{!RFC4271}}, OSPF {{!RFC4577}} or {{!RFC6565}}, IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}, and RIP {{!RFC2453}}. For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{!RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{!RFC2080}}. More details about supported routing groupings are provided hereafter:
 
   * Authentication: These groupings include the required information to manage the authentication of OSPF, IS-IS, BGP, and RIP. Similar to {{?RFC9182}}, this version of the common AC model assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the model. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{!RFC5925}}).
@@ -198,6 +206,11 @@ Routing parameters:
   * BGP peer groups: Includes a set of parameters to identify a BGP peer group. Such a group can be defined by providing a local AS Number (ASN), a customer's ASN, and the address families to be activated for this group. BGP peer groups can be identified by a name.
   * Basic parameters: These groupings include the minimal set of routing configuration that is required for the activation of OSPF, IS-IS, BGP, and RIP.
   * Static routing: Parameters to configure an entry of a list of IP static routing entries.
+
+~~~~
+{::include ./yang/subtrees/ac-common/ac-common-rtg.txt}
+~~~~
+{: #rtg-full-tree title="Layer 3 Connection Groupings" artwork-align="center"}
 
 # Common Attachment Circuit YANG Module
 
@@ -270,6 +283,15 @@ This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
 ~~~~
 
 --- back
+
+## Tree Structure {#sec-full-tree}
+
+The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}.
+
+~~~~
+{::include ./yang/full-trees/ac-common-with-groupings.txt}
+~~~~
+{: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
 
 # Acknowledgments
 {:numbered="false"}
