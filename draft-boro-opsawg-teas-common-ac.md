@@ -191,11 +191,11 @@ IP connections:
 : Defines IPv4 and IPv6 grouping for managing layer 3 connectivity over an AC. Both basic and more elaborated IP connection groupings are supported.
 
 Routing parameters:
-: In addition to static routing, the module supports the following routing protocols: BGP {{!RFC4271}}, OSPF {{!RFC4577}} or {{!RFC6565}}, IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}, and RIP {{!RFC2453}}. For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{!RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{!RFC2080}}.
+: In addition to static routing, the module supports the following routing protocols: BGP {{!RFC4271}}, OSPF {{!RFC4577}} or {{!RFC6565}}, IS-IS {{ISO10589}}{{!RFC1195}}{{!RFC5308}}, and RIP {{!RFC2453}}. For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{!RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{!RFC2080}}. More details about supported routing groupings are provided hereafter:
 
   * Authentication: These groupings include the required information to manage the authentication of OSPF, IS-IS, BGP, and RIP. Similar to {{?RFC9182}}, this version of the common AC model assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the model. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{!RFC5925}}).
 
-  * BGP peer groups: Includes a set of parameter to identify a set of BGP peer groups.
+  * BGP peer groups: Includes a set of parameters to identify a BGP peer group. Such a group can be defined by providing a local AS Number (ASN), a customer's ASN, and the address families to be activated for this group. BGP peer groups can be identified by a name.
   * Basic parameters: These groupings include the minimal set of routing configuration that is required for the activation of OSPF, IS-IS, BGP, and RIP.
   * Static routing: Parameters to configure an entry of a list of IP static routing entries.
 
@@ -236,7 +236,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
    be considered a violation of the customer-provider trust
    relationship.
 
-   Several grouping ('bgp-authentication', 'ospf-authentication', 'isis-authentication', and 'rip-authentication') rely
+   Several groupings ('bgp-authentication', 'ospf-authentication', 'isis-authentication', and 'rip-authentication') rely
    upon {{!RFC8177}} for authentication purposes.  As such, modules that will reuse these grouping
    will inherit the security considerations discussed in Section 5 of
    {{!RFC8177}}.  Also, these groupings support supplying explicit keys as
