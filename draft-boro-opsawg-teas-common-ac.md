@@ -73,7 +73,7 @@ informative:
 
 --- abstract
 
-The document specifies a common Attachment Circuits (ACs) YANG module, which is designed with the intent to be reusable by other models. For example, the common model can be reused by service models to expose AC as a service, service models that require binding a service to a set of ACs, network model to provision ACs, etc.
+The document specifies a common Attachment Circuits (ACs) YANG module, which is designed with the intent to be reusable by other models. For example, this common model can be reused by service models to expose ACs as a service, service models that require binding a service to a set of ACs, network and device models to provision ACs, etc.
 
 --- middle
 
@@ -81,7 +81,7 @@ The document specifies a common Attachment Circuits (ACs) YANG module, which is 
 
 Connectivity services are provided by networks to customers via dedicated terminating points (e.g., service functions, customer edges (CEs), peer ASBRs, data centers gateways, Internet Exchange Points). A connectivity service is basically about ensuring data transfer received from (or destined to) a given terminating point to (or from) other terminating points that belong to the same customer/service, an interconnection node, or an ancillary node. A set of objectives for the connectivity service may eventually be negotiated and agreed upon between a customer a network provider. For that data transfer to take place within the provider network, it is assumed that adequate setup is provisioned over the links that connect customer terminating points and a provider network so that data can be successfully exchanged over these links. The required setup is referred to in this document as Attachment Circuits (ACs), while the underlying link is referred to as "bearers".
 
-This document adheres to the definition of an Attachment Circuit as provided in Section 1.2 of {{!RFC4364}}, especially:
+This document adheres to the definition of an Attachment Circuit as provided in Section 1.2 of {{?RFC4364}}, especially:
 
 > Routers can be attached to each other, or to end systems, in a
    variety of different ways: PPP connections, ATM Virtual Circuits
@@ -138,10 +138,10 @@ Service orchestrator:
 : Refers to a functional entity that interacts with the customer of a network service. The service orchestrator is typically responsible for the attachment circuits, the Provider Edge (PE) selection, and requesting the activation of the requested service to a network controller.
 
 Service provider network:
-: A network that is able to provide network services (e.g., Network Slice Services).
+: A network that is able to provide network services (e.g., Layer 3 VPN, Layer 2 VPN, and Network Slice Services).
 
 Service provider:
-: A service provider that offers network services (e.g., Network Slice Services).
+: A service provider that offers network services (e.g., Layer 3 VPN, Layer 2 VPN, and Network Slice Services).
 
 # Description of the AC Common YANG Module
 
