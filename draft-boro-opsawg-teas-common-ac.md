@@ -154,6 +154,7 @@ The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}
 ~~~~
 {: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
 
+## Identities
 
 The module defines a set of identities, including the following:
 
@@ -168,6 +169,8 @@ The module defines a set of identities, including the following:
 
 'precedence-type':
 : Used to redundancy type when requesting ACs. For example, this identity can be used to tag a primary AC and a secondary AC.
+
+## Reusable Grouping
 
 The module also defines a set of reusable groupings, including the following:
 
