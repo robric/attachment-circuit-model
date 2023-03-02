@@ -75,7 +75,7 @@ informative:
 
 This document specifies a YANG service data model for Attachment Circuits (ACs). This model can be used for the provisioning of ACs prior or during service provisioning (e.g., Network Slice Service). The document specifies also a module that updates other service and network modules with the required information to bind specific services to ACs that are created using the AC service model.
 
-Also, the document specifies the common AC module, which is designed with the intent to be reusable. Whether a service model reuses structures defined in the AC models or simply include an AC reference is a design choice of these service models. Relying upon the AC service model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
+Also, the document specifies a set of reusable groupings. Whether a service model reuses structures defined in the AC models or simply include an AC reference is a design choice of these service models. Relying upon the AC service model to manage ACs over which a service is delivered has the merit to decorrelate the management of a service vs. upgrade the AC components to reflect recent AC technologies or features.
 
 Each AC is identified with a unique identifier within a domain. The mapping between this AC and a network node (typically, a Provider Edge (PE)) that terminates an AC is hidden to the application/customer that makes use of the AC service model. Such an information is internal to the network controller. Thus, the details about the (network node-specific) attachment interfaces are not exposed in this service model.
 
@@ -106,11 +106,11 @@ Also, because the instantiation of an attachment circuit requires coordinating t
 
 This document specifies a YANG service data model ("ietf-ac-svc") for managing attachment circuits that are exposed by a network to its customers (e.g., an enterprise site, a network function, a hosting infrastructure, a peer network provider). The model can be used for the provisioning of ACs prior or during advanced service provisioning (e.g., Network Slice Service).
 
-The model also include a common module ("ietf-ac-common") which is designed with the intent to be reusable. Likewise, the "ietf-ac-svc" includes a set of reusable groupings. Whether a service model reuses structures defined in the "ietf-ac-svc" or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). **This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.**
+The "ietf-ac-svc" includes a set of reusable groupings. Whether a service model reuses structures defined in the "ietf-ac-svc" or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). **This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.**
 
 Because the provisioning of an AC requires a bearer to be in place, this document allows customers to manage their bearer requests by means of a new module, called "ietf-bearer-svc". The customers can then retrieve a provider-assigned bearer reference that they will include in their AC service requests.
 
-An AC service request can provide a reference to a bearer or a set of peer SAPs. Both schemes are supported in the AC service model.
+A AC service request can provide a reference to a bearer or a set of peer SAPs. Both schemes are supported in the AC service model.
 
 Each AC is identified with a unique identifier within a (provider) domain. From a network provider standpoint, an AC can be bound to a single or multiple Service Attachment Points (SAPs) {{?I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between an AC and a PE in the provider network that terminates that AC is hidden to the application that makes use of the AC service model. Such mapping information is internal to the network controllers. As such, the details about the (node-specific) attachment interfaces are not exposed in the AC service model.
 
@@ -164,10 +164,10 @@ Service orchestrator:
 : Refers to a functional entity that interacts with the customer of a network service. The service orchestrator is typically responsible for the attachment circuits, the Provider Edge (PE) selection, and requesting the activation of the requested service to a network controller.
 
 Service provider network:
-: A network that is able to provide network services (e.g., Network Slice Services).
+: A network that is able to provide network services (e.g., Layer 2 VPN, Layer 3, and Network Slice Services).
 
 Service provider:
-: A service provider that offers network services (e.g., Network Slice Services).
+: A service provider that offers network services (e.g., Layer 2 VPN, Layer 3, and Network Slice Services).
 
 # Sample Uses of the Data Models
 
@@ -252,27 +252,6 @@ The procedure to provision a service in a service provider network may depend on
 {: #u-ex title="An Example of AC Model Usage" artwork-align="center"}
 
 # Description of the Data Models
-
-## The Common Attachment Circuit ("ietf-ac-common") YANG Module
-
-### Tree Structure
-
-The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}.
-
-~~~~
-{::include ./yang/full-trees/ac-common-with-groupings.txt}
-~~~~
-{: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
-
-### YANG Module
-
-This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
-
-~~~~~~~~~~
-<CODE BEGINS> file "ietf-ac-common@2022-11-30.yang"
-{::include ./yang/ietf-ac-common.yang}
-<CODE ENDS>
-~~~~~~~~~~
 
 ## The Bearer Service ("ietf-bearer-svc") YANG Module
 
@@ -435,7 +414,7 @@ As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defi
 
 ### YANG Module
 
-This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, and {{!RFC8177}}.
+This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and [I-D.boro-opsawg-teas-common-ac].
 
 ~~~~~~~~~~
 <CODE BEGINS> file "ietf-ac-svc@2022-11-30.yang"
@@ -515,10 +494,6 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    the "IETF XML Registry" {{!RFC3688}}:
 
 ~~~~
-   URI:  urn:ietf:params:xml:ns:yang:ietf-ac-common
-   Registrant Contact:  The IESG.
-   XML:  N/A; the requested URI is an XML namespace.
-
    URI:  urn:ietf:params:xml:ns:yang:ietf-bearer-svc
    Registrant Contact:  The IESG.
    XML:  N/A; the requested URI is an XML namespace.
@@ -532,16 +507,10 @@ ACs created using the "ietf-ac-svc" module can be referenced in other modules (e
    XML:  N/A; the requested URI is an XML namespace.
 ~~~~
 
-   IANA is requested to register the following YANG module in the "YANG Module
+   IANA is requested to register the following YANG modules in the "YANG Module
    Names" subregistry {{!RFC6020}} within the "YANG Parameters" registry.
 
 ~~~~
-   Name:  ietf-ac-common
-   Maintained by IANA?  N
-   Namespace:  urn:ietf:params:xml:ns:yang:ietf-ac-common
-   Prefix:  ac-common
-   Reference:  RFC xxxx
-
    Name:  ietf-bearer-svc
    Maintained by IANA?  N
    Namespace:  urn:ietf:params:xml:ns:yang:ietf-bearer-svc
