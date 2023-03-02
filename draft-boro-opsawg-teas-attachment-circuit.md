@@ -275,7 +275,7 @@ The overall tree structure of the AC service module is shown in {{o-svc-tree}}.
 ~~~~
 {: #o-svc-tree title="Overall AC Service Tree Structure" artwork-align="center"}
 
-    > Note: The full ACaaS tree is available at {{AC-SVC-Tree}}. The full reusable groupings defined in the ACaaS module are shown in {{AC-SVC-GRP}}.
+The full ACaaS tree is available at {{AC-SVC-Tree}}. The full reusable groupings defined in the ACaaS module are shown in {{AC-SVC-GRP}}.
 
 Each AC is identified with a unique identifier within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
 
