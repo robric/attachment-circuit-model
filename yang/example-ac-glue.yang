@@ -6,44 +6,34 @@ module example-ac-glue {
   import ietf-l3vpn-svc {
     prefix l3vpn-svc;
     reference
-      "RFC 8299: xxxx";
+      "RFC 8299";
   }
   import ietf-l2vpn-svc {
     prefix l2vpn-svc;
     reference
-      "RFC 8466: xxxx";
+      "RFC 8466";
   }
   import ietf-l3vpn-ntw {
     prefix l3nm;
     reference
-      "RFC 9182: xxxx";
+      "RFC 9182";
   }
   import ietf-l2vpn-ntw {
     prefix l2nm;
     reference
-      "RFC 9291: xxxx";
+      "RFC 9291";
   }
   import ietf-network-slice-service {
     prefix ietf-nss;
-    reference
-      "RFC XXXX: xxxx";
   }
   import ietf-ac-svc {
     prefix ac-svc;
-    reference
-      "RFC xxx: XXXX";
   }
 
   organization
-    "IETF OPSAWG (Operations and Management Area Working Group)";
+    "Example Org.";
   contact
-    "WG Web:   <https://datatracker.ietf.org/wg/opsawg/>
-     WG List:  <mailto:opsawg@ietf.org>
-
-     Editor:   Mohamed Boucadair
-               <mailto:mohamed.boucadair@orange.com>
-     Author:   Richard Roberts
-               <mailto:rroberts@juniper.net>";
+    "Example contact";
   description
     "This YANG module defines an example of AC extension
      to glue service models to their attachment circuits.";
