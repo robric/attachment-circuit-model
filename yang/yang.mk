@@ -6,7 +6,7 @@ $(STDYANGDIR):
 
 OPTIONS=--tree-print-groupings --tree-no-expand-uses -f tree --tree-line-length=70
 ifeq ($(OS), Windows_NT)
-YANG_PATH="$(YANGDIR);$(STDYANGDIR)/standard/ietf/RFC/;$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules"
+YANG_PATH="$(YANGDIR);$(STDYANGDIR)/standard/ietf/RFC/;$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules;$(STDYANGDIR)/standard/ieee/published"
 else
 YANG_PATH="$(YANGDIR):$(STDYANGDIR)/standard/ietf/RFC/:$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules"
 endif
