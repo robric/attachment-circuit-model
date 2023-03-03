@@ -6,9 +6,9 @@ $(STDYANGDIR):
 
 OPTIONS=--tree-print-groupings --tree-no-expand-uses -f tree --tree-line-length=70
 ifeq ($(OS), Windows_NT)
-YANG_PATH="$(YANGDIR);$(STDYANGDIR)/standard/ietf/RFC/;$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules;$(STDYANGDIR)/standard/ieee/published"
+YANG_PATH="$(YANGDIR);$(STDYANGDIR)/standard/ietf/RFC/;$(STDYANGDIR)/standard/ieee/published/802.1/;$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules"
 else
-YANG_PATH="$(YANGDIR):$(STDYANGDIR)/standard/ietf/RFC/:$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules"
+YANG_PATH="$(YANGDIR):$(STDYANGDIR)/standard/ietf/RFC/:$(STDYANGDIR)/standard/ieee/published/802.1/:$(STDYANGDIR)/experimental/ietf-extracted-YANG-modules"
 endif
 YANG=$(wildcard $(YANGDIR)/*.yang)
 STDYANG=$(wildcard $(YANGDIR)/ietf-*.yang)
