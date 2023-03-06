@@ -190,7 +190,7 @@ Layer 2 tunnel services  ({{l2-full-tree}}):
 {: #l2-full-tree title="Layer 2 Connection Groupings" artwork-align="center"}
 
 Layer 3 address allocation ({{l3-full-tree}}):
-: Defines both IPv4 and IPv6 groupings to specify IP address allocation over an AC. Both dynamic and static addresses schemes are supported.
+: Defines both IPv4 and IPv6 groupings to specify IP address allocation over an AC. Both dynamic and static address schemes are supported.
 
 IP connections ({{l3-full-tree}})::
 : Defines IPv4 and IPv6 grouping for managing layer 3 connectivity over an AC. Both basic and more elaborated IP connection groupings are supported.
@@ -252,7 +252,7 @@ This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
    relationship.
 
    Several groupings ('bgp-authentication', 'ospf-authentication', 'isis-authentication', and 'rip-authentication') rely
-   upon {{!RFC8177}} for authentication purposes.  As such, modules that will reuse these grouping
+   upon {{!RFC8177}} for authentication purposes.  As such, modules that will reuse these groupings
    will inherit the security considerations discussed in Section 5 of
    {{!RFC8177}}.  Also, these groupings support supplying explicit keys as
    strings in ASCII format.  The use of keys in hexadecimal string
