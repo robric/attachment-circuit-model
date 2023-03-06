@@ -79,7 +79,7 @@ The document specifies a common Attachment Circuits (ACs) YANG module, which is 
 
 # Introduction
 
-Connectivity services are provided by networks to customers via dedicated terminating points (e.g., service functions, customer edges (CEs), peer ASBRs, data centers gateways, Internet Exchange Points). A connectivity service is basically about ensuring data transfer received from (or destined to) a given terminating point to (or from) other terminating points that belong to the same customer/service, an interconnection node, or an ancillary node. A set of objectives for the connectivity service may eventually be negotiated and agreed upon between a customer a network provider. For that data transfer to take place within the provider network, it is assumed that adequate setup is provisioned over the links that connect customer terminating points and a provider network so that data can be successfully exchanged over these links. The required setup is referred to in this document as Attachment Circuits (ACs), while the underlying link is referred to as "bearers".
+Connectivity services are provided by networks to customers via dedicated terminating points (e.g., service functions, customer edges (CEs), Autonomous System Border Routers (ASBRs), data centers gateways, Internet Exchange Points). A connectivity service is basically about ensuring data transfer received from (or destined to) a given terminating point to (or from) other terminating points that belong to the same customer/service, an interconnection node, or an ancillary node. A set of objectives for the connectivity service may eventually be negotiated and agreed upon between a customer a network provider. For that data transfer to take place within the provider network, it is assumed that adequate setup is provisioned over the links that connect customer terminating points and a provider network so that data can be successfully exchanged over these links. The required setup is referred to in this document as Attachment Circuits (ACs), while the underlying link is referred to as "bearers".
 
 This document adheres to the definition of an Attachment Circuit as provided in Section 1.2 of {{?RFC4364}}, especially:
 
@@ -96,7 +96,7 @@ This document adheres to the definition of an Attachment Circuit as provided in 
 
 When a customer requests a new value-added service, the service can be bound to existing attachment circuits or trigger the instantiation of new attachment circuits. Whether these AC are specific to a given service or be used to deliver a variety of services is deployment specific.
 
-An example of ACs is depicted in {{uc}}. A Customer Terminating Point (CTP) may be a physical node or a logical entity. A CTP is seen by the network as a peer Service Attachment Point (SAP) {{?I-D.ietf-opsawg-sap}}. CTPs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2). For example, and as discussed in {{?RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service. The same CTP may terminate multiple ACs. These ACes may be over the same or distinct bearers.
+An example of ACs is depicted in {{uc}}. A Customer Terminating Point (CTP) may be a physical node or a logical entity. A CTP is seen by the network as a peer Service Attachment Point (SAP) {{?I-D.ietf-opsawg-sap}}. CTPs may be dedicated to one single service (e.g., Layer 3 VPN, Layer 2 VPN) or host multiple services (e.g., service functions {{?RFC7665}}). A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2). For example, and as discussed in {{?RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service. The same CTP may terminate multiple ACs. These ACes may be over the same or distinct bearers.
 
 ~~~~ aasvg
 ┌───────┐                ┌────────────────────┐           ┌───────┐
@@ -114,7 +114,9 @@ An example of ACs is depicted in {{uc}}. A Customer Terminating Point (CTP) may 
 ~~~~
 {: #uc title='Examples of ACs' artwork-align="center"}
 
-This document specifies a common module ("ietf-ac-common") for ACS. The model is designed with the intent to be reusable by other models and therefore ensure consistent AC structures among modules that manipulate ACs. For example, the common model can be reused by service models to expose AC as a service (e.g., {{?I-D.boro-opsawg-teas-attachment-circuit}}), service models that require binding a service to a set of ACs (e.g., {{?I-D.ietf-teas-ietf-network-slice-nbi-yang}})), network models to provision ACs (e.g., {{?I-D.boro-opsawg-ntw-attachment-circuit}}), device models, etc.
+This document specifies a common module ("ietf-ac-common") for ACS. The model is designed with the intent to be reusable by other models and, therefore, ensure consistent AC structures among modules that manipulate ACs. For example, the common model can be reused by service models to expose AC as a service (e.g., {{?I-D.boro-opsawg-teas-attachment-circuit}}), service models that require binding a service to a set of ACs (e.g., {{?I-D.ietf-teas-ietf-network-slice-nbi-yang}})), network models to provision ACs (e.g., {{?I-D.boro-opsawg-ntw-attachment-circuit}}), device models, etc.
+
+The common AC module eases data inheritance between modules (e.g., from service to network models as per {{?RFC8969}}).
 
 The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
@@ -152,7 +154,7 @@ The full tree of the "ietf-ac-common" module is shown in {{sec-full-tree}}.
 The module defines a set of identities, including the following:
 
 'address-allocation-type':
-: Used to specify the IP address allocation type in an AC.
+: Used to specify the IP address allocation type in an AC. For example, this identity can used to indicate whether the provider network provides DHCP service, DHCP relay, or static addressing. Note that for the IPv6 case, Stateless Address Autoconfiguration (SLAAC) {{?RFC4862}} can be used.
 
 'local-defined-next-hop':
 : Used to specify next hop actions. For example, this identity can be used to indicate an action to discard traffic for a given destination or treat traffic towards addresses within the specified next-hop prefix as though they are connected to a local link.
@@ -161,14 +163,14 @@ The module defines a set of identities, including the following:
 : Uses to control the Layer 2 tunnel selection for an AC. The current version supports indicating pseudowire, Virtual Private LAN Service (VPLS), and Virtual eXtensible Local Area Network (VXLAN).
 
 'precedence-type':
-: Used to redundancy type when requesting ACs. For example, this identity can be used to tag a primary AC and a secondary AC.
+: Used to indicate the redundancy type when requesting ACs. For example, this identity can be used to tag primary and secondary ACs.
 
 ## Reusable Groupings
 
 The module also defines a set of reusable groupings, including the following:
 
 'op-instructions' ({{op-full-tree}}):
-: Defines a set of parameters to specify scheduling instructions and report related events for an AC.
+: Defines a set of parameters to specify scheduling instructions and report related events for a service request (e.g., AC or bearer).
 
 ~~~~
 {::include ./yang/subtrees/ac-common/ac-common-op.txt}
@@ -188,7 +190,7 @@ Layer 2 tunnel services  ({{l2-full-tree}}):
 {: #l2-full-tree title="Layer 2 Connection Groupings" artwork-align="center"}
 
 Layer 3 address allocation ({{l3-full-tree}}):
-: Defines both IPv4 and IPv6 groupings to specify IP address allocation over an AC.
+: Defines both IPv4 and IPv6 groupings to specify IP address allocation over an AC. Both dynamic and static addresses schemes are supported.
 
 IP connections ({{l3-full-tree}})::
 : Defines IPv4 and IPv6 grouping for managing layer 3 connectivity over an AC. Both basic and more elaborated IP connection groupings are supported.
