@@ -99,6 +99,46 @@ module ietf-bearer-svc {
       "Wireless.";
   }
 
+  grouping location-information {
+    description 
+      "Basic location information";
+
+    container location {
+      description
+        "Location of the node.";
+      leaf address {
+        type string;
+        description
+          "Address (number and street) of the site.";
+      }
+      leaf postal-code {
+        type string;
+        description
+          "Postal code of the site.";
+      }
+      leaf state {
+        type string;
+        description
+          "State of the site.  This leaf can also be
+           used to describe a region for a country that
+           does not have states.";
+      }
+      leaf city {
+        type string;
+        description
+          "City of the site.";
+      }
+      leaf country-code {
+        type string {
+          pattern '[A-Z]{2}';
+        }
+        description
+          "Country of the site.
+           Expressed as ISO ALPHA-2 code.";
+      }
+    }
+   }
+
   container bearers {
     description
       "Main container for the bearers.";
@@ -116,10 +156,6 @@ module ietf-bearer-svc {
         description
           "A description of this bearer.";
       }
-      container customer-device {
-        description
-          "Identification of the customer device that terminates the
-           bearer.";
 
        container references {
          description 
@@ -133,28 +169,37 @@ module ietf-bearer-svc {
             "Attribute used to identify the bearer";
         } 
 
-        leaf device-id {
+        container devices {
           when "derived-from-or-self(../identified-by, "
                + "'device-id')"  { 
             description
               "Only enabled id identified-by is device.";
                }
-          type string;
-          description
-            "Identifier for the device where that bearer belongs.";
+          
+          leaf device-id {
+            type string;
+            description
+              "Identifier for the device where that bearer belongs.";
+          }
+
+          uses location-information;
         }
         
-        leaf site-id {
+        container sites {
           when "derived-from-or-self(../identified-by, "
           + "'site-id')" {
             description
               "Only enabled id identified-by is site.";
                }
-          type string;
-          description
-            "Identifier for the site or sites where that bearer belongs.";
-        }
+          leaf site-id  {
+            type string;
+            description
+              "Identifier for the site or sites where that bearer belongs.";
+          }
 
+          uses location-information;
+        }
+        
         leaf custom-id {
           when "derived-from-or-self(../identified-by, "
           + "'custom')" {
@@ -164,42 +209,6 @@ module ietf-bearer-svc {
           type string;
           description
             "Identifier for bearer .";
-        }
-      }
-
-        container location {
-          description
-            "Location of the node.";
-          leaf address {
-            type string;
-            description
-              "Address (number and street) of the site.";
-          }
-          leaf postal-code {
-            type string;
-            description
-              "Postal code of the site.";
-          }
-          leaf state {
-            type string;
-            description
-              "State of the site.  This leaf can also be
-               used to describe a region for a country that
-               does not have states.";
-          }
-          leaf city {
-            type string;
-            description
-              "City of the site.";
-          }
-          leaf country-code {
-            type string {
-              pattern '[A-Z]{2}';
-            }
-            description
-              "Country of the site.
-               Expressed as ISO ALPHA-2 code.";
-          }
         }
       }
       leaf requested-type {
