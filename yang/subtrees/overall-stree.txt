@@ -2,8 +2,18 @@
   |  ...
   +--rw service-provisioning-profiles
   |  ...
-  +--rw bearers
-  |  ...
+  +--rw placement-constraints
+  |  +--rw constraint* [constraint-type]
+  |     +--rw constraint-type    identityref
+  |     +--rw target
+  |        +--rw (target-flavor)?
+  |           +--:(id)
+  |           |  +--rw group* [group-id]
+  |           |     +--rw group-id    string
+  |           +--:(all-accesses)
+  |           |  +--rw all-other-accesses?   empty
+  |           +--:(all-groups)
+  |              +--rw all-other-groups?     empty
   +--rw attachment-circuits
      +--rw ac-global-profile* [id]
      |  ...

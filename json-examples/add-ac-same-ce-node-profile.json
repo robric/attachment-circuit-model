@@ -4,7 +4,7 @@
       {
         "name": "ac3",
         "description": "a third AC with a same peer node",
-        "ac-node-profile": [
+        "ac-group-profile": [
           "simple-node-profile"
         ],
         "l2-connection": {
@@ -12,7 +12,8 @@
             "dot1q": {
               "cvlan-id": 3
             }
-          }
+          },
+          "bearer-reference": "line-156"
         }
       }
     ]

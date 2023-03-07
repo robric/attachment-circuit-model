@@ -17,108 +17,9 @@ module: ietf-ac-svc
   +--rw service-provisioning-profiles
   |  +--rw service-profile-identifier* [id]
   |     +--rw id    string
-  +--rw bearers
-  |  +--rw bearer* [id]
-  |     +--rw id                  string
-  |     +--rw description?        string
-  |     +--rw customer-device
-  |     |  +--rw device-id?   string
-  |     |  +--rw location
-  |     |     +--rw address?        string
-  |     |     +--rw postal-code?    string
-  |     |     +--rw state?          string
-  |     |     +--rw city?           string
-  |     |     +--rw country-code?   string
-  |     +--rw requested-type?     identityref
-  |     +--ro bearer-reference?   string
-  |     |       {vpn-common:bearer-reference}?
-  |     +--rw requested-start?    yang:date-and-time
-  |     +--rw requested-stop?     yang:date-and-time
-  |     +--ro actual-start?       yang:date-and-time
-  |     +--ro actual-stop?        yang:date-and-time
   +--rw attachment-circuits
-     +--rw ac-global-profile* [id]
-     |  +--rw id                   string
-     |  +--rw l2-connection
-     |  |  +--rw encapsulation
-     |  |     +--rw type?    identityref
-     |  |     +--rw dot1q
-     |  |     |  +--rw tag-type?   identityref
-     |  |     |  +--rw cvlan-id?   uint16
-     |  |     +--rw qinq
-     |  |        +--rw tag-type?   identityref
-     |  |        +--rw svlan-id    uint16
-     |  |        +--rw cvlan-id    uint16
-     |  +--rw ip-connection
-     |  |  +--rw ipv4 {vpn-common:ipv4}?
-     |  |  |  +--rw prefix-length?                       uint8
-     |  |  |  +--rw address-allocation-type?             identityref
-     |  |  |  +--rw (allocation-type)?
-     |  |  |     +--:(dynamic)
-     |  |  |        +--rw (provider-dhcp)?
-     |  |  |        |  +--:(dhcp-service-type)
-     |  |  |        |     +--rw dhcp-service-type?       enumeration
-     |  |  |        +--rw (dhcp-relay)?
-     |  |  |           +--:(customer-dhcp-servers)
-     |  |  |              +--rw customer-dhcp-servers
-     |  |  |                 +--rw server-ip-address*
-     |  |  |                         inet:ipv4-address
-     |  |  +--rw ipv6 {vpn-common:ipv6}?
-     |  |     +--rw prefix-length?                       uint8
-     |  |     +--rw address-allocation-type?             identityref
-     |  |     +--rw (allocation-type)?
-     |  |        +--:(dynamic)
-     |  |           +--rw (provider-dhcp)?
-     |  |           |  +--:(dhcp-service-type)
-     |  |           |     +--rw dhcp-service-type?       enumeration
-     |  |           +--rw (dhcp-relay)?
-     |  |              +--:(customer-dhcp-servers)
-     |  |                 +--rw customer-dhcp-servers
-     |  |                    +--rw server-ip-address*
-     |  |                            inet:ipv6-address
-     |  +--rw routing-protocols
-     |  |  +--rw routing-protocol* [id]
-     |  |     +--rw id                  string
-     |  |     +--rw type?               identityref
-     |  |     +--rw routing-profiles* [id]
-     |  |     |  +--rw id      routing-profile-reference
-     |  |     |  +--rw type?   identityref
-     |  |     +--rw bgp
-     |  |     |  +--rw peer-groups
-     |  |     |     +--rw peer-group* [name]
-     |  |     |        +--rw name              string
-     |  |     |        +--ro local-as?         inet:as-number
-     |  |     |        +--rw peer-as?          inet:as-number
-     |  |     |        +--rw address-family?   identityref
-     |  |     +--rw ospf
-     |  |     |  +--rw address-family?   identityref
-     |  |     |  +--rw area-id           yang:dotted-quad
-     |  |     |  +--rw metric?           uint16
-     |  |     +--rw isis
-     |  |     |  +--rw address-family?   identityref
-     |  |     |  +--rw area-address      area-address
-     |  |     +--rw rip
-     |  |     |  +--rw address-family?   identityref
-     |  |     +--rw vrrp
-     |  |        +--rw address-family?   identityref
-     |  +--rw oam
-     |  |  +--rw bfd {vpn-common:bfd}?
-     |  |     +--rw holdtime?   uint32
-     |  +--rw security
-     |     +--rw encryption {vpn-common:encryption}?
-     |     |  +--rw enabled?   boolean
-     |     |  +--rw layer?     enumeration
-     |     +--rw encryption-profile
-     |        +--rw (profile)?
-     |           +--:(provider-profile)
-     |           |  +--rw provider-profile?
-     |           |          ac-svc:encryption-profile-reference
-     |           +--:(customer-profile)
-     |              +--rw customer-key-chain?
-     |                      key-chain:key-chain-ref
-     +--rw ac-node-group* [id]
-     |  +--rw id                   string
-     |  +--rw name?                string
+     +--rw ac-group-profile* [name]
+     |  +--rw name                 string
      |  +--rw l2-connection
      |  |  +--rw encapsulation
      |  |  |  +--rw type?              identityref
@@ -257,10 +158,26 @@ module: ietf-ac-svc
      |  |     |  +--rw peer-groups
      |  |     |  |  +--rw peer-group* [name]
      |  |     |  |     +--rw name              string
-     |  |     |  |     +--ro local-address?    inet:ip-address
      |  |     |  |     +--ro local-as?         inet:as-number
      |  |     |  |     +--rw peer-as?          inet:as-number
      |  |     |  |     +--rw address-family?   identityref
+     |  |     |  |     +--ro local-address?    inet:ip-address
+     |  |     |  |     +--rw authentication
+     |  |     |  |        +--rw enable?            boolean
+     |  |     |  |        +--rw keying-material
+     |  |     |  |           +--rw (option)?
+     |  |     |  |              +--:(ao)
+     |  |     |  |              |  +--rw enable-ao?          boolean
+     |  |     |  |              |  +--rw ao-keychain?
+     |  |     |  |              |          key-chain:key-chain-ref
+     |  |     |  |              +--:(md5)
+     |  |     |  |              |  +--rw md5-keychain?
+     |  |     |  |              |          key-chain:key-chain-ref
+     |  |     |  |              +--:(explicit)
+     |  |     |  |                 +--rw key-id?             uint32
+     |  |     |  |                 +--rw key?                string
+     |  |     |  |                 +--rw crypto-algorithm?
+     |  |     |  |                         identityref
      |  |     |  +--rw neighbor* [id]
      |  |     |     +--rw id                string
      |  |     |     +--rw remote-address?   inet:ip-address
@@ -270,6 +187,21 @@ module: ietf-ac-svc
      |  |     |     +--ro local-as?         inet:as-number
      |  |     |     +--rw peer-as?          inet:as-number
      |  |     |     +--rw address-family?   identityref
+     |  |     |     +--rw authentication
+     |  |     |     |  +--rw enable?            boolean
+     |  |     |     |  +--rw keying-material
+     |  |     |     |     +--rw (option)?
+     |  |     |     |        +--:(ao)
+     |  |     |     |        |  +--rw enable-ao?          boolean
+     |  |     |     |        |  +--rw ao-keychain?
+     |  |     |     |        |          key-chain:key-chain-ref
+     |  |     |     |        +--:(md5)
+     |  |     |     |        |  +--rw md5-keychain?
+     |  |     |     |        |          key-chain:key-chain-ref
+     |  |     |     |        +--:(explicit)
+     |  |     |     |           +--rw key-id?             uint32
+     |  |     |     |           +--rw key?                string
+     |  |     |     |           +--rw crypto-algorithm?   identityref
      |  |     |     +--rw status
      |  |     |        +--rw admin-status
      |  |     |        |  +--rw status?        identityref
@@ -281,6 +213,17 @@ module: ietf-ac-svc
      |  |     |  +--rw address-family?   identityref
      |  |     |  +--rw area-id           yang:dotted-quad
      |  |     |  +--rw metric?           uint16
+     |  |     |  +--rw authentication
+     |  |     |  |  +--rw enable?            boolean
+     |  |     |  |  +--rw keying-material
+     |  |     |  |     +--rw (option)?
+     |  |     |  |        +--:(auth-key-chain)
+     |  |     |  |        |  +--rw key-chain?
+     |  |     |  |        |          key-chain:key-chain-ref
+     |  |     |  |        +--:(auth-key-explicit)
+     |  |     |  |           +--rw key-id?             uint32
+     |  |     |  |           +--rw key?                string
+     |  |     |  |           +--rw crypto-algorithm?   identityref
      |  |     |  +--rw status
      |  |     |     +--rw admin-status
      |  |     |     |  +--rw status?        identityref
@@ -291,6 +234,17 @@ module: ietf-ac-svc
      |  |     +--rw isis
      |  |     |  +--rw address-family?   identityref
      |  |     |  +--rw area-address      area-address
+     |  |     |  +--rw authentication
+     |  |     |  |  +--rw enable?            boolean
+     |  |     |  |  +--rw keying-material
+     |  |     |  |     +--rw (option)?
+     |  |     |  |        +--:(auth-key-chain)
+     |  |     |  |        |  +--rw key-chain?
+     |  |     |  |        |          key-chain:key-chain-ref
+     |  |     |  |        +--:(auth-key-explicit)
+     |  |     |  |           +--rw key-id?             uint32
+     |  |     |  |           +--rw key?                string
+     |  |     |  |           +--rw crypto-algorithm?   identityref
      |  |     |  +--rw status
      |  |     |     +--rw admin-status
      |  |     |     |  +--rw status?        identityref
@@ -300,6 +254,16 @@ module: ietf-ac-svc
      |  |     |        +--ro last-change?   yang:date-and-time
      |  |     +--rw rip
      |  |     |  +--rw address-family?   identityref
+     |  |     |  +--rw authentication
+     |  |     |  |  +--rw enable?            boolean
+     |  |     |  |  +--rw keying-material
+     |  |     |  |     +--rw (option)?
+     |  |     |  |        +--:(auth-key-chain)
+     |  |     |  |        |  +--rw key-chain?
+     |  |     |  |        |          key-chain:key-chain-ref
+     |  |     |  |        +--:(auth-key-explicit)
+     |  |     |  |           +--rw key?                string
+     |  |     |  |           +--rw crypto-algorithm?   identityref
      |  |     |  +--rw status
      |  |     |     +--rw admin-status
      |  |     |     |  +--rw status?        identityref
@@ -334,10 +298,22 @@ module: ietf-ac-svc
      |        +--rw (profile)?
      |           +--:(provider-profile)
      |           |  +--rw provider-profile?
-     |           |          ac-svc:encryption-profile-reference
+     |           |          encryption-profile-reference
      |           +--:(customer-profile)
      |              +--rw customer-key-chain?
      |                      key-chain:key-chain-ref
+     +--rw placement-constraints
+     |  +--rw constraint* [constraint-type]
+     |     +--rw constraint-type    identityref
+     |     +--rw target
+     |        +--rw (target-flavor)?
+     |           +--:(id)
+     |           |  +--rw group* [group-id]
+     |           |     +--rw group-id    string
+     |           +--:(all-accesses)
+     |           |  +--rw all-other-accesses?   empty
+     |           +--:(all-groups)
+     |              +--rw all-other-groups?     empty
      +--rw ac* [name]
         +--rw customer-name?       string
         +--rw description?         string
@@ -346,8 +322,10 @@ module: ietf-ac-svc
         +--ro actual-start?        yang:date-and-time
         +--ro actual-stop?         yang:date-and-time
         +--rw peer-sap-id*         string
-        +--rw ac-global-profile*   ac-global-profile-reference
-        +--rw ac-node-profile*     ac-node-group-reference
+        +--rw ac-group-profile*    ac-group-reference
+        +--rw group* [group-id]
+        |  +--rw group-id      string
+        |  +--rw precedence?   identityref
         +--rw name                 string
         +--rw l2-connection
         |  +--rw encapsulation
@@ -487,10 +465,26 @@ module: ietf-ac-svc
         |     |  +--rw peer-groups
         |     |  |  +--rw peer-group* [name]
         |     |  |     +--rw name              string
-        |     |  |     +--ro local-address?    inet:ip-address
         |     |  |     +--ro local-as?         inet:as-number
         |     |  |     +--rw peer-as?          inet:as-number
         |     |  |     +--rw address-family?   identityref
+        |     |  |     +--ro local-address?    inet:ip-address
+        |     |  |     +--rw authentication
+        |     |  |        +--rw enable?            boolean
+        |     |  |        +--rw keying-material
+        |     |  |           +--rw (option)?
+        |     |  |              +--:(ao)
+        |     |  |              |  +--rw enable-ao?          boolean
+        |     |  |              |  +--rw ao-keychain?
+        |     |  |              |          key-chain:key-chain-ref
+        |     |  |              +--:(md5)
+        |     |  |              |  +--rw md5-keychain?
+        |     |  |              |          key-chain:key-chain-ref
+        |     |  |              +--:(explicit)
+        |     |  |                 +--rw key-id?             uint32
+        |     |  |                 +--rw key?                string
+        |     |  |                 +--rw crypto-algorithm?
+        |     |  |                         identityref
         |     |  +--rw neighbor* [id]
         |     |     +--rw id                string
         |     |     +--rw remote-address?   inet:ip-address
@@ -500,6 +494,21 @@ module: ietf-ac-svc
         |     |     +--ro local-as?         inet:as-number
         |     |     +--rw peer-as?          inet:as-number
         |     |     +--rw address-family?   identityref
+        |     |     +--rw authentication
+        |     |     |  +--rw enable?            boolean
+        |     |     |  +--rw keying-material
+        |     |     |     +--rw (option)?
+        |     |     |        +--:(ao)
+        |     |     |        |  +--rw enable-ao?          boolean
+        |     |     |        |  +--rw ao-keychain?
+        |     |     |        |          key-chain:key-chain-ref
+        |     |     |        +--:(md5)
+        |     |     |        |  +--rw md5-keychain?
+        |     |     |        |          key-chain:key-chain-ref
+        |     |     |        +--:(explicit)
+        |     |     |           +--rw key-id?             uint32
+        |     |     |           +--rw key?                string
+        |     |     |           +--rw crypto-algorithm?   identityref
         |     |     +--rw status
         |     |        +--rw admin-status
         |     |        |  +--rw status?        identityref
@@ -511,6 +520,17 @@ module: ietf-ac-svc
         |     |  +--rw address-family?   identityref
         |     |  +--rw area-id           yang:dotted-quad
         |     |  +--rw metric?           uint16
+        |     |  +--rw authentication
+        |     |  |  +--rw enable?            boolean
+        |     |  |  +--rw keying-material
+        |     |  |     +--rw (option)?
+        |     |  |        +--:(auth-key-chain)
+        |     |  |        |  +--rw key-chain?
+        |     |  |        |          key-chain:key-chain-ref
+        |     |  |        +--:(auth-key-explicit)
+        |     |  |           +--rw key-id?             uint32
+        |     |  |           +--rw key?                string
+        |     |  |           +--rw crypto-algorithm?   identityref
         |     |  +--rw status
         |     |     +--rw admin-status
         |     |     |  +--rw status?        identityref
@@ -521,6 +541,17 @@ module: ietf-ac-svc
         |     +--rw isis
         |     |  +--rw address-family?   identityref
         |     |  +--rw area-address      area-address
+        |     |  +--rw authentication
+        |     |  |  +--rw enable?            boolean
+        |     |  |  +--rw keying-material
+        |     |  |     +--rw (option)?
+        |     |  |        +--:(auth-key-chain)
+        |     |  |        |  +--rw key-chain?
+        |     |  |        |          key-chain:key-chain-ref
+        |     |  |        +--:(auth-key-explicit)
+        |     |  |           +--rw key-id?             uint32
+        |     |  |           +--rw key?                string
+        |     |  |           +--rw crypto-algorithm?   identityref
         |     |  +--rw status
         |     |     +--rw admin-status
         |     |     |  +--rw status?        identityref
@@ -530,6 +561,16 @@ module: ietf-ac-svc
         |     |        +--ro last-change?   yang:date-and-time
         |     +--rw rip
         |     |  +--rw address-family?   identityref
+        |     |  +--rw authentication
+        |     |  |  +--rw enable?            boolean
+        |     |  |  +--rw keying-material
+        |     |  |     +--rw (option)?
+        |     |  |        +--:(auth-key-chain)
+        |     |  |        |  +--rw key-chain?
+        |     |  |        |          key-chain:key-chain-ref
+        |     |  |        +--:(auth-key-explicit)
+        |     |  |           +--rw key?                string
+        |     |  |           +--rw crypto-algorithm?   identityref
         |     |  +--rw status
         |     |     +--rw admin-status
         |     |     |  +--rw status?        identityref
@@ -564,7 +605,7 @@ module: ietf-ac-svc
               +--rw (profile)?
                  +--:(provider-profile)
                  |  +--rw provider-profile?
-                 |          ac-svc:encryption-profile-reference
+                 |          encryption-profile-reference
                  +--:(customer-profile)
                     +--rw customer-key-chain?
                             key-chain:key-chain-ref

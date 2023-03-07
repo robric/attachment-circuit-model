@@ -17,12 +17,10 @@ module: ietf-ac-svc
   +--rw service-provisioning-profiles
   |  +--rw service-profile-identifier* [id]
   |     +--rw id    string
-  +--rw bearers
-  |  ...
   +--rw attachment-circuits
-     +--rw ac-global-profile* [id]
+     +--rw ac-group-profile* [name]
      |  ...
-     +--rw ac-node-group* [id]
+     +--rw placement-constraints
      |  ...
      +--rw ac* [name]
         ...
