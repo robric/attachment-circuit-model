@@ -57,6 +57,31 @@ module ietf-bearer-svc {
 
   // Identities 
 
+
+  identity identification-type {
+    description
+      "Base identity for identification of bearers.";
+  }
+
+
+  identity device-id {
+    base identification-type;
+    description
+      "Identification of bearers based on device..";
+  }
+
+  identity site-id {
+    base identification-type;
+    description
+      "Identification of bearers based on site.";
+  }
+
+  identity custom {
+    base identification-type;
+    description
+      "Identification of bearers based on other criteria.";
+  }
+
   identity bearer-type {
     description
       "Base identity for bearers type.";
@@ -95,11 +120,53 @@ module ietf-bearer-svc {
         description
           "Identification of the customer device that terminates the
            bearer.";
+
+       container references {
+         description 
+           "Base container to link the Bearer existence";
+
+        leaf identified-by {
+          type identityref {
+            base identification-type;
+          }
+          description
+            "Attribute used to identify the bearer";
+        } 
+
         leaf device-id {
+          when "derived-from-or-self(../identified-by, "
+               + "'device-id')"  { 
+            description
+              "Only enabled id identified-by is device.";
+               }
           type string;
           description
-            "Identifier for the device.";
+            "Identifier for the device where that bearer belongs.";
         }
+        
+        leaf site-id {
+          when "derived-from-or-self(../identified-by, "
+          + "'site-id')" {
+            description
+              "Only enabled id identified-by is site.";
+               }
+          type string;
+          description
+            "Identifier for the site or sites where that bearer belongs.";
+        }
+
+        leaf custom-id {
+          when "derived-from-or-self(../identified-by, "
+          + "'custom')" {
+            description
+              "Only enabled id identified-by is custom.";
+               }
+          type string;
+          description
+            "Identifier for bearer .";
+        }
+      }
+
         container location {
           description
             "Location of the node.";
