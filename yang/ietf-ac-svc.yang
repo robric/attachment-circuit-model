@@ -235,8 +235,7 @@ module ietf-ac-svc {
          service.";
       container l2-tunnel-service {
         description
-          "Defines a Layer 2 tunnel termination.
-           It is only applicable when a tunnel is required.";
+          "Defines a Layer 2 tunnel termination.";
         uses ac-common:l2-tunnel-service;
       }
       case l2vpn {
