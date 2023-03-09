@@ -130,7 +130,7 @@ module ietf-bearer-svc {
       leaf city {
         type string;
         description
-          "City of the site.";
+          "City of the device/site.";
       }
       leaf country-code {
         type string {
