@@ -69,7 +69,10 @@ normative:
     target: https://www.iso.org/standard/30932.html
 
 informative:
-
+  AC-Common-Tree:
+    title: Full Common Attachment Circuit Tree Structure
+    date: 2023
+    target: https://github.com/boucadair/attachment-circuit-model/blob/main/yang/full-trees/ac-common-with-groupings.txt
 
 --- abstract
 
@@ -147,7 +150,7 @@ Service provider:
 
 # Description of the AC Common YANG Module
 
-The full tree of the "ietf-ac-common" module is shown in {{sec-full-tree}}.
+The full tree of the "ietf-ac-common" module is available at {{AC-Common-Tree}}.
 
 ## Identities
 
@@ -285,15 +288,6 @@ This module uses types defined in {{!RFC6991}}, {{!RFC8177}}, and  {{!RFC9181}}.
 ~~~~
 
 --- back
-
-## Tree Structure {#sec-full-tree}
-
-The full tree of the "ietf-ac-common" module is shown in {{ac-common-full-tree}}.
-
-~~~~
-{::include ./yang/full-trees/ac-common-with-groupings.txt}
-~~~~
-{: #ac-common-full-tree title="AC Common Full Tree Structure" artwork-align="center"}
 
 # Acknowledgments
 {:numbered="false"}
