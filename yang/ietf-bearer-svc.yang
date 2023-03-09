@@ -75,7 +75,11 @@ module ietf-bearer-svc {
     description
       "Identification of bearers based on site.";
   }
-
+  identity site-and-device-id {
+    base identification-type;
+    description
+      "Identification of bearers based on site and device.";
+  }
   identity custom {
     base identification-type;
     description
