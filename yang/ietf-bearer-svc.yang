@@ -169,7 +169,7 @@ module ietf-bearer-svc {
             "Attribute used to identify the bearer";
         } 
 
-        container devices {
+        container device {
           when "derived-from-or-self(../identified-by, "
                + "'device-id')"  { 
             description
