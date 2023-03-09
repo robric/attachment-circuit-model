@@ -83,7 +83,7 @@ module ietf-bearer-svc {
   identity custom {
     base identification-type;
     description
-      "Identification of bearers based on other criteria.";
+      "Identification of bearers based on other custom criteria.";
   }
 
   identity bearer-type {
