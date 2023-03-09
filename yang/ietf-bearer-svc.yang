@@ -137,7 +137,7 @@ module ietf-bearer-svc {
           pattern '[A-Z]{2}';
         }
         description
-          "Country of the site.
+          "Country of the device/site.
            Expressed as ISO ALPHA-2 code.";
       }
     }
