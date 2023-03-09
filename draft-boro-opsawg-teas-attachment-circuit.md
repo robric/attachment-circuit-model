@@ -347,6 +347,17 @@ All the abovementioned profiles are uniquely identified by the NETCONF/RESTCONF 
 The 'ac-group-profile' defines reusable parameters for a set of ACes. Each profile is identified by 'name'. Some of the data nodes can be adjusted at the 'ac'.
 These adjusted values take precedence over the global values.  The structure of 'ac-group-profile' is similar to the one used to model each 'ac' ({{ac-svc-tree}}).
 
+### AC Placement Constraints {#sec-pc}
+
+The 'placement-constraints' specifies the placement constraints of an AC. For example, this container can be used to request avoiding to connecting two ACes to the same PE. The full set of supported constraints is defined in {{!RFC9181}} (see 'placement-diversity', in particular).
+
+The structure of 'placement-constraints' is shown in {{precedence-tree}}.
+
+~~~~
+{::include ./yang/subtrees/precedence-stree.txt}
+~~~~
+{: #precedence-tree title="Overall Attachment Circuits Tree Structure" artwork-align="center"}
+
 ### Attachment Circuits
 
 The structure of 'attachment-circuits' is shown in {{ac-svc-tree}}.
@@ -391,18 +402,9 @@ The description of the data nodes is as follows:
 'security':
 : See {{sec-sec}}.
 
-#### AC Placement Constraints {#sec-pc}
-
-The structure of 'placement-constraints' is shown in {{precedence-tree}}.
-
-~~~~
-{::include ./yang/subtrees/precedence-stree.txt}
-~~~~
-{: #precedence-tree title="Overall Attachment Circuits Tree Structure" artwork-align="center"}
-
 #### Layer 2 Connection Structure {#sec-l2}
 
-As shown in the tree depicted in {{l2-svc-tree}}, the 'l2-connection' container defines service parameters to enable such connectivity at Layer 2.
+The 'l2-connection' container ({{l2-svc-tree}}) is used to configure the relevant Layer 2 properties of an AC. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}.
 
 ~~~~
 {::include ./yang/subtrees/l2-stree.txt}
@@ -410,9 +412,10 @@ As shown in the tree depicted in {{l2-svc-tree}}, the 'l2-connection' container 
 {: #l2-svc-tree title="Layer 2 Connection Tree Structure" artwork-align="center"}
 
 
+
 #### Layer 3 Connection Structure {#sec-l3}
 
-The 'l3-connection' container defines a set of service parameters to enable Layer 3 connectivity for an AC. Both IPv4 and IPv6 parameters are supported.
+The 'l3-connection' container ({{l3-svc-tree}}) is used to configure the relevant Layer 3 properties of an AC. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}. Both IPv4 and IPv6 parameters are supported.
 
 {{ipv4-svc-tree}} shows the structure of the IPv4 connection.
 
