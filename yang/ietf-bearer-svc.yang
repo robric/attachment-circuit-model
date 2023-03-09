@@ -118,7 +118,7 @@ module ietf-bearer-svc {
       leaf postal-code {
         type string;
         description
-          "Postal code of the site.";
+          "Postal code of the device/site.";
       }
       leaf state {
         type string;
