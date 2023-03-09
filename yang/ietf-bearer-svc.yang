@@ -219,7 +219,8 @@ module ietf-bearer-svc {
                }
           type string;
           description
-            "Identifier for bearer .";
+            "The semantic of this identifier is shared between the 
+              customer/provider using out-of-band means.";
         }
       }
       leaf requested-type {
