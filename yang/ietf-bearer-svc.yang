@@ -113,7 +113,7 @@ module ietf-bearer-svc {
       leaf address {
         type string;
         description
-          "Address (number and street) of the site.";
+          "Address (number and street) of the device/site.";
       }
       leaf postal-code {
         type string;
