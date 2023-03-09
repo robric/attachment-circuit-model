@@ -200,7 +200,7 @@ module ietf-bearer-svc {
               "Only applicable if identified-by is site.";
                }
           description 
-            "Bearer is linked to site.";
+            "Bearer is linked to a site.";
 
           leaf site-id  {
             type string;
