@@ -107,13 +107,13 @@ Also, because the instantiation of an attachment circuit requires coordinating t
 
 This document specifies a YANG service data model ("ietf-ac-svc") for managing attachment circuits that are exposed by a network to its customers (e.g., an enterprise site, a network function, a hosting infrastructure, a peer network provider). The model can be used for the provisioning of ACs prior or during advanced service provisioning (e.g., Network Slice Service).
 
-The "ietf-ac-svc" includes a set of reusable groupings. Whether a service model reuses structures defined in the "ietf-ac-svc" or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). **This document favors the approach of completely relying upon the AC service model instead of duplicating into specific modules of advanced services that are delivered over an Attachment Circuit.**
+The "ietf-ac-svc" includes a set of reusable groupings. Whether a service model reuses structures defined in the "ietf-ac-svc" or simply includes an AC reference (that was communicated during AC service instantiation) is a design choice of these service models. Relying upon the AC service model to manage ACes over which services are delivered has the merit to decorrelate the management of the (core) service vs. upgrade the AC components to reflect recent AC technologies or new features (e.g., new encryption scheme, additional routing protocol). **This document favors the approach of completely relying upon the AC service model instead of duplicating data nodes into specific modules of advanced services that are delivered over an Attachment Circuit.**
 
 Because the provisioning of an AC requires a bearer to be in place, this document allows customers to manage their bearer requests by means of a new module, called "ietf-bearer-svc". The customers can then retrieve a provider-assigned bearer reference that they will include in their AC service requests.
 
-A AC service request can provide a reference to a bearer or a set of peer SAPs. Both schemes are supported in the AC service model.
+An AC service request can provide a reference to a bearer or a set of peer SAPs. Both schemes are supported in the AC service model.
 
-Each AC is identified with a unique identifier within a (provider) domain. From a network provider standpoint, an AC can be bound to a single or multiple Service Attachment Points (SAPs) {{?I-D.ietf-opsawg-sap}}. Likewise, a SAP can be bound to one or multiple ACs. However, the mapping between an AC and a PE in the provider network that terminates that AC is hidden to the application that makes use of the AC service model. Such mapping information is internal to the network controllers. As such, the details about the (node-specific) attachment interfaces are not exposed in the AC service model.
+Each AC is identified with a unique identifier within a (provider) domain. From a network provider standpoint, an AC can be bound to a single or multiple Service Attachment Points (SAPs) {{?I-D.ietf-opsawg-sap}}. Likewise, the same SAP can be bound to one or multiple ACs. However, the mapping between an AC and a PE in the provider network that terminates that AC is hidden to the application that makes use of the AC service model. Such mapping information is internal to the network controllers. As such, the details about the (node-specific) attachment interfaces are not exposed in the AC service model.
 
 The AC service model **does not make any assumption about the internal structure or even the nature or the services that will be delivered over an attachment circuit**. Customers do not have access to that network view other than the ACes that the ordered. For example, the AC service model can be used to provision a set of ACes to connect multiple sites (Site1, Site2, ..., SiteX) for customer that also requested VPN services. If these provisioning of these services require specific configured on ASBR nodes, such configuration is handled at the network level and is not exposed at the service level to the customer. However, the network controller will have access to such a view as the service points in these ASBRs will be exposed as SAPs with "role" set to "ietf-sap-ntw:nni" {{?I-D.ietf-opsawg-sap}}.
 
@@ -125,13 +125,13 @@ The AC service model can be used in a variety of contexts, such as (but not limi
 * Bind a slice service to a set of pre-provisioned attachment circuits ({{sec-ex-slice}}).
 * Connect a Cloud Infrastructure to a service provider network ({{sec-ex-cloud}}).
 
-These examples use the IPv4 address blocks reserved for documentation {{?RFC5737}}, the IPv6 prefix reserved for documentation {{?RFC3849}}, and the Autonomous System (AS) numbers reserved for documentation {{?RFC5398}}.
+The examples use the IPv4 address blocks reserved for documentation {{?RFC5737}}, the IPv6 prefix reserved for documentation {{?RFC3849}}, and the Autonomous System (AS) numbers reserved for documentation {{?RFC5398}}.
 
 The YANG data models in this document conform to the Network Management Datastore Architecture (NMDA) defined in {{!RFC8342}}.
 
 ## Position ACaaS vs. Other Data Models
 
-The model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate a requested AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers and not exposed to the customer. Such a mapping can be maintained using a variety of network models (e.g., SAPs) AC Network Model {{?I-D.boro-opsawg-ntw-attachment-circuit}}, etc.
+The AC model specified in this document **is not a network model** {{?RFC8969}}. As such, the model does not expose details related to specific nodes in the provider's network that terminate an AC. The mapping between an AC as seen by a customer and the network implementation of an AC is maintained by the network controllers, and is not exposed to the customer. Such a mapping can be maintained using a variety of network models, e.g., augmented SAP AC network model {{?I-D.boro-opsawg-ntw-attachment-circuit}}.
 
 The AC service model **is not a device model**. A network provider may use a variety of device models (e.g., Routing management {{?RFC8349}} or BGP {{?I-D.ietf-idr-bgp-model}}) to provision an AC service.
 
@@ -255,7 +255,7 @@ The procedure to provision a service in a service provider network may depend on
 ## The Bearer Service ("ietf-bearer-svc") YANG Module
 
 {{bearer-st}} shows the tree for managing the bearers (that is, the properties of the attachment that are below Layer 3). A bearer can be a wireless or wired link. A reference to a bearer is generated by the operator.
-Such a reference can be used, e.g., in a subsequent service request to create an AC. The anchroing of the AC can also be achieved by indicating (with or without a bearer reference), a peer SAP identifier (e.g., An identifier of a Service Function).
+Such a reference can be used, e.g., in a subsequent service request to create an AC. The anchroing of the AC can also be achieved by indicating (with or without a bearer reference), a peer SAP identifier (e.g., an identifier of a Service Function).
 
 ~~~~
 {::include ./yang/full-trees/bearers-stree.txt}
@@ -263,6 +263,27 @@ Such a reference can be used, e.g., in a subsequent service request to create an
 {: #bearer-st title="Bearers Tree Structure" artwork-align="center"}
 
 The same customer site (CE, NF, etc.) can terminate one or multiple bearers; each of them uniquely identified by a refrence that is assigned by the network provider. These bearers can terminate on the same or distinct network nodes. CEs that terminate multiple bearers are called multi-homed CEs.
+
+The descriptions of the bearer ata nodes are as follows:
+
+'description':
+: Includes a textual description of the bearer.
+
+'op-comment':
+: Includes operational comments that may be useful for managing the bearer (building, level, etc.). No strutcure is associated with this data node to accomodate all deployments.
+
+'customer-point':
+: Specifies the customer terminaing point for the bearer. A bearer request can indicate a site, a device, a combination thereof, or a custom information when requesting a bearer. All these schemes are supported in the model.
+
+'requested-type':
+: Specifies the trequested bearer type (Ethernet, wireless, etc.).
+
+'bearer-reference':
+: Returns an internal reference for the service provider to identify the bearer. This reference can be used when requesting services. {{ex-create-bearer}} provides an example about how this reference can be retrieved by a customer.
+
+'status':
+: Used to track the overall status of a given bearer. Both operational and administrative status are maintained together with a timestamp. See {{!RFC9181}} for more details.
+
 
 ## The Attachment Circuit Service ("ietf-ac-svc") YANG Module
 
