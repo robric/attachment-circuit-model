@@ -342,9 +342,10 @@ The following specific provisioning profiles can be defined:
 
 All the abovementioned profiles are uniquely identified by the NETCONF/RESTCONF server by an identifier. To ease referencing these profiles by other data models, specific typedefs are defined for each of these profiles. Likewise, an attachment circuit reference typedef is defined when referencing a (global) attachment circuit by its name is required. These typedefs SHOULD be used when other modules need a reference to one of these profiles or attachment circuits.
 
-### Attachment Circuits Profiles
+### Attachment Circuits Profiles {#sec-acp}
 
-TBC.
+The 'ac-group-profile' defines reusable parameters for a set of ACes. Each profile is identified by 'name'. Some of the data nodes can be adjusted at the 'ac'.
+These adjusted values take precedence over the global values.  The structure of 'ac-group-profile' is similar to the one used to model each 'ac' ({{ac-svc-tree}}).
 
 ### Attachment Circuits
 
@@ -355,7 +356,42 @@ The structure of 'attachment-circuits' is shown in {{ac-svc-tree}}.
 ~~~~
 {: #ac-svc-tree title="Overall Attachment Circuits Tree Structure" artwork-align="center"}
 
-#### AC Placement Constraints
+The description of the data nodes is as follows:
+
+'customer-name':
+: Indicates the name of the customer who ordered the AC.
+
+'description':
+: Includes a textual description of the AC.
+
+'peer-sap-id':
+: Includes references to the remote endpoints of an attachment circuit {{?I-D.ietf-opsawg-sap}}.
+
+'ac-group-profile':
+: Indicates references to one or more profils that are defined in {{sec-acp}}.
+
+'group':
+: Lists the groups to which an AC belongs {{!RFC9181}}. For example, the 'group-id' is used to associate redundancy or protection constraints of ACes. An example is provided in {{sec-ex-prec}}.
+
+'name':
+: Associates a name that uniquely identifies an AC within a service provider network.
+
+'l2-connection':
+: See {{sec-l2}}.
+
+'l3-connection':
+: See {{sec-l3}}.
+
+'routing':
+: See {{sec-rtg}}.
+
+'oam':
+: See {{sec-oam}}.
+
+'security':
+: See {{sec-sec}}.
+
+#### AC Placement Constraints {#sec-pc}
 
 The structure of 'placement-constraints' is shown in {{precedence-tree}}.
 
@@ -364,8 +400,7 @@ The structure of 'placement-constraints' is shown in {{precedence-tree}}.
 ~~~~
 {: #precedence-tree title="Overall Attachment Circuits Tree Structure" artwork-align="center"}
 
-
-#### Layer 2 Connection Structure
+#### Layer 2 Connection Structure {#sec-l2}
 
 As shown in the tree depicted in {{l2-svc-tree}}, the 'l2-connection' container defines service parameters to enable such connectivity at Layer 2.
 
@@ -375,7 +410,7 @@ As shown in the tree depicted in {{l2-svc-tree}}, the 'l2-connection' container 
 {: #l2-svc-tree title="Layer 2 Connection Tree Structure" artwork-align="center"}
 
 
-#### Layer 3 Connection Structure
+#### Layer 3 Connection Structure {#sec-l3}
 
 The 'l3-connection' container defines a set of service parameters to enable Layer 3 connectivity for an AC. Both IPv4 and IPv6 parameters are supported.
 
@@ -393,7 +428,7 @@ The 'l3-connection' container defines a set of service parameters to enable Laye
 ~~~~
 {: #ipv6-svc-tree title="Layer 3 Connection Tree Structure (IPv6)" artwork-align="center"}
 
-#### Routing
+#### Routing {#sec-rtg}
 
 As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines the required parameters to enable the required routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols are then enabled between a PE and the CE. Each routing instance is uniquely identified to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
 
@@ -410,7 +445,7 @@ For all supported routing protocols, 'address-family' indicates whether IPv4, IP
 
 Similar to {{?RFC9182}}, this version of the ACaaS assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the ACaaS. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{?RFC5925}}).
 
-#### OAM
+#### OAM {#sec-oam}
 
 As shown in the tree depicted in {{oam-svc-tree}}, the 'oam' container defines OAM-related parameters of an AC.
 
@@ -419,7 +454,7 @@ As shown in the tree depicted in {{oam-svc-tree}}, the 'oam' container defines O
 ~~~~
 {: #oam-svc-tree title="OAM Tree Structure" artwork-align="center"}
 
-#### Security
+#### Security {#sec-sec}
 
 As shown in the tree depicted in {{sec-svc-tree}}, the 'security' container defines a set of AC security parameters.
 
@@ -483,8 +518,16 @@ This module uses types defined in {{!RFC6991}}, {{!RFC9181}}, {{!RFC8177}}, and 
    notification) to these data nodes.  These are the subtrees and data
    nodes and their sensitivity/vulnerability in the "ietf-ac-svc" module:
 
-   * TBC
-   * TBC
+   'customer-name', 'l2-connection', and 'ip-connection':
+   : An attacker can retrieve privacy-related information, which can be used to track a
+      customer.  Disclosing such information may be considered a
+      violation of the customer-provider trust relationship.
+
+   'keying-material':
+   : An attacker can retrieve the cryptographic keys
+      protecting the underlying connectivity services (routing, in
+      particular).  These keys could be used to inject spoofed routing
+      advertisements.
 
    Several data nodes ('bgp', 'ospf', 'isis', and 'rip') rely
    upon {{!RFC8177}} for authentication purposes.  As such, the AC service module
