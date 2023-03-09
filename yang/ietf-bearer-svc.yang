@@ -192,7 +192,7 @@ module ietf-bearer-svc {
           uses location-information;
         }
         
-        container sites {
+        container site {
           when "derived-from-or-self(../identified-by, "
           + "'site-id')" {
             description
