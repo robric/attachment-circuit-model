@@ -123,7 +123,7 @@ module ietf-bearer-svc {
       leaf state {
         type string;
         description
-          "State of the site.  This leaf can also be
+          "State of the device/site.  This leaf can also be
            used to describe a region for a country that
            does not have states.";
       }
