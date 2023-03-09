@@ -161,7 +161,7 @@ module ietf-bearer-svc {
           "A description of this bearer.";
       }
 
-       container references {
+       container customer-point {
          description 
            "Base container to link the Bearer existence";
 
