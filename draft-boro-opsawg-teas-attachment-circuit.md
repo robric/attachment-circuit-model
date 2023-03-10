@@ -437,16 +437,68 @@ As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' conta
 
 In addition to static routing, the module supports BGP, OSPF, IS-IS, and RIP.
 
-The model also supports the Virtual Router Redundancy Protocol (VRRP) {{?RFC5798}} on an AC.
-
 ~~~~
 {::include ./yang/subtrees/rtg-stree.txt}
 ~~~~
 {: #rtg-svc-tree title="Routing Tree Structure" artwork-align="center"}
 
-For all supported routing protocols, 'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{?RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{?RFC2080}}.
+##### Static Routing
+
+The static tree structure is shown in {{static-rtg-svc-tree}}.
+
+~~~~
+{::include ./yang/subtrees/static-rtg-stree.txt}
+~~~~
+{: #static-rtg-svc-tree title="Static Routing Tree Structure" artwork-align="center"}
+
+##### BGP
+
+The BGP tree structure is shown in {{bgp-rtg-svc-tree}}.
+
+~~~~
+{::include ./yang/subtrees/bgp-rtg-stree.txt}
+~~~~
+{: #bgp-rtg-svc-tree title="BGP Tree Structure" artwork-align="center"}
 
 Similar to {{?RFC9182}}, this version of the ACaaS assumes that parameters specific to the TCP-AO are preconfigured as part of the key chain that is referenced in the ACaaS. No assumption is made about how such a key chain is preconfigured. However, the structure of the key chain should cover data nodes beyond those in {{!RFC8177}}, mainly SendID and RecvID (Section 3.1 of {{?RFC5925}}).
+
+##### OSPF
+
+The OSPF tree structure is shown in {{ospf-rtg-svc-tree}}.
+
+~~~~
+{::include ./yang/subtrees/ospf-rtg-stree.txt}
+~~~~
+{: #ospf-rtg-svc-tree title="OSPF Tree Structure" artwork-align="center"}
+
+#### IS-IS
+
+The IS-IS tree structure is shown in {{isis-rtg-svc-tree}}.
+
+~~~~
+{::include ./yang/subtrees/isis-rtg-stree.txt}
+~~~~
+{: #isis-rtg-svc-tree title="IS-IS Tree Structure" artwork-align="center"}
+
+#### RIP
+
+The RIP tree structure is shown in {{rip-rtg-svc-tree}}.
+
+~~~~
+{::include ./yang/subtrees/rip-rtg-stree.txt}
+~~~~
+{: #rip-rtg-svc-tree title="RIP Tree Structure" artwork-align="center"}
+
+'address-family' indicates whether IPv4, IPv6, or both address families are to be activated. For example, this parameter is used to determine whether RIPv2 {{?RFC2453}}, RIP Next Generation (RIPng), or both are to be enabled {{?RFC2080}}.
+
+#### VRRP
+
+The model also supports the Virtual Router Redundancy Protocol (VRRP) {{?RFC5798}} on an AC ({{vrrp-rtg-svc-tree}}).
+
+~~~~
+{::include ./yang/subtrees/vrrp-rtg-stree.txt}
+~~~~
+{: #vrrp-rtg-svc-tree title="VRRP Tree Structure" artwork-align="center"}
 
 #### OAM {#sec-oam}
 
