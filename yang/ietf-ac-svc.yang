@@ -62,7 +62,7 @@ module ietf-ac-svc {
     description
       "Initial revision.";
     reference
-      "RFC XXXX: A YANG Service Data Model for Attachment Circuits";
+      "RFC XXXX: YANG Service Data Models for Attachment Circuits";
   }
 
   /* A set of typedefs to ease referencing cross-modules */
@@ -75,15 +75,6 @@ module ietf-ac-svc {
       "Defines a reference to an attachment circuit that can be used
        by other modules.";
   }
-
-  /*typedef ac-global-profile-reference {
-    type leafref {
-      path "/ac-svc:attachment-circuits/ac-global-profile/id";
-    }
-    description
-      "Defines a reference to a gloabl attachment circuit that can be used
-       by other modules.";
-  }*/
 
   typedef ac-group-reference {
     type leafref {
@@ -140,7 +131,6 @@ module ietf-ac-svc {
   }
 
   /******************** Reusable groupings ********************/
-
   // Basic Layer 2 connection
 
   grouping l2-connection-basic {
@@ -160,7 +150,7 @@ module ietf-ac-svc {
       container dot1q {
         when "derived-from-or-self(../type, 'vpn-common:dot1q')" {
           description
-            "Only applies when the type of the tagged interface 
+            "Only applies when the type of the tagged interface
              is 'dot1q'.";
         }
         description
@@ -231,11 +221,12 @@ module ietf-ac-svc {
     choice l2-service {
       description
         "The Layer 2 connectivity service can be provided by indicating
-         a pointer to an L2VPN or by specifying a Layer 2 tunnel 
+         a pointer to an L2VPN or by specifying a Layer 2 tunnel
          service.";
       container l2-tunnel-service {
         description
-          "Defines a Layer 2 tunnel termination.";
+          "Defines a Layer 2 tunnel termination.
+           It is only applicable when a tunnel is required.";
         uses ac-common:l2-tunnel-service;
       }
       case l2vpn {
@@ -325,6 +316,121 @@ module ietf-ac-svc {
     }
   }
 
+  //  BGP Service 
+
+  grouping bgp-svc {
+    description
+      "Configuration specific to BGP.";
+    container peer-groups {
+      description
+        "Configuration for BGP peer-groups";
+      list peer-group {
+        key "name";
+        description
+          "List of BGP peer-groups configured on the local system -
+           uniquely identified by peer-group name";
+        uses ac-common:bgp-peer-group-with-name;
+        leaf local-address {
+          type inet:ip-address;
+          description
+            "The local IP address that will be used to establish
+             the BGP session.";
+        }
+        uses ac-common:bgp-authentication;
+      }
+    }
+    list neighbor {
+      key "id";
+      description
+        "List of BGP neighbors.";
+      leaf id {
+        type string;
+        description
+          "A neighbor identifier.";
+      }
+      leaf remote-address {
+        type inet:ip-address;
+        description
+          "The remote IP address of this entry's BGP peer.
+
+           If this leaf is not present, this means that the primary
+           customer IP address is used as remote IP address.";
+      }
+      leaf local-address {
+        type inet:ip-address;
+        description
+          "The local IP address that will be used to establish
+           the BGP session.";
+      }
+      leaf peer-group {
+        type leafref {
+          path "../../peer-groups/peer-group/name";
+        }
+        description
+          "The peer-group with which this neighbor is associated.";
+      }
+      uses ac-common:bgp-peer-group-without-name;
+      uses ac-common:bgp-authentication;
+      uses vpn-common:service-status;
+    }
+  }
+
+  //  OSPF Service 
+
+  grouping ospf-svc {
+    description
+      "Service configuration specific to OSPF.";
+    uses ac-common:ospf-basic;
+    uses ac-common:ospf-authentication;
+    uses vpn-common:service-status;
+  }
+
+  //  IS-IS Service 
+
+  grouping isis-svc {
+    description
+      "Service configuration specific to IS-IS.";
+    uses ac-common:isis-basic;
+    uses ac-common:isis-authentication;
+    uses vpn-common:service-status;
+  }
+
+  //  RIP Service 
+
+  grouping rip-svc {
+    description
+      "Service configuration specific to RIP routing.";
+    leaf address-family {
+      type identityref {
+        base vpn-common:address-family;
+      }
+      description
+        "Indicates whether IPv4, IPv6, or both address families
+         are to be activated.";
+    }
+    uses ac-common:rip-authentication;
+    uses vpn-common:service-status;
+  }
+
+  //  VRRP Service 
+
+  grouping vrrp-svc {
+    description
+      "Service configuration specific to VRRP.";
+    reference
+      "RFC 5798: Virtual Router Redundancy Protocol (VRRP)
+                 Version 3 for IPv4 and IPv6";
+    leaf address-family {
+      type identityref {
+        base vpn-common:address-family;
+      }
+      description
+        "Indicates whether IPv4, IPv6, or both
+         address families are to be enabled.";
+    }
+    uses vpn-common:service-status;
+  }
+
   // Basic routing parameters
 
   grouping routing-basic {
@@ -407,15 +513,12 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to VRRP.";
-        reference
-          "RFC 5798: Virtual Router Redundancy Protocol (VRRP)
-                     Version 3 for IPv4 and IPv6";
         leaf address-family {
           type identityref {
             base vpn-common:address-family;
           }
           description
-            "Indicates whether IPv4, IPv6, or both address families 
+            "Indicates whether IPv4, IPv6, or both address families
              are to be enabled.";
         }
       }
@@ -441,7 +544,7 @@ module ietf-ac-svc {
         when "derived-from-or-self(../type, "
            + "'vpn-common:static-routing')" {
           description
-            "Only applies when the protocol is static routing 
+            "Only applies when the protocol is static routing
              protocol.";
         }
         description
@@ -461,59 +564,13 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to BGP.";
-        container peer-groups {
-          description
-            "Configuration for BGP peer-groups";
-          list peer-group {
-            key "name";
-            description
-              "List of BGP peer-groups configured on the local system -
-               uniquely identified by peer-group name";
-            uses ac-common:bgp-peer-group-with-name;
-            leaf local-address {
-              type inet:ip-address;
-              config false;
-              description
-                "The local IP address that will be used to establish
-                 the BGP session.";
-            }
-            uses ac-common:bgp-authentication;
-          }
-        }
-        list neighbor {
-          key "id";
-          description
-            "List of BGP neighbors.";
-          leaf id {
-            type string;
-            description
-              "A neighbor identifier.";
-          }
-          leaf remote-address {
-            type inet:ip-address;
-            description
-              "The remote IP address of this entry's BGP peer.
-
-               If this leaf is not present, this means that the primary
-               customer IP address is used as remote IP address.";
-          }
-          leaf local-address {
-            type inet:ip-address;
+        uses bgp-svc {
+          refine "peer-groups/peer-group/local-address" {
             config false;
-            description
-              "The local IP address that will be used to establish
-               the BGP session.";
           }
-          leaf peer-group {
-            type leafref {
-              path "../../peer-groups/peer-group/name";
-            }
-            description
-              "The peer-group with which this neighbor is associated.";
+          refine "neighbor/local-address" {
+            config false;
           }
-          uses ac-common:bgp-peer-group-without-name;
-          uses ac-common:bgp-authentication;
-          uses vpn-common:service-status;
         }
       }
       container ospf {
@@ -524,9 +581,7 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to OSPF.";
-        uses ac-common:ospf-basic;
-        uses ac-common:ospf-authentication;
-        uses vpn-common:service-status;
+        uses ospf-svc;
       }
       container isis {
         when "derived-from-or-self(../type, "
@@ -536,9 +591,7 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to IS-IS.";
-        uses ac-common:isis-basic;
-        uses ac-common:isis-authentication;
-        uses vpn-common:service-status;
+        uses isis-svc;
       }
       container rip {
         when "derived-from-or-self(../type, "
@@ -549,16 +602,7 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to RIP routing.";
-        leaf address-family {
-          type identityref {
-            base vpn-common:address-family;
-          }
-          description
-            "Indicates whether IPv4, IPv6, or both address families
-             are to be activated.";
-        }
-        uses ac-common:rip-authentication;
-        uses vpn-common:service-status;
+        uses rip-svc;
       }
       container vrrp {
         when "derived-from-or-self(../type, "
@@ -569,18 +613,7 @@ module ietf-ac-svc {
         }
         description
           "Configuration specific to VRRP.";
-        reference
-          "RFC 5798: Virtual Router Redundancy Protocol (VRRP)
-                     Version 3 for IPv4 and IPv6";
-        leaf address-family {
-          type identityref {
-            base vpn-common:address-family;
-          }
-          description
-            "Indicates whether IPv4, IPv6, or both
-             address families are to be enabled.";
-        }
-        uses vpn-common:service-status;
+        uses vrrp-svc;
       }
     }
   }
@@ -763,13 +796,12 @@ module ietf-ac-svc {
       leaf id {
         type string;
         description
-          "Identification of the service profile to be used. 
+          "Identification of the service profile to be used.
            The profile only has significance within the service
            provider's administrative domain.";
       }
     }
   }
-  
   container attachment-circuits {
     description
       "Main container for the attachment circuits.";
@@ -827,7 +859,7 @@ module ietf-ac-svc {
         leaf group-id {
           type string;
           description
-            "Indicates the group-id to which the network access 
+            "Indicates the group-id to which the network access
              belongs.";
         }
         leaf precedence {
