@@ -435,7 +435,7 @@ The 'l3-connection' container is used to configure the relevant Layer 3 properti
 
 As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines the required parameters to enable the desired routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols are then enabled between a PE and the CE. Each routing instance is uniquely identified by the combination of the 'id' and 'type' to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
 
-In addition to static routing, the module supports BGP, OSPF, IS-IS, and RIP. It also includes a reference to the routing-profile-identifier defined in {{sec-profiles}}, so, additional constrains can be appliead to an specific instance of each routing protocol. 
+In addition to static routing, the module supports BGP, OSPF, IS-IS, and RIP. It also includes a reference to the routing-profile-identifier defined in {{sec-profiles}}, so, additional constrains can be appliead to an specific instance of each routing protocol.
 
 ~~~~
 {::include ./yang/subtrees/rtg-stree.txt}
