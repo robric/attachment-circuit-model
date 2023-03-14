@@ -811,12 +811,6 @@ module ietf-ac-svc {
   container attachment-circuits {
     description
       "Main container for the attachment circuits.";
-    /*list ac-global-profile {
-      key "id";
-      description
-        "Maintains a list of AC profiles.";
-      uses ac-basic;
-    }*/
     list ac-group-profile {
       key "name";
       description
@@ -848,11 +842,6 @@ module ietf-ac-svc {
         description
           "One or more peer SAPs can be indicated.";
       }
-      /*leaf-list ac-global-profile {
-        type ac-global-profile-reference;
-        description
-          "A reference to an AC profile.";
-      }*/
       leaf-list ac-group-profile {
         type ac-group-reference;
         description
