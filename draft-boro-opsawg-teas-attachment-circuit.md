@@ -404,7 +404,7 @@ The description of the data nodes is as follows:
 
 #### Layer 2 Connection Structure {#sec-l2}
 
-The 'l2-connection' container ({{l2-svc-tree}}) is used to configure the relevant Layer 2 properties of an AC including: encapsulation details or tunnel terminations. For the encanpsulation details it is allowed the definition of the type as well as the Identifiers (VLANID) of each of the encapsulation-type defined. For the second case, attibutes for pseudowire, vpls or VxLAN termination are included. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}.
+The 'l2-connection' container ({{l2-svc-tree}}) is used to configure the relevant Layer 2 properties of an AC including: encapsulation details and tunnel terminations. For the encapsulation details, the model supports the definition of the type as well as the Identifiers (e.g., VLAN-IDs) of each of the encapsulation-type defined. For the second case, attributes for pseudowire, Virtual Private LAN Service (VPLS), and  Virtual eXtensible Local Area Network (VXLAN) tunnel terminations are included. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}.
 
 ~~~~
 {::include ./yang/subtrees/l2-stree.txt}
