@@ -14,6 +14,11 @@ module ietf-ac-svc {
       "RFC 9181: A Common YANG Data Model for Layer 2 and Layer 3
                  VPNs";
   }
+  import ietf-netconf-acm {
+    prefix nacm;
+    reference
+      "RFC 8341: Network Configuration Access Control Model";
+  }
   import ietf-inet-types {
     prefix inet;
     reference
@@ -784,7 +789,7 @@ module ietf-ac-svc {
   container specific-provisioning-profiles {
     description
       "Contains a set of valid profiles to reference for an AC.";
-    uses vpn-common:vpn-profile-cfg;
+    uses ac-common:ac-profile-cfg;
   }
   container service-provisioning-profiles {
     description
@@ -801,6 +806,7 @@ module ietf-ac-svc {
            provider's administrative domain.";
       }
     }
+    nacm:default-deny-write;
   }
   container attachment-circuits {
     description
