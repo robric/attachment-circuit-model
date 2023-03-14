@@ -320,9 +320,6 @@ As shown in {{gp-svc-tree}}, two profile types can be defined: 'specific-provisi
 
 The following specific provisioning profiles can be defined:
 
-'external-connectivity-identifier':
-: Refers to a profile that defines the external connectivity provided to a site that is connected via an AC. External connectivity may be access to the Internet or restricted connectivity, such as access to a public/private cloud.
-
 'encryption-profile-identifier':
 : Refers to a set of policies related to the encryption setup that can be applied when provisioning an AC.
 
