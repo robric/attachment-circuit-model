@@ -301,15 +301,15 @@ The overall tree structure of the AC service module is shown in {{o-svc-tree}}.
 
 The full ACaaS tree is available at {{AC-SVC-Tree}}. The full reusable groupings defined in the ACaaS module are shown in {{AC-SVC-GRP}}.
 
-Each AC is identified with a unique identifier within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
+Each AC is identified with a unique name ('../ac/name') within a domain. The mapping between this AC and a local PE that terminates the AC is hidden to the application that makes use of the AC service model. This information is internal to the Network controller. As such, the details about the (node-specific) attachment interfaces are not exposed in this service model.
 
 The AC service model uses groupings and types defined in the AC common model {{!I-D.boro-opsawg-teas-common-ac}}. Therefore, the description of these nodes are not reiterated in the following subsections.
 
-### Service Profiles
+### Service Profiles {#sec-profiles}
 
 #### Description
 
-The 'specific-provisioning-profiles' container ({{gp-svc-tree}}) can be used by a service provider to maintain a set of specific profiles that are similar to those defined in {{!RFC9181}}. The exact definition of the profiles is local to each service provider. The model only includes an identifier for these profiles in order to facilitate identifying and binding local policies when building an AC.
+The 'specific-provisioning-profiles' container ({{gp-svc-tree}}) can be used by a service provider to maintain a set of reusable profiles. The profiles definition are similar to those defined in {{!RFC9181}}, including: Quality of Service (QoS),  Bidirectional Forwarding Detection (BFD), forwarding, and routing profiles. The exact definition of the profiles is local to each service provider. The model only includes an identifier for these profiles in order to facilitate identifying and binding local policies when building an AC.
 
 ~~~~
 {::include ./yang/subtrees/sp-svc-profiles-stree.txt}
@@ -401,7 +401,7 @@ The description of the data nodes is as follows:
 
 #### Layer 2 Connection Structure {#sec-l2}
 
-The 'l2-connection' container ({{l2-svc-tree}}) is used to configure the relevant Layer 2 properties of an AC. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}.
+The 'l2-connection' container ({{l2-svc-tree}}) is used to configure the relevant Layer 2 properties of an AC including: encapsulation details and tunnel terminations. For the encapsulation details, the model supports the definition of the type as well as the Identifiers (e.g., VLAN-IDs) of each of the encapsulation-type defined. For the second case, attributes for pseudowire, Virtual Private LAN Service (VPLS), and  Virtual eXtensible Local Area Network (VXLAN) tunnel terminations are included. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}.
 
 ~~~~
 {::include ./yang/subtrees/l2-stree.txt}
@@ -412,7 +412,7 @@ The 'l2-connection' container ({{l2-svc-tree}}) is used to configure the relevan
 
 #### Layer 3 Connection Structure {#sec-l3}
 
-The 'l3-connection' container is used to configure the relevant Layer 3 properties of an AC. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}. Both IPv4 and IPv6 parameters are supported.
+The 'l3-connection' container is used to configure the relevant Layer 3 properties of an AC. The model supports the usage of dynamic and static addressing. This structure relies upon the common groupings defined in {{!I-D.boro-opsawg-teas-common-ac}}. Both IPv4 and IPv6 parameters are supported.
 
 {{ipv4-svc-tree}} shows the structure of the IPv4 connection.
 
@@ -430,9 +430,9 @@ The 'l3-connection' container is used to configure the relevant Layer 3 properti
 
 #### Routing {#sec-rtg}
 
-As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines the required parameters to enable the required routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols are then enabled between a PE and the CE. Each routing instance is uniquely identified to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
+As shown in the tree depicted in {{rtg-svc-tree}}, the 'routing-protocols' container defines the required parameters to enable the desired routing features for an AC. One or more routing protocols can be associated with an AC.  Such routing protocols will be then enabled between a PE and the customer terminating points. Each routing instance is uniquely identified by the combination of the 'id' and 'type' to accommodate scenarios where multiple instances of the same routing protocol have to be configured on the same link.
 
-In addition to static routing, the module supports BGP, OSPF, IS-IS, and RIP.
+In addition to static routing, the module supports BGP, OSPF, IS-IS, and RIP. It also includes a reference to the 'routing-profile-identifier' defined in {{sec-profiles}}, so that additional constraints can be applied to a specific instance of each routing protocol.
 
 ~~~~
 {::include ./yang/subtrees/rtg-stree.txt}
