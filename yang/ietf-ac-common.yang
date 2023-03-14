@@ -243,7 +243,7 @@ module ietf-ac-common {
            leaf id {
              type string;
              description
-               "Identification of the QoS profile to be used.;
+               "Identification of the QoS profile to be used.;"
            }
          }
          list bfd-profile-identifier {
