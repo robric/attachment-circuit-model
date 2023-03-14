@@ -32,4 +32,4 @@
  - PE address: 192.0.2.6/30
  - Routing: BGP local-as:65536
                 customer-as:65550
-                customer-address: 192.0.2.6
+                customer-address: 192.0.2.5
