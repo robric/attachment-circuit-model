@@ -39,7 +39,9 @@
                       "local-as": "65550",
                       "peer-as": "65536",
                       "authentication": {
-                         "keying-material": "nyxNER_c5sdn608fFQl3331d"
+                        "keying-material" {
+                          "md5-keychain" : "nyxNER_c5sdn608fFQl3331d"
+                        }
                       }
                     }
                   ]
