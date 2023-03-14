@@ -848,4 +848,4 @@ Next, API workflows can be initiated:
 # Acknowledgments
 {:numbered="false"}
 
-TBC.
+Thanks to Kenichi Ogaki for the comments.
