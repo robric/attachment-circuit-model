@@ -60,6 +60,11 @@ contributor:
     org: Huawei
     email: bill.wu@huawei.com
 
+  -
+    name: Ogaki Kenichi
+    org: KDDI
+    email: ke-oogaki@kddi.com
+
 normative:
 
 informative:
