@@ -175,21 +175,21 @@ Service provider:
 
 # Sample Uses of the Data Models
 
-## ACs Terminated by One or Multiple Customer Devices
+## ACs Terminated by One or Multiple Customer Terminating Points
 
 {{uc}} depicts two target topology flavors that involve ACs. These topologies are characterized as follows:
 
-* A Customer Terminating Point (CTP) may be a physical node or a logical entity. A CTP is seen by the network as a peer SAP.
+* A Customer Terminating Point (CTP) may be a physical device or a logical entity. Such a logical entity is typically a software component (e.g., a virtual service function that is hosted within the provider's network or a third-party infrastscruture). A CTP is seen by the network as a peer SAP.
 
-* The same AC request may include one or multiple ACs that may belong to one or both of these flavors. For the sake of simplifying the illustration, only a subset of these ACs is shown in {{uc}}.
+* The same AC service request may include one or multiple ACs that are bound to a single CTP or a plurality of CTPs.
 
-* CTPs may be dedicated to one single service or host multiple services (e.g., service functions {{?RFC7665}}).
+* CTPs may be dedicated to one single connectivity service or host multiple connectivity services (e.g., CTPs as role of service functions {{?RFC7665}}).
 
-* A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2). For example, and as discussed in {{!RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service.
+* A single AC (as seen by a network provider) may be bound to one or multiple peer SAPs (e.g., CTP#1 and CTP#2 are tagged as peer SAPs for the same AC). For example, and as discussed in {{!RFC4364}}, multiple CTPs (CEs) can be attached to a PE over the same attachment circuit. This is typically implemented if the layer 2 infrastructure between the CTP and the network provides a multipoint service.
 
-* The same CTP may terminate multiple ACs. These ACes may be over the same or distinct bearers.
+* The same CTP may terminate multiple ACs. These ACs may be over the same or distinct bearers.
 
-* The customer may request protection schemes where the ACs bound to a customer endpoints are terminated by the same PE (e.g., CTP#3), distinct PEs (e.g., CTP#34), etc.
+* The customer may request protection schemes where the ACs bound to a customer endpoints are terminated by the same PE (e.g., CTP#3), distinct PEs (e.g., CTP#34), etc. The network provider uses this request to decide where to terminate the AC in the network provider network and also whether to enable specific capabilities (e.g., Virtual Router Redundancy Protocol (VRRP)).
 
 ~~~~ aasvg
 ┌───────┐                ┌────────────────────┐           ┌───────┐
@@ -209,7 +209,7 @@ Service provider:
 
 ## Separate AC Provisioning vs. Actual Service Provisioning
 
-The procedure to provision a service in a service provider network may depend on the practices adopted by a service provider, including the flow put in place for the provisioning of advanced network services and how they are bound to an attachment circuit. For example, the same attachment circuit may be used to host multiple services. In order to avoid service interference and redundant information in various locations, a service provider may expose an interface to manage ACs network-wide. Customers can the request a base attachment circuit to be put in place, and then refer to that base AC when requesting services that are bound to that AC.
+The procedure to provision a service in a service provider network may depend on the practices adopted by a service provider, including the flow put in place for the provisioning of advanced network services and how they are bound to an attachment circuit. For example, the same attachment circuit may be used to host multiple connectivity services. In order to avoid service interference and redundant information in various locations, a service provider may expose an interface to manage ACs network-wide. Customers can then request a bearer or an attachment circuit to be put in place, and then refer to that bearer or AC when requesting services that are bound to the bearer or AC.
 
 {{u-ex}} shows the positioning of the AC service model is the overall service delivery process.
 
