@@ -181,7 +181,7 @@ Service provider:
 
 * A Customer Terminating Point (CTP) may be a physical device, a software component, or an abstract virtual function supported within the provider's network. A CTP is seen by the network as a peer SAP.
 
-* The same AC service request of CTPs may include one or multiple ACs. For the sake of simplifying the illustration, only the physical device example of these ACs is shown in {{uc}}.
+* The same AC service request may include one or multiple ACs that are bound to a single CTP or a plurality of CTPs. 
 
 * CTPs may be dedicated to one single connectivity service or host multiple connectivity services (e.g., CTPs as role of service functions {{?RFC7665}}).
 
