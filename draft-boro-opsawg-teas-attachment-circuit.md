@@ -181,7 +181,7 @@ Service provider:
 
 * A Customer Terminating Point (CTP) may be a physical device or a logical entity. Such a logical entity is typically a software component (e.g., a virtual service function that is hosted within the provider's network or a third-party infrastscruture). A CTP is seen by the network as a peer SAP.
 
-* The same AC service request may include one or multiple ACs that are bound to a single CTP or a plurality of CTPs. 
+* The same AC service request may include one or multiple ACs that are bound to a single CTP or a plurality of CTPs.
 
 * CTPs may be dedicated to one single connectivity service or host multiple connectivity services (e.g., CTPs as role of service functions {{?RFC7665}}).
 
