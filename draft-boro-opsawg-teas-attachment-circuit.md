@@ -179,7 +179,7 @@ Service provider:
 
 {{uc}} depicts two target topology flavors that involve ACs. These topologies are characterized as follows:
 
-* A Customer Terminating Point (CTP) may be a physical device, a software component, or an abstract virtual function supported within the provider's network. A CTP is seen by the network as a peer SAP.
+* A Customer Terminating Point (CTP) may be a physical device or a logical entity. Such a logical entity is typically a software component (e.g., a virtual service function that is hosted within the provider's network or a third-party infrastscruture). A CTP is seen by the network as a peer SAP.
 
 * The same AC service request may include one or multiple ACs that are bound to a single CTP or a plurality of CTPs. 
 
