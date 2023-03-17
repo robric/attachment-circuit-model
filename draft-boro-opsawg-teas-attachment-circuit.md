@@ -189,7 +189,7 @@ Service provider:
 
 * The same CTP may terminate multiple ACs. These ACs may be over the same or distinct bearers.
 
-* The customer may request protection schemes (e.g., VRRP) where the ACs bound to a customer endpoints are terminated by the same PE (e.g., CTP#3), distinct PEs (e.g., CTP#34), etc.
+* The customer may request protection schemes where the ACs bound to a customer endpoints are terminated by the same PE (e.g., CTP#3), distinct PEs (e.g., CTP#34), etc. The network provider uses this request to decide where to terminate the AC in the network provider network and also whether to enable specific capabilities (e.g., Virtual Router Redundancy Protocol (VRRP)).
 
 ~~~~ aasvg
 ┌───────┐                ┌────────────────────┐           ┌───────┐
