@@ -1,7 +1,7 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-12-06T00:39:12.700224+00:00",
-  "repo": "boucadair/attachment-circuit-model",
+  "timestamp": "2023-03-19T01:50:53.045838+00:00",
+  "repo": "robric/attachment-circuit-model",
   "labels": [
     {
       "name": "bug",
@@ -50,5 +50,34 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOIkX2xs5FTdCh",
+      "title": "sync with main",
+      "url": "https://github.com/robric/attachment-circuit-model/pull/1",
+      "state": "MERGED",
+      "author": "boucadair",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2022-12-13T10:38:23Z",
+      "updatedAt": "2023-01-19T17:30:05Z",
+      "baseRepository": "robric/attachment-circuit-model",
+      "baseRefName": "main",
+      "baseRefOid": "7689242c0d7ddba29876c1313e97bcb8747d6773",
+      "headRepository": "boucadair/attachment-circuit-model",
+      "headRefName": "main",
+      "headRefOid": "a3f4b4c3909b4421d256acbe0ac1e79616866f2d",
+      "closedAt": "2023-01-19T17:30:05Z",
+      "mergedAt": "2023-01-19T17:30:05Z",
+      "mergedBy": "robric",
+      "mergeCommit": {
+        "oid": "8df8712b2965df1e626f333da82de6d316906e01"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
